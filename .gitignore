@@ -69,5 +69,5 @@ compile_commands.json
 .gdb_history
 .lldb
 
-
+.gitignore
 *.txt
