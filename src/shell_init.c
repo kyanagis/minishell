@@ -6,7 +6,7 @@
 /*   By: kyanagis <kyanagis@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 08:50:39 by kyanagis          #+#    #+#             */
-/*   Updated: 2025/11/05 09:19:49 by kyanagis         ###   ########.fr       */
+/*   Updated: 2025/11/05 15:02:06 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,8 @@ char	**env_dup(char **src)
 	return (dst);
 }
 
-t_shell	shell_init(char **envp)
+void	shell_init(t_shell *sh, char **envp)
 {
-	t_shell	sh;
-
-	sh.envp = env_dup(envp);
-	sh.last_status = 0;
-	return (sh);
+	sh->envp = env_dup(envp);
+	sh->last_status = 0;
 }

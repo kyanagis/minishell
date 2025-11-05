@@ -6,20 +6,18 @@
 /*   By: kyanagis <kyanagis@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 08:42:40 by kyanagis          #+#    #+#             */
-/*   Updated: 2025/11/05 09:28:41 by kyanagis         ###   ########.fr       */
+/*   Updated: 2025/11/05 14:04:38 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <unistd.h>
 
-int	minishell(char **envp)
+int	minishell(t_shell *shell)
 {
-	t_shell		sh;
 	char		*line;
 	t_lexout	*tokens;
 
-	sh = shell_init(envp);
 	while (1)
 	{
 		line = readline("minishell >");
@@ -36,17 +34,21 @@ int	minishell(char **envp)
 		add_history(line);
 		tokens = tokenize(line);
 		free(line);
+		parse_tokens();
 		lexer_debug_print(tokens);
 		free_lexout(tokens);
 	}
-	rl_clear_display();
-	shell_destroy(&sh);
-	return (sh.last_status);
+	// rl_clear_display();
+	shell_destroy(shell);
+	return (shell->last_status);
 }
 
 int	main(int argc, char **argv, char **envp)
 {
-	(void)argc;
+	t_shell	shell;
+
 	(void)argv;
-	return (minishell(envp));
+	(void)argc;
+	shell_init(&shell, envp);
+	return (minishell(&shell));
 }
