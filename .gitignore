@@ -1,0 +1,73 @@
+# ===== OSごみ =====
+.DS_Store
+.DS_Store?
+Thumbs.db
+
+# ===== 実行ファイル =====
+minishell
+a.out
+
+# ===== ビルド成果物 =====
+*.o
+*.a
+*.so
+*.dylib
+*.out
+
+# ===== デバッグ/クラッシュ =====
+vgcore.*
+core
+core.*
+
+# ===== macOS dSYM =====
+*.dSYM/
+
+# ===== libft（同一リポ内に配置する想定） =====
+libft/*.o
+libft/**/*.o
+libft/*.a
+libft/**/*.a
+
+# ===== ビルド用ディレクトリ（必要に応じて） =====
+obj/
+objs/
+build/
+bin/
+debug/
+release/
+.cache/
+
+# ===== テスト/カバレッジ =====
+tests/
+test/
+coverage/
+*.gcda
+*.gcno
+*.gcov
+*.trace
+*.log
+
+# ===== エディタ/IDE =====
+.vscode/
+.idea/
+*.code-workspace
+.vs/
+tags
+TAGS
+.tags
+
+# ===== Vim/Emacs 一時ファイル =====
+*~
+*.swp
+*.swo
+*.swn
+
+# ===== LSP/Clangd =====
+compile_commands.json
+
+# ===== GDB/LLDB =====
+.gdb_history
+.lldb
+
+
+*.txt
