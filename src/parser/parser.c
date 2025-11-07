@@ -1,24 +1,93 @@
 #include "minishell.h"
+#include "parser.h"
 
-//パースを作ります
-void	parse_tokens(t_lexout *tokens)
+#define PARSE_HANDLER_COUNT 6 //増えたら増やす
+
+static bool	parse_syntax_error(const char *err_msg)
 {
-	int i = 0;
+	printf("syntax_error :%s\n", err_msg);
+	// ft_putendl_fd(err_msg, STDERR_FILENO);
+	return (false);
+}
 
+static bool	word_syntax_scan(t_lexout *lx, size_t i)
+{
+	(void)lx;
+	(void)i;
+	return (true);
+}
+static bool	pipe_syntax_scan(t_lexout *tokens, size_t i)
+{
+	if (i == 0)
+		return (parse_syntax_error("|"));
+	else if (i + 1 == tokens->count)
+		return (parse_syntax_error("newline"));
+	else if (tokens->kind[i + 1] == TOK_PIPE)
+		return (parse_syntax_error("|"));
+	return (true);
+}
+
+static bool	lt_syntax_scan(t_lexout *tokens, size_t i)
+{
+	(void)tokens;
+	(void)i;
+	return (true);
+}
+static bool	gt_syntax_scan(t_lexout *tokens, size_t i)
+{
+	(void)tokens;
+	(void)i;
+	return (true);
+}
+static bool	dlt_syntax_scan(t_lexout *tokens, size_t i)
+{
+	(void)tokens;
+	(void)i;
+	return (true);
+}
+static bool	dgt_syntax_scan(t_lexout *tokens, size_t i)
+{
+	(void)tokens;
+	(void)i;
+	return (true);
+}
+
+//対象が増えたらここにハンドラ追加
+static void	init_parse_handler(t_parse_handler *parse_handler)
+{
+	parse_handler[TOK_WORD] = word_syntax_scan;
+	parse_handler[TOK_PIPE] = pipe_syntax_scan; // test
+	parse_handler[TOK_LT] = lt_syntax_scan;
+	parse_handler[TOK_GT] = gt_syntax_scan;
+	parse_handler[TOK_DLT] = dlt_syntax_scan;
+	parse_handler[TOK_DGT] = dgt_syntax_scan;
+}
+
+static bool	syntax_scan(t_lexout *tokens)
+{
+	int				i;
+	t_parse_handler	parse_handler[PARSE_HANDLER_COUNT];
+	bool			flag;
+	t_tok_kind		k;
+
+	i = 0;
+	if (!tokens || tokens->count == 0)
+		return (true);
+	init_parse_handler(parse_handler);
 	while (i < tokens->count)
 	{
-		if (tokens->kind[i] == TOK_WORD)
-			(void)tokens;
-		else if (tokens->kind[i] == TOK_PIPE)
-			(void)tokens;
-		else if (tokens->kind[i] == TOK_LT)
-			(void)tokens;
-		else if (tokens->kind[i] == TOK_GT)
-			(void)tokens;
-		else if (tokens->kind[i] == TOK_DLT)
-			(void)tokens;
-		else if (tokens->kind[i] == TOK_DGT)
-
-			++i;
+		k = tokens->kind[i];
+		if (k < 0 || k >= PARSE_HANDLER_COUNT)
+			return (parse_syntax_error("unknown token"), false);
+		if (!parse_handler[k](tokens, i))
+			return (false);
+		++i;
 	}
+}
+
+// //パースを作ります
+void	parse_tokens(t_lexout *tokens)
+{
+	syntax_scan(tokens);
+	//シンタックスエラーを出してからパース構造体にぶちこみたい
 }

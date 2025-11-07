@@ -6,11 +6,12 @@
 /*   By: kyanagis <kyanagis@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 08:42:40 by kyanagis          #+#    #+#             */
-/*   Updated: 2025/11/05 14:04:38 by kyanagis         ###   ########.fr       */
+/*   Updated: 2025/11/07 19:36:34 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "parser.h"
 #include <unistd.h>
 
 int	minishell(t_shell *shell)
@@ -23,19 +24,15 @@ int	minishell(t_shell *shell)
 		line = readline("minishell >");
 		if (!line)
 		{
-			write(1, "exit\n", 5);
+			// (void)write(1, "exit\n", 5);
 			break ;
-		}
-		if (!*line)
-		{
-			free(line);
-			continue ;
 		}
 		add_history(line);
 		tokens = tokenize(line);
 		free(line);
-		parse_tokens();
-		lexer_debug_print(tokens);
+		// parse_tokens();
+		parse_tokens(tokens);
+		// lexer_debug_print(tokens);
 		free_lexout(tokens);
 	}
 	// rl_clear_display();
