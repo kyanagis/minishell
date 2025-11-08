@@ -6,7 +6,7 @@
 /*   By: kyanagis <kyanagis@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 05:17:23 by kyanagis          #+#    #+#             */
-/*   Updated: 2025/11/05 15:02:30 by kyanagis         ###   ########.fr       */
+/*   Updated: 2025/11/08 09:10:55 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,12 @@ typedef struct s_shell
 {
 	int last_status; //$?
 	char **envp;     // execve用
-}		t_shell;
+	char	*prompt;
+}			t_shell;
 
-void	shell_init(t_shell *sh, char **envp);
+void		shell_init(t_shell *sh, char **envp);
 
-void	shell_destroy(t_shell *sh);
-void	free_env(char **env);
+void		shell_destroy(t_shell *sh);
+void		free_env(char **env);
 
 #endif

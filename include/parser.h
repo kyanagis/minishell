@@ -33,6 +33,13 @@ typedef struct s_pipeline
 
 typedef bool		(*t_parse_handler)(t_lexout *lx, size_t i);
 
-void				parse_tokens(t_lexout *tokens);
+bool				parse_tokens(t_shell *sh, t_lexout *tokens);
+bool				parse_syntax_error(const char *unexpected);
+const char			*token_str(t_tok_kind kind);
+
+bool				dgt_syntax_scan(t_lexout *tokens, size_t i);
+bool				dlt_syntax_scan(t_lexout *tokens, size_t i);
+bool				gt_syntax_scan(t_lexout *tokens, size_t i);
+bool				lt_syntax_scan(t_lexout *tokens, size_t i);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: kyanagis <kyanagis@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 20:00:01 by kyanagis          #+#    #+#             */
-/*   Updated: 2025/11/05 02:48:53 by kyanagis         ###   ########.fr       */
+/*   Updated: 2025/11/08 07:06:22 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@
 //解析対象が増えたらここに関数ポインタをセットする .
 static void	init_handlers(t_state_handler *handlers)
 {
-	handlers[0] = handle_gen;
-	handlers[1] = handle_squote;
-	handlers[2] = handle_dquote;
+	handlers[0] = (void *)handle_gen;
+	handlers[1] = (void *)handle_squote;
+	handlers[2] = (void *)handle_dquote;
 }
 
 static int	handle_double_operator(t_lexer *lx, const char *input,

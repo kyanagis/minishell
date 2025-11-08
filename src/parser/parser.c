@@ -1,14 +1,7 @@
 #include "minishell.h"
 #include "parser.h"
 
-#define PARSE_HANDLER_COUNT 6 //増えたら増やす
-
-static bool	parse_syntax_error(const char *err_msg)
-{
-	printf("syntax_error :%s\n", err_msg);
-	// ft_putendl_fd(err_msg, STDERR_FILENO);
-	return (false);
-}
+#define PARSE_HANDLER_COUNT 6 //増えたら増やす <-
 
 static bool	word_syntax_scan(t_lexout *lx, size_t i)
 {
@@ -19,36 +12,11 @@ static bool	word_syntax_scan(t_lexout *lx, size_t i)
 static bool	pipe_syntax_scan(t_lexout *tokens, size_t i)
 {
 	if (i == 0)
-		return (parse_syntax_error("|"));
+		return (parse_syntax_error(token_str(tokens->kind[i])));
 	else if (i + 1 == tokens->count)
 		return (parse_syntax_error("newline"));
 	else if (tokens->kind[i + 1] == TOK_PIPE)
-		return (parse_syntax_error("|"));
-	return (true);
-}
-
-static bool	lt_syntax_scan(t_lexout *tokens, size_t i)
-{
-	(void)tokens;
-	(void)i;
-	return (true);
-}
-static bool	gt_syntax_scan(t_lexout *tokens, size_t i)
-{
-	(void)tokens;
-	(void)i;
-	return (true);
-}
-static bool	dlt_syntax_scan(t_lexout *tokens, size_t i)
-{
-	(void)tokens;
-	(void)i;
-	return (true);
-}
-static bool	dgt_syntax_scan(t_lexout *tokens, size_t i)
-{
-	(void)tokens;
-	(void)i;
+		return (parse_syntax_error(token_str(tokens->kind[i])));
 	return (true);
 }
 
@@ -67,7 +35,6 @@ static bool	syntax_scan(t_lexout *tokens)
 {
 	int				i;
 	t_parse_handler	parse_handler[PARSE_HANDLER_COUNT];
-	bool			flag;
 	t_tok_kind		k;
 
 	i = 0;
@@ -83,11 +50,16 @@ static bool	syntax_scan(t_lexout *tokens)
 			return (false);
 		++i;
 	}
+	return (true);
 }
 
 // //パースを作ります
-void	parse_tokens(t_lexout *tokens)
+bool	parse_tokens(t_shell *sh, t_lexout *tokens)
 {
-	syntax_scan(tokens);
+	if (!syntax_scan(tokens))
+	{
+		sh->last_status = 258;
+		return (false);
+	}
 	//シンタックスエラーを出してからパース構造体にぶちこみたい
 }

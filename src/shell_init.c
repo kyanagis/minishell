@@ -1,18 +1,6 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   shell_init.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: kyanagis <kyanagis@student.42tokyo.jp>     +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/05 08:50:39 by kyanagis          #+#    #+#             */
-/*   Updated: 2025/11/05 15:02:06 by kyanagis         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
+#include "libft.h"
 #include "minishell.h"
 #include <stdlib.h>
-#include <unistd.h>
 
 size_t	env_count(char **p)
 {
@@ -62,8 +50,55 @@ char	**env_dup(char **src)
 	return (dst);
 }
 
+static char	*build_prompt(t_shell *sh)
+{
+	char	*status;
+	char	*tmp;
+	char	*res;
+
+	status = ft_itoa(sh->last_status);
+	if (!status)
+		return (ft_strdup("minishell "));
+	tmp = ft_strjoin("minishell:", status);
+	free(status);
+	if (!tmp)
+		return (ft_strdup("minishell> "));
+	res = ft_strjoin(tmp, "> ");
+	free(tmp);
+	if (!res)
+		return (ft_strdup("minishell$ "));
+	return (res);
+}
+
+void	update_prompt(t_shell *sh)
+{
+	if (sh->prompt)
+		free(sh->prompt);
+	sh->prompt = build_prompt(sh);
+}
+
 void	shell_init(t_shell *sh, char **envp)
 {
 	sh->envp = env_dup(envp);
 	sh->last_status = 0;
+	sh->prompt = NULL;
+	update_prompt(sh);
+}
+
+void	shell_destroy(t_shell *sh)
+{
+	size_t	i;
+
+	if (sh->envp)
+	{
+		i = 0;
+		while (sh->envp[i])
+		{
+			free(sh->envp[i]);
+			i++;
+		}
+		free(sh->envp);
+	}
+	if (sh->prompt)
+		free(sh->prompt);
 }

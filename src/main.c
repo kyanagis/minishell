@@ -1,51 +1,57 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: kyanagis <kyanagis@student.42tokyo.jp>     +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/05 08:42:40 by kyanagis          #+#    #+#             */
-/*   Updated: 2025/11/07 19:36:34 by kyanagis         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "minishell.h"
 #include "parser.h"
+#include <readline/history.h>
+#include <readline/readline.h>
 #include <unistd.h>
 
-int	minishell(t_shell *shell)
+int	minishell(t_shell *sh)
 {
 	char		*line;
 	t_lexout	*tokens;
+	ssize_t		tmp;
 
 	while (1)
 	{
-		line = readline("minishell >");
+		update_prompt(sh);
+		line = readline(sh->prompt);
 		if (!line)
 		{
-			// (void)write(1, "exit\n", 5);
+			tmp = write(1, "exit\n", 5);
+			(void)tmp;
 			break ;
+		}
+		if (!*line)
+		{
+			free(line);
+			continue ;
 		}
 		add_history(line);
 		tokens = tokenize(line);
 		free(line);
-		// parse_tokens();
-		parse_tokens(tokens);
-		// lexer_debug_print(tokens);
+		if (!tokens)
+		{
+			sh->last_status = 1;
+			continue ;
+		}
+		if (!parse_tokens(sh, tokens))
+		{
+			free_lexout(tokens);
+			continue ;
+		}
+		// ここで実行:
+		// sh->last_status = execute(sh, tokens);
 		free_lexout(tokens);
 	}
-	// rl_clear_display();
-	shell_destroy(shell);
-	return (shell->last_status);
+	shell_destroy(sh);
+	return (sh->last_status);
 }
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_shell	shell;
+	t_shell	sh;
 
-	(void)argv;
 	(void)argc;
-	shell_init(&shell, envp);
-	return (minishell(&shell));
+	(void)argv;
+	shell_init(&sh, envp);
+	return (minishell(&sh));
 }

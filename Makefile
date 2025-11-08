@@ -3,18 +3,15 @@ NAME        := minishell
 
 CC          := cc
 # CFLAGS      ?= -Wall -Wextra -Werror
-DEBUG       ?= 1          # 1: -g3 -O0, 0: -O2
-SAN         ?= 0          # 1: AddressSanitizer (開発用)
+# DEBUG       ?= 1          # 1: -g3 -O0, 0: -O2
+# SAN         ?= 0          # 1: AddressSanitizer (開発用)
 
 ifeq ($(DEBUG),1)
   CFLAGS += -g3 -O0
 else
-  CFLAGS += -O2
+#   CFLAGS += -O2
 endif
-ifeq ($(SAN),1)
-  CFLAGS  += -fsanitize=address -fno-omit-frame-pointer
-  LDFLAGS += -fsanitize=address
-endif
+
 
 OBJ_DIR     := obj
 

@@ -6,7 +6,7 @@
 /*   By: kyanagis <kyanagis@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 19:59:35 by kyanagis          #+#    #+#             */
-/*   Updated: 2025/11/08 06:58:35 by kyanagis         ###   ########.fr       */
+/*   Updated: 2025/11/08 07:21:04 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,11 @@ typedef enum e_lexer_state
 typedef enum e_tok_kind
 {
 	TOK_WORD,
-	TOK_PIPE,
-	TOK_LT,
-	TOK_GT,
-	TOK_DLT,
-	TOK_DGT
+	TOK_PIPE, // |.
+	TOK_LT,   // <.
+	TOK_GT,   // >.
+	TOK_DLT,  // <<.
+	TOK_DGT   // >>.
 }					t_tok_kind;
 
 typedef struct s_lexer
@@ -73,7 +73,7 @@ typedef struct s_lexout
 	size_t			count;
 }					t_lexout;
 
-typedef void		(*t_state_handler)(t_lexout *lx, const char *input,
+typedef void		(*t_state_handler)(t_lexer *lx, const char *input,
 			size_t *index, char c);
 
 t_lexout			*tokenize(const char *line);

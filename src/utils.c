@@ -6,18 +6,18 @@
 /*   By: kyanagis <kyanagis@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 08:50:55 by kyanagis          #+#    #+#             */
-/*   Updated: 2025/11/05 09:24:37 by kyanagis         ###   ########.fr       */
+/*   Updated: 2025/11/08 09:26:05 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	shell_destroy(t_shell *sh)
-{
-	if (!sh)
-		return ;
-	free_env(sh->envp);
-}
+// void	shell_destroy(t_shell *sh)
+// {
+// 	if (!sh)
+// 		return ;
+// 	free_env(sh->envp);
+// }
 
 void	free_env(char **env)
 {
