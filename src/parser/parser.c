@@ -39,7 +39,7 @@ static void	init_parse_handler(t_parse_handler *parse_handler)
 
 static bool	syntax_scan(t_lexout *tokens)
 {
-	int				i;
+	size_t			i;
 	t_parse_handler	parse_handler[PARSE_HANDLER_COUNT];
 	t_tok_kind		k;
 
@@ -68,4 +68,5 @@ bool	parse_tokens(t_shell *sh, t_lexout *tokens)
 		return (false);
 	}
 	//シンタックスエラーを出してからパース構造体にぶちこみたい
+	return (true);
 }

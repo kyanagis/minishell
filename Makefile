@@ -1,17 +1,23 @@
-#とりあえずのメイクファイルなので修正します
+#debug用、本番以外で使います
 NAME        := minishell
 
 CC          := cc
-# CFLAGS      ?= -Wall -Wextra -Werror
-# DEBUG       ?= 1          # 1: -g3 -O0, 0: -O2
-# SAN         ?= 0          # 1: AddressSanitizer (開発用)
+
+BASE_CFLAGS := -Wall -Wextra -Werror
+
+DEBUG       ?= 0
+SAN         ?= 0
 
 ifeq ($(DEBUG),1)
-  CFLAGS += -g3 -O0
+  CFLAGS := $(BASE_CFLAGS) -g3 -O0
 else
-#   CFLAGS += -O2
+  CFLAGS := $(BASE_CFLAGS)
 endif
 
+ifeq ($(SAN),1)
+  CFLAGS += -fsanitize=address -fno-omit-frame-pointer
+  LDFLAGS += -fsanitize=address -fno-omit-frame-pointer
+endif
 
 OBJ_DIR     := obj
 
@@ -22,8 +28,8 @@ DEPS        := $(OBJS:.o=.d)
 
 INC_DIRS    := include libft $(SRC_DIRS)
 CPPFLAGS    := $(addprefix -I,$(INC_DIRS)) -MMD -MP
-
 RL_DIR      := $(shell brew --prefix readline 2>/dev/null)
+
 ifeq ($(RL_DIR),)
   RL_HAS_PKG := $(shell pkg-config --exists readline && echo yes || echo no)
   ifeq ($(RL_HAS_PKG),yes)
@@ -37,6 +43,7 @@ else
   RL_INC    := -I$(RL_DIR)/include
   RL_LIB    := -L$(RL_DIR)/lib -lreadline
 endif
+
 CPPFLAGS    += $(RL_INC)
 
 LIBFT_DIR   := libft
@@ -71,6 +78,7 @@ print:
 	@echo "INC_DIRS = $(INC_DIRS)"
 	@echo "RL_LIB   = $(RL_LIB)"
 	@echo "CFLAGS   = $(CFLAGS)"
+	@echo "LDFLAGS  = $(LDFLAGS)"
 
 run: $(NAME)
 	./$(NAME)
