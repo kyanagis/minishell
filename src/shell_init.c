@@ -59,7 +59,7 @@ static char	*build_prompt(t_shell *sh)
 	status = ft_itoa(sh->last_status);
 	if (!status)
 		return (ft_strdup("minishell "));
-	tmp = ft_strjoin("minishell:", status);
+	tmp = ft_strjoin("minishell:", status); // test 本番では>のみのプロンプトっぽいのでしゅうせいします　.
 	free(status);
 	if (!tmp)
 		return (ft_strdup("minishell> "));
@@ -74,6 +74,7 @@ void	update_prompt(t_shell *sh)
 {
 	if (sh->prompt)
 		free(sh->prompt);
+	sh->last_status %= 256;
 	sh->prompt = build_prompt(sh);
 }
 

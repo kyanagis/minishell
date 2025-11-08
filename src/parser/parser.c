@@ -21,10 +21,16 @@ static bool	pipe_syntax_scan(t_lexout *tokens, size_t i)
 }
 
 //対象が増えたらここにハンドラ追加
+// word
+// pipe |　先頭、末尾、連続したらsyntax
+// lt <
+// gt >
+// dlt <<
+// dgt >>
 static void	init_parse_handler(t_parse_handler *parse_handler)
 {
 	parse_handler[TOK_WORD] = word_syntax_scan;
-	parse_handler[TOK_PIPE] = pipe_syntax_scan; // test
+	parse_handler[TOK_PIPE] = pipe_syntax_scan;
 	parse_handler[TOK_LT] = lt_syntax_scan;
 	parse_handler[TOK_GT] = gt_syntax_scan;
 	parse_handler[TOK_DLT] = dlt_syntax_scan;

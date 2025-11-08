@@ -13,6 +13,7 @@ int	minishell(t_shell *sh)
 	while (1)
 	{
 		update_prompt(sh);
+		sh->last_status = 0;
 		line = readline(sh->prompt);
 		if (!line)
 		{
@@ -23,7 +24,8 @@ int	minishell(t_shell *sh)
 		if (!*line)
 		{
 			free(line);
-			continue ;
+			// continue ;
+			break ;
 		}
 		add_history(line);
 		tokens = tokenize(line);
@@ -38,6 +40,8 @@ int	minishell(t_shell *sh)
 			free_lexout(tokens);
 			continue ;
 		}
+		// else
+		// 	sh->last_status = 0;
 		// ここで実行:
 		// sh->last_status = execute(sh, tokens);
 		free_lexout(tokens);
