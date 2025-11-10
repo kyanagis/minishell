@@ -1,8 +1,8 @@
 #include "parser.h"
 
-static bool	redir_expect_word(t_lexout *tokens, size_t i)
+static inline bool redir_expect_word(t_lexout *tokens, size_t i)
 {
-	t_tok_kind	next;
+	t_tok_kind next;
 
 	if (i + 1 == tokens->count)
 		return (parse_syntax_error("newline"));
@@ -12,22 +12,22 @@ static bool	redir_expect_word(t_lexout *tokens, size_t i)
 	return (true);
 }
 
-bool	lt_syntax_scan(t_lexout *tokens, size_t i)
+bool lt_syntax_scan(t_lexout *tokens, size_t i)
 {
 	return (redir_expect_word(tokens, i));
 }
 
-bool	gt_syntax_scan(t_lexout *tokens, size_t i)
+bool gt_syntax_scan(t_lexout *tokens, size_t i)
 {
 	return (redir_expect_word(tokens, i));
 }
 
-bool	dlt_syntax_scan(t_lexout *tokens, size_t i)
+bool dlt_syntax_scan(t_lexout *tokens, size_t i)
 {
 	return (redir_expect_word(tokens, i));
 }
 
-bool	dgt_syntax_scan(t_lexout *tokens, size_t i)
+bool dgt_syntax_scan(t_lexout *tokens, size_t i)
 {
 	return (redir_expect_word(tokens, i));
 }

@@ -1,6 +1,4 @@
-#debug用、本番以外で使います
 NAME        := minishell
-
 CC          := cc
 
 BASE_CFLAGS := -Wall -Wextra -Werror
@@ -28,26 +26,34 @@ DEPS        := $(OBJS:.o=.d)
 
 INC_DIRS    := include libft $(SRC_DIRS)
 CPPFLAGS    := $(addprefix -I,$(INC_DIRS)) -MMD -MP
-RL_DIR      := $(shell brew --prefix readline 2>/dev/null)
-
-ifeq ($(RL_DIR),)
-  RL_HAS_PKG := $(shell pkg-config --exists readline && echo yes || echo no)
-  ifeq ($(RL_HAS_PKG),yes)
-    RL_INC  := $(shell pkg-config --cflags readline)
-    RL_LIB  := $(shell pkg-config --libs   readline)
-  else
-    RL_INC  :=
-    RL_LIB  := -lreadline
-  endif
-else
-  RL_INC    := -I$(RL_DIR)/include
-  RL_LIB    := -L$(RL_DIR)/lib -lreadline
-endif
-
-CPPFLAGS    += $(RL_INC)
 
 LIBFT_DIR   := libft
 LIBFT_A     := $(LIBFT_DIR)/libft.a
+
+# ===== OS 判定 =====
+UNAME_S := $(shell uname -s)
+
+ifeq ($(UNAME_S),Darwin)                # macOS
+  RL_DIR := $(shell brew --prefix readline 2>/dev/null)
+  ifneq ($(RL_DIR),)
+    RL_INC := -I$(RL_DIR)/include
+    RL_LIB := -L$(RL_DIR)/lib -lreadline
+  else
+    RL_INC :=
+    RL_LIB := -lreadline
+  endif
+else                                    # Linux想定
+  RL_HAS_PKG := $(shell pkg-config --exists readline && echo yes || echo no)
+  ifeq ($(RL_HAS_PKG),yes)
+    RL_INC := $(shell pkg-config --cflags readline)
+    RL_LIB := $(shell pkg-config --libs readline)
+  else
+    RL_INC :=
+    RL_LIB := -lreadline
+  endif
+endif
+
+CPPFLAGS += $(RL_INC)
 
 .PHONY: all clean fclean re bonus norm print run
 
@@ -71,11 +77,13 @@ norm:
 	norminette $(SRC_DIRS) $(INC_DIRS) $(LIBFT_DIR)
 
 print:
+	@echo "UNAME_S  = $(UNAME_S)"
 	@echo "NAME     = $(NAME)"
 	@echo "SRC_DIRS = $(SRC_DIRS)"
 	@echo "SRCS     = $(SRCS)"
 	@echo "OBJS     = $(OBJS)"
 	@echo "INC_DIRS = $(INC_DIRS)"
+	@echo "RL_INC   = $(RL_INC)"
 	@echo "RL_LIB   = $(RL_LIB)"
 	@echo "CFLAGS   = $(CFLAGS)"
 	@echo "LDFLAGS  = $(LDFLAGS)"

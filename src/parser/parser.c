@@ -1,15 +1,15 @@
 #include "minishell.h"
 #include "parser.h"
 
-#define PARSE_HANDLER_COUNT 6 //増えたら増やす <-
+#define PARSE_HANDLER_COUNT 6 // 増えたら増やす <-
 
-static bool	word_syntax_scan(t_lexout *lx, size_t i)
+static inline bool word_syntax_scan(t_lexout *lx, size_t i)
 {
 	(void)lx;
 	(void)i;
 	return (true);
 }
-static bool	pipe_syntax_scan(t_lexout *tokens, size_t i)
+static inline bool pipe_syntax_scan(t_lexout *tokens, size_t i)
 {
 	if (i == 0)
 		return (parse_syntax_error(token_str(tokens->kind[i])));
@@ -20,14 +20,14 @@ static bool	pipe_syntax_scan(t_lexout *tokens, size_t i)
 	return (true);
 }
 
-//対象が増えたらここにハンドラ追加
-// word
-// pipe |　先頭、末尾、連続したらsyntax
-// lt <
-// gt >
-// dlt <<
-// dgt >>
-static void	init_parse_handler(t_parse_handler *parse_handler)
+// 対象が増えたらここにハンドラ追加
+//  word
+//  pipe |　先頭、末尾、連続したらsyntax
+//  lt <
+//  gt >
+//  dlt <<
+//  dgt >>
+static void init_parse_handler(t_parse_handler *parse_handler)
 {
 	parse_handler[TOK_WORD] = word_syntax_scan;
 	parse_handler[TOK_PIPE] = pipe_syntax_scan;
@@ -37,11 +37,11 @@ static void	init_parse_handler(t_parse_handler *parse_handler)
 	parse_handler[TOK_DGT] = dgt_syntax_scan;
 }
 
-static bool	syntax_scan(t_lexout *tokens)
+static bool syntax_scan(t_lexout *tokens)
 {
-	size_t			i;
-	t_parse_handler	parse_handler[PARSE_HANDLER_COUNT];
-	t_tok_kind		k;
+	size_t i;
+	t_parse_handler parse_handler[PARSE_HANDLER_COUNT];
+	t_tok_kind k;
 
 	i = 0;
 	if (!tokens || tokens->count == 0)
@@ -60,13 +60,13 @@ static bool	syntax_scan(t_lexout *tokens)
 }
 
 // //パースを作ります
-bool	parse_tokens(t_shell *sh, t_lexout *tokens)
+bool parse_tokens(t_shell *sh, t_lexout *tokens)
 {
 	if (!syntax_scan(tokens))
 	{
 		sh->last_status = 258;
 		return (false);
 	}
-	//シンタックスエラーを出してからパース構造体にぶちこみたい
+	// シンタックスエラーを出してからパース構造体にぶちこみたい
 	return (true);
 }
