@@ -3,13 +3,13 @@
 
 #define PARSE_HANDLER_COUNT 6 // 増えたら増やす <-
 
-static inline bool word_syntax_scan(t_lexout *lx, size_t i)
+static inline bool	word_syntax_scan(t_lexout *lx, size_t i)
 {
 	(void)lx;
 	(void)i;
 	return (true);
 }
-static inline bool pipe_syntax_scan(t_lexout *tokens, size_t i)
+static inline bool	pipe_syntax_scan(t_lexout *tokens, size_t i)
 {
 	if (i == 0)
 		return (parse_syntax_error(token_str(tokens->kind[i])));
@@ -27,7 +27,10 @@ static inline bool pipe_syntax_scan(t_lexout *tokens, size_t i)
 //  gt >
 //  dlt <<
 //  dgt >>
-static void init_parse_handler(t_parse_handler *parse_handler)
+// >  : open(path, O_WRONLY | O_CREAT | O_TRUNC, 0666);
+// >> : open(path, O_WRONLY | O_CREAT | O_APPEND, 0666);
+// <  : open(path, O_RDONLY);
+static void	init_parse_handler(t_parse_handler *parse_handler)
 {
 	parse_handler[TOK_WORD] = word_syntax_scan;
 	parse_handler[TOK_PIPE] = pipe_syntax_scan;
@@ -37,11 +40,11 @@ static void init_parse_handler(t_parse_handler *parse_handler)
 	parse_handler[TOK_DGT] = dgt_syntax_scan;
 }
 
-static bool syntax_scan(t_lexout *tokens)
+static bool	syntax_scan(t_lexout *tokens)
 {
-	size_t i;
-	t_parse_handler parse_handler[PARSE_HANDLER_COUNT];
-	t_tok_kind k;
+	size_t			i;
+	t_parse_handler	parse_handler[PARSE_HANDLER_COUNT];
+	t_tok_kind		k;
 
 	i = 0;
 	if (!tokens || tokens->count == 0)
@@ -60,7 +63,7 @@ static bool syntax_scan(t_lexout *tokens)
 }
 
 // //パースを作ります
-bool parse_tokens(t_shell *sh, t_lexout *tokens)
+bool	parse_tokens(t_shell *sh, t_lexout *tokens)
 {
 	if (!syntax_scan(tokens))
 	{

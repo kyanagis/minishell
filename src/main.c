@@ -1,8 +1,9 @@
 #include "minishell.h"
 #include "parser.h"
-volatile sig_atomic_t g_sig;
 
-void handler(int signum)
+volatile sig_atomic_t	g_sig;
+
+void	handler(int signum)
 {
 	g_sig = signum;
 	write(STDOUT_FILENO, "\n", 1);
@@ -12,11 +13,11 @@ void handler(int signum)
 	g_sig = SIGINT;
 }
 
-int minishell(t_shell *sh)
+int	minishell(t_shell *sh)
 {
-	char *line;
-	t_lexout *tokens;
-	ssize_t tmp;
+	char		*line;
+	t_lexout	*tokens;
+	ssize_t		tmp;
 
 	signal(SIGINT, handler);
 	while (1)
@@ -28,21 +29,20 @@ int minishell(t_shell *sh)
 		{
 			tmp = write(1, "exit\n", 5);
 			(void)tmp;
-			break;
+			break ;
 		}
 		if (!*line) // debug用
 		{
 			free(line);
 			// continue ;
-			break;
+			break ;
 		}
-
 		if (g_sig == SIGINT)
 		{ // Ctrl-C 中断（プロンプト再表示）
 			sh->last_status = 130;
 			g_sig = 0;
 			free(line);
-			continue;
+			continue ;
 		}
 		add_history(line);
 		tokens = tokenize(line);
@@ -50,12 +50,12 @@ int minishell(t_shell *sh)
 		if (!tokens)
 		{
 			sh->last_status = 1;
-			continue;
+			continue ;
 		}
 		if (!parse_tokens(sh, tokens))
 		{
 			free_lexout(tokens);
-			continue;
+			continue ;
 		}
 		// else
 		// 	sh->last_status = 0;
@@ -67,9 +67,9 @@ int minishell(t_shell *sh)
 	return (sh->last_status);
 }
 
-int main(int argc, char **argv, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
-	t_shell sh;
+	t_shell	sh;
 
 	(void)argc;
 	(void)argv;
