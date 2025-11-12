@@ -16,7 +16,7 @@ bool	parse_handle_redir_op(t_ctx *ctx, t_work *work)
 	if (ctx->need_redir_arg)
 	{
 		work->ok = false;
-		return (true);
+		return (false);
 	}
 	else
 	{

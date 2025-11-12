@@ -1,14 +1,16 @@
 #include "lexer.h"
 #include "parser.h"
 
+//修正するべきもの
+//関数名
+//ファイル名
+// norm
+
+// work->okの判定漏れの確認
 static void	init_ctx(t_ctx *ctx, const t_lexout *lx)
 {
 	ft_memset(ctx, 0, sizeof(*ctx));
 	ctx->lx = lx;
-}
-static bool	cmd_b_is_completely_empty(const t_cmd_b *b)
-{
-	return (!b || (b->argc == 0 && b->r_head == NULL));
 }
 
 static void	cmd_b_free(t_cmd_b *b)
@@ -38,45 +40,6 @@ static void	cmd_b_free(t_cmd_b *b)
 		free(b->argv);
 	}
 	free(b);
-}
-static t_cmd	*cmd_b_finalize(t_cmd_b *b)
-{
-	t_cmd	*c;
-	char	**argv_final;
-
-	if (!b || (b->argc == 0 && b->r_head == NULL))
-		return (NULL);
-	argv_final = ft_xcalloc(b->argc + 1, sizeof(char *));
-	ft_memcpy(argv_final, b->argv, sizeof(char *) * b->argc);
-	free(b->argv);
-	b->argv = NULL;
-	c = ft_xcalloc(1, sizeof(t_cmd));
-	c->argv = argv_final;
-	c->redirs = b->r_head;
-	b->r_head = NULL;
-	b->r_tail = NULL;
-	return (c);
-}
-
-static void	pl_b_push(t_pl_b *pb, t_cmd *c)
-{
-	t_cmd	**n;
-	size_t	ncap;
-
-	if (pb->len + 1 > pb->cap)
-	{
-		if (pb->cap == 0)
-			ncap = 2;
-		else
-			ncap = pb->cap * 2;
-		n = ft_xcalloc(ncap, sizeof(t_cmd *));
-		if (pb->arr && pb->len)
-			ft_memcpy(n, pb->arr, sizeof(t_cmd *) * pb->len);
-		free(pb->arr);
-		pb->arr = n;
-		pb->cap = ncap;
-	}
-	pb->arr[pb->len++] = c;
 }
 
 static void	pl_b_dispose(t_pl_b *pb)
@@ -122,26 +85,8 @@ static void	pl_b_dispose(t_pl_b *pb)
 	pb->len = 0;
 	pb->cap = 0;
 }
-static t_pipeline	*pl_b_finalize(t_pl_b *pb)
-{
-	t_pipeline	*pl;
-	t_cmd		**cmds;
 
-	if (pb->len == 0)
-		return (NULL);
-	pl = (t_pipeline *)ft_xcalloc(1, sizeof(t_pipeline));
-	cmds = (t_cmd **)ft_xcalloc(pb->len, sizeof(t_cmd *));
-	ft_memcpy(cmds, pb->arr, sizeof(t_cmd *) * pb->len);
-	pl->ncmds = pb->len;
-	pl->cmds = cmds;
-	free(pb->arr);
-	pb->arr = NULL;
-	pb->len = 0;
-	pb->cap = 0;
-	return (pl);
-}
-
-static void	finalize_pipeline(t_ctx *ctx, t_work *work)
+void	finalize_pipeline(t_ctx *ctx, t_work *work)
 {
 	t_cmd	*c;
 
@@ -177,7 +122,8 @@ bool	parse_build_pipeline(const t_lexout *lx, t_pipeline **out)
 	work.idx = 0;
 	work.quoted = false;
 	while (work.ok && work.idx < lx->count)
-		handle_op(&work, &ctx, lx);
+		handle_operator(&work, &ctx, lx);
+	//ここで分けたいと思います
 	if (work.ok)
 	{
 		if (ctx.need_redir_arg || cmd_b_is_completely_empty(ctx.cur))

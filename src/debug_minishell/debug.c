@@ -142,8 +142,8 @@ int	main(int argc, char **argv, char **envp)
 	tokens = tokenize(argv[1]);
 
 	lexer_debug_print(tokens);
-	parse_tokens(&sh, tokens, &pl);
-	// parse_build_pipeline(tokens, &pl);
+	// parse_tokens(&sh, tokens, &pl);
+	parse_build_pipeline(tokens, &pl);
 	debug_print_pipeline(pl);
 	free_lexout(tokens);
 

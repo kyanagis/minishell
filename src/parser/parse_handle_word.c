@@ -83,7 +83,10 @@ bool	parse_handle_word(t_ctx *ctx, t_work *work, const t_lexout *lx)
 		if (!ctx->cur)
 			ctx->cur = cmd_b_new();
 		if (!ctx->cur)
+		{
+			work->ok = false;
 			return (false);
+		}
 		cmd_b_push_redir(ctx->cur, ctx->pend_kind, w, work->quoted);
 		ctx->need_redir_arg = false;
 	}

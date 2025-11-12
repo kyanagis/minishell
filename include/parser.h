@@ -65,7 +65,11 @@ typedef struct s_work
 }					t_work;
 
 typedef bool		(*t_parse_handler)(t_lexout *lx, size_t i);
+bool				cmd_b_is_completely_empty(const t_cmd_b *b);
+void				finalize_pipeline(t_ctx *ctx, t_work *work);
 
+t_cmd				*cmd_b_finalize(t_cmd_b *b);
+t_pipeline			*pl_b_finalize(t_pl_b *pb);
 bool				parse_tokens(t_shell *sh, t_lexout *tokens,
 						t_pipeline **pl);
 bool				parse_syntax_error(const char *unexpected);
@@ -75,13 +79,13 @@ bool				dgt_syntax_scan(t_lexout *tokens, size_t i);
 bool				dlt_syntax_scan(t_lexout *tokens, size_t i);
 bool				gt_syntax_scan(t_lexout *tokens, size_t i);
 bool				lt_syntax_scan(t_lexout *tokens, size_t i);
-
-boolparse_handle_pipe(t_ctx *ctx, t_work *work);
+// bool				parse_handle_pipe(t_ctx *ctx, t_work *work);
+void				pl_b_push(t_pl_b *pb, t_cmd *c);
 
 bool				parse_handle_word(t_ctx *ctx, t_work *work,
 						const t_lexout *lx);
 bool				parse_handle_redir_op(t_ctx *ctx, t_work *work);
-
+bool				parse_handle_pipe(t_ctx *ctx, t_work *work);
 bool				parse_build_pipeline(const t_lexout *lx, t_pipeline **out);
 void				handle_operator(t_work *work, t_ctx *ctx,
 						const t_lexout *lx);
