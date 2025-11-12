@@ -31,9 +31,43 @@ typedef struct s_pipeline
 	t_cmd			**cmds;
 }					t_pipeline;
 
+typedef struct s_cmd_b
+{
+	char			**argv;
+	size_t			argc;
+	size_t			cap;
+	t_redir			*r_head;
+	t_redir			*r_tail;
+}					t_cmd_b;
+
+typedef struct s_pl_b
+{
+	t_cmd			**arr;
+	size_t			len;
+	size_t			cap;
+}					t_pl_b;
+
+typedef struct s_ctx
+{
+	const t_lexout	*lx;
+	t_pl_b			plb;
+	t_cmd_b *cur;           // 現在構築中のコマンド（NULLならまだ無い）
+	bool need_redir_arg;    // リダイレクト直後（次は word 必須）
+	t_redir_kind pend_kind; // そのリダイレクト種別
+}					t_ctx;
+
+typedef struct s_work
+{
+	size_t			idx;
+	t_tok_kind		kind;
+	bool			ok;
+	bool			quoted;
+}					t_work;
+
 typedef bool		(*t_parse_handler)(t_lexout *lx, size_t i);
 
-bool				parse_tokens(t_shell *sh, t_lexout *tokens);
+bool				parse_tokens(t_shell *sh, t_lexout *tokens,
+						t_pipeline **pl);
 bool				parse_syntax_error(const char *unexpected);
 const char			*token_str(t_tok_kind kind);
 
@@ -41,5 +75,15 @@ bool				dgt_syntax_scan(t_lexout *tokens, size_t i);
 bool				dlt_syntax_scan(t_lexout *tokens, size_t i);
 bool				gt_syntax_scan(t_lexout *tokens, size_t i);
 bool				lt_syntax_scan(t_lexout *tokens, size_t i);
+
+boolparse_handle_pipe(t_ctx *ctx, t_work *work);
+
+bool				parse_handle_word(t_ctx *ctx, t_work *work,
+						const t_lexout *lx);
+bool				parse_handle_redir_op(t_ctx *ctx, t_work *work);
+
+bool				parse_build_pipeline(const t_lexout *lx, t_pipeline **out);
+void				handle_operator(t_work *work, t_ctx *ctx,
+						const t_lexout *lx);
 
 #endif

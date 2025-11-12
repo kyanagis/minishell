@@ -6,7 +6,7 @@
 /*   By: kyanagis <kyanagis@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 19:59:35 by kyanagis          #+#    #+#             */
-/*   Updated: 2025/11/08 07:21:04 by kyanagis         ###   ########.fr       */
+/*   Updated: 2025/11/12 10:36:02 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ typedef void		(*t_state_handler)(t_lexer *lx, const char *input,
 
 t_lexout			*tokenize(const char *line);
 void				lexout_free(t_lexout *o);
-void				lexer_debug_print(const t_lexout *o);
 
 void				scan_line(t_lexer *lx, const char *input);
 void				push_current_token(t_lexer *lx);

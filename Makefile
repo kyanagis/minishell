@@ -19,7 +19,7 @@ endif
 
 OBJ_DIR     := obj
 
-SRC_DIRS    := src src/lexer src/parser
+SRC_DIRS    := src src/lexer src/parser src/debug_minishell
 SRCS        := $(foreach d,$(SRC_DIRS),$(wildcard $(d)/*.c))
 OBJS        := $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRCS))
 DEPS        := $(OBJS:.o=.d)
@@ -30,10 +30,9 @@ CPPFLAGS    := $(addprefix -I,$(INC_DIRS)) -MMD -MP
 LIBFT_DIR   := libft
 LIBFT_A     := $(LIBFT_DIR)/libft.a
 
-# ===== OS 判定 =====
 UNAME_S := $(shell uname -s)
 
-ifeq ($(UNAME_S),Darwin)                # macOS
+ifeq ($(UNAME_S),Darwin)                
   RL_DIR := $(shell brew --prefix readline 2>/dev/null)
   ifneq ($(RL_DIR),)
     RL_INC := -I$(RL_DIR)/include
@@ -42,7 +41,7 @@ ifeq ($(UNAME_S),Darwin)                # macOS
     RL_INC :=
     RL_LIB := -lreadline
   endif
-else                                    # Linux想定
+else                                    # Linux
   RL_HAS_PKG := $(shell pkg-config --exists readline && echo yes || echo no)
   ifeq ($(RL_HAS_PKG),yes)
     RL_INC := $(shell pkg-config --cflags readline)

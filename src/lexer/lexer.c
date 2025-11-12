@@ -6,7 +6,7 @@
 /*   By: kyanagis <kyanagis@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 19:59:53 by kyanagis          #+#    #+#             */
-/*   Updated: 2025/11/05 05:16:38 by kyanagis         ###   ########.fr       */
+/*   Updated: 2025/11/12 09:55:11 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	lexout_free(t_lexout *o)
 // {
 // 	(void)argc;
 // 	(void)argv;
-// 	char *s = "ls -l |\
+// 	char *s = "ls -l |
 // 	|| grep 'awd awd w $TEST $test ' << $TEST |  $TEST   '' ";
 // 	// t_lexout *lx = lex_line(argv[1]);
 // 	t_lexout *lx = tokenize(s);

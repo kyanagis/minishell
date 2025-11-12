@@ -6,7 +6,7 @@
 /*   By: kyanagis <kyanagis@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 04:34:55 by kyanagis          #+#    #+#             */
-/*   Updated: 2025/11/05 02:40:28 by kyanagis         ###   ########.fr       */
+/*   Updated: 2025/11/12 04:58:15 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ void				ft_putnbr_fd(int n, int fd);
 int					ft_strcmp(const char *s1, const char *s2);
 double				ft_atof(const char *s);
 
+char				*ft_xstrdup(const char *s);
 void				*ft_xcalloc(size_t count, size_t size);
 char				*ft_strcpy(char *dest, const char *src);
 void				*ft_xmalloc(size_t n);

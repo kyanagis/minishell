@@ -62,14 +62,15 @@ static bool	syntax_scan(t_lexout *tokens)
 	return (true);
 }
 
-// //パースを作ります
-bool	parse_tokens(t_shell *sh, t_lexout *tokens)
+bool	parse_tokens(t_shell *sh, t_lexout *tokens, t_pipeline **pl)
 {
+	// t_pipeline	*pl;
 	if (!syntax_scan(tokens))
 	{
 		sh->last_status = 258;
 		return (false);
 	}
-	// シンタックスエラーを出してからパース構造体にぶちこみたい
+	if (!parse_build_pipeline(tokens, pl))
+		return (false);
 	return (true);
 }

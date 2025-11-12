@@ -1,30 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   ft_xstrdup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kyanagis <kyanagis@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/09 04:42:17 by kyanagis          #+#    #+#             */
-/*   Updated: 2025/11/12 13:38:33 by kyanagis         ###   ########.fr       */
+/*   Created: 2025/11/12 04:56:29 by kyanagis          #+#    #+#             */
+/*   Updated: 2025/11/12 13:37:22 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strdup(const char *s1)
+char	*ft_xstrdup(const char *s)
 {
-	size_t	len;
-	char	*copy;
-	char	*head;
+	char *dst;
 
-	len = ft_strlen(s1);
-	copy = (char *)malloc(len + 1);
-	head = copy;
-	if (!copy)
-		return (NULL);
-	while (*s1)
-		*copy++ = *s1++;
-	*copy = '\0';
-	return (head);
+	dst = ft_strdup(s);
+	if (!dst)
+	{
+		ft_putendl_fd("ft_strdup", STDERR_FILENO);
+		exit(EXIT_FAILURE);
+	}
+	return (dst);
 }

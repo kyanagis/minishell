@@ -6,7 +6,7 @@
 #    By: kyanagis <kyanagis@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/05 01:05:21 by kyanagis          #+#    #+#              #
-#    Updated: 2025/11/05 02:29:41 by kyanagis         ###   ########.fr        #
+#    Updated: 2025/11/12 04:58:25 by kyanagis         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,7 @@ SRC := \
 	ft_strmapi.c ft_striteri.c ft_putchar_fd.c ft_putstr_fd.c \
 	ft_putendl_fd.c ft_putnbr_fd.c ft_atof.c ft_strcmp.c \
 	ft_isspace.c get_next_line.c ft_strndup.c ft_xmalloc.c\
-    ft_strcpy.c ft_xcalloc.c
+    ft_strcpy.c ft_xcalloc.c ft_xstrdup.c
 
 BONUS_SRC := \
 	ft_lstnew.c ft_lstadd_front.c ft_lstsize.c ft_lstlast.c \

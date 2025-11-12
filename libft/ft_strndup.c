@@ -6,7 +6,7 @@
 /*   By: kyanagis <kyanagis@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 23:40:54 by kyanagis          #+#    #+#             */
-/*   Updated: 2025/11/05 02:36:31 by kyanagis         ###   ########.fr       */
+/*   Updated: 2025/11/12 12:33:46 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,6 @@ char	*ft_strndup(const char *s, size_t n)
 	head = p;
 	while (src_len--)
 		*p++ = *s++;
+	*p = '\0';
 	return (head);
 }
