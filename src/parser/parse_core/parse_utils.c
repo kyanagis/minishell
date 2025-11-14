@@ -1,15 +1,15 @@
 #include "parser.h"
 
-bool	parse_syntax_error(const char *unexpected)
+bool parse_syntax_error(const char *unexpected)
 {
 	ft_putstr_fd("minishell: syntax error near unexpected token `",
-		STDERR_FILENO);
+				 STDERR_FILENO);
 	ft_putstr_fd((char *)unexpected, STDERR_FILENO);
 	ft_putendl_fd("'", STDERR_FILENO);
 	return (false);
 }
 
-const char	*token_str(t_tok_kind kind)
+const char *token_str(t_tok_kind kind)
 {
 	if (kind == TOK_PIPE)
 		return ("|");

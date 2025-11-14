@@ -1,9 +1,9 @@
 #include "minishell.h"
 #include "parser.h"
+volatile sig_atomic_t g_sig;
 
-volatile sig_atomic_t	g_sig;
-
-void	handler(int signum)
+// signalと終了ステータスはよくわからなくなってきたので、後でやります.
+void handler(int signum)
 {
 	g_sig = signum;
 	write(STDOUT_FILENO, "\n", 1);
@@ -13,13 +13,11 @@ void	handler(int signum)
 	g_sig = SIGINT;
 }
 
-//モジュール化して実装する予定なので、debug_minishellディレクトリでデバッグ中.
-
-// int	minishell(t_shell *sh)
+// int minishell(t_shell *sh)
 // {
-// 	char		*line;
-// 	t_lexout	*tokens;
-// 	ssize_t		tmp;
+// 	char *line;
+// 	t_lexout *tokens;
+// 	ssize_t tmp;
 
 // 	signal(SIGINT, handler);
 // 	while (1)
@@ -31,20 +29,21 @@ void	handler(int signum)
 // 		{
 // 			tmp = write(1, "exit\n", 5);
 // 			(void)tmp;
-// 			break ;
+// 			break;
 // 		}
 // 		if (!*line) // debug用
 // 		{
 // 			free(line);
 // 			// continue ;
-// 			break ;
+// 			break;
 // 		}
+
 // 		if (g_sig == SIGINT)
 // 		{ // Ctrl-C 中断（プロンプト再表示）
 // 			sh->last_status = 130;
 // 			g_sig = 0;
 // 			free(line);
-// 			continue ;
+// 			continue;
 // 		}
 // 		add_history(line);
 // 		tokens = tokenize(line);
@@ -52,12 +51,12 @@ void	handler(int signum)
 // 		if (!tokens)
 // 		{
 // 			sh->last_status = 1;
-// 			continue ;
+// 			continue;
 // 		}
 // 		if (!parse_tokens(sh, tokens))
 // 		{
 // 			free_lexout(tokens);
-// 			continue ;
+// 			continue;
 // 		}
 // 		// else
 // 		// 	sh->last_status = 0;
@@ -69,9 +68,9 @@ void	handler(int signum)
 // 	return (sh->last_status);
 // }
 
-// int	main(int argc, char **argv, char **envp)
+// int main(int argc, char **argv, char **envp)
 // {
-// 	t_shell	sh;
+// 	t_shell sh;
 
 // 	(void)argc;
 // 	(void)argv;

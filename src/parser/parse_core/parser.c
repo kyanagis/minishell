@@ -1,15 +1,18 @@
 #include "minishell.h"
 #include "parser.h"
 
-#define PARSE_HANDLER_COUNT 6 // 増えたら増やす <-
+#define PARSE_HANDLER_COUNT 6
 
-static inline bool	word_syntax_scan(t_lexout *lx, size_t i)
+static bool word_syntax_scan(t_lexout *lx, size_t i)
 {
 	(void)lx;
 	(void)i;
 	return (true);
 }
-static inline bool	pipe_syntax_scan(t_lexout *tokens, size_t i)
+
+// パイプの前後が正しいトークンであるかを検証する。
+
+static bool pipe_syntax_scan(t_lexout *tokens, size_t i)
 {
 	if (i == 0)
 		return (parse_syntax_error(token_str(tokens->kind[i])));
@@ -20,17 +23,7 @@ static inline bool	pipe_syntax_scan(t_lexout *tokens, size_t i)
 	return (true);
 }
 
-// 対象が増えたらここにハンドラ追加
-//  word
-//  pipe |　先頭、末尾、連続したらsyntax
-//  lt <
-//  gt >
-//  dlt <<
-//  dgt >>
-// >  : open(path, O_WRONLY | O_CREAT | O_TRUNC, 0666);
-// >> : open(path, O_WRONLY | O_CREAT | O_APPEND, 0666);
-// <  : open(path, O_RDONLY);
-static void	init_parse_handler(t_parse_handler *parse_handler)
+static void init_parse_handler(t_parse_handler *parse_handler)
 {
 	parse_handler[TOK_WORD] = word_syntax_scan;
 	parse_handler[TOK_PIPE] = pipe_syntax_scan;
@@ -40,11 +33,11 @@ static void	init_parse_handler(t_parse_handler *parse_handler)
 	parse_handler[TOK_DGT] = dgt_syntax_scan;
 }
 
-static bool	syntax_scan(t_lexout *tokens)
+static bool syntax_scan(t_lexout *tokens)
 {
-	size_t			i;
-	t_parse_handler	parse_handler[PARSE_HANDLER_COUNT];
-	t_tok_kind		k;
+	size_t i;
+	t_parse_handler parse_handler[PARSE_HANDLER_COUNT];
+	t_tok_kind k;
 
 	i = 0;
 	if (!tokens || tokens->count == 0)
@@ -62,15 +55,14 @@ static bool	syntax_scan(t_lexout *tokens)
 	return (true);
 }
 
-bool	parse_tokens(t_shell *sh, t_lexout *tokens, t_pipeline **pl)
+bool parse_tokens(t_shell *sh, t_lexout *tokens, t_pipeline **pl)
 {
-	// t_pipeline	*pl;
 	if (!syntax_scan(tokens))
 	{
 		sh->last_status = 258;
 		return (false);
 	}
-	if (!parse_build_pipeline(tokens, pl))
+	if (!build_pipeline_from_tokens(tokens, pl))
 		return (false);
 	return (true);
 }

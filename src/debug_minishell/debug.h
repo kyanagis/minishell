@@ -5,10 +5,9 @@
 #include "minishell.h"
 #include "parser.h"
 
-
-void				debug_print_pipeline(const t_pipeline *pl);
-void				lexer_debug_print(const t_lexout *o);
-
-
+void debug_print_pipeline(const t_pipeline *pl, const t_lexout *lx);
+//
+// void				debug_print_pipeline(const t_pipeline *pl);
+void lexer_debug_print(const t_lexout *o);
 
 #endif

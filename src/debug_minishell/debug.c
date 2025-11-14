@@ -53,12 +53,12 @@
 // 	return (sh->last_status);
 // }
 
-static void	free_argv(char **argv)
+static void free_argv(char **argv)
 {
-	size_t	i;
+	size_t i;
 
 	if (!argv)
-		return ;
+		return;
 	i = 0;
 	while (argv[i])
 	{
@@ -68,13 +68,13 @@ static void	free_argv(char **argv)
 	free(argv);
 }
 
-static void	redir_clear(t_redir **head)
+static void redir_clear(t_redir **head)
 {
-	t_redir	*cur;
-	t_redir	*next;
+	t_redir *cur;
+	t_redir *next;
 
 	if (!head || !*head)
-		return ;
+		return;
 	cur = *head;
 	while (cur)
 	{
@@ -86,12 +86,12 @@ static void	redir_clear(t_redir **head)
 	*head = NULL;
 }
 
-static void	cmd_destroy(t_cmd **pcmd)
+static void cmd_destroy(t_cmd **pcmd)
 {
-	t_cmd	*cmd;
+	t_cmd *cmd;
 
 	if (!pcmd || !*pcmd)
-		return ;
+		return;
 	cmd = *pcmd;
 	free_argv(cmd->argv);
 	redir_clear(&cmd->redirs);
@@ -99,13 +99,13 @@ static void	cmd_destroy(t_cmd **pcmd)
 	*pcmd = NULL;
 }
 
-void	pipeline_destroy(t_pipeline **pp)
+void pipeline_destroy(t_pipeline **pp)
 {
-	t_pipeline	*pl;
-	size_t		i;
+	t_pipeline *pl;
+	size_t i;
 
 	if (!pp || !*pp)
-		return ;
+		return;
 	pl = *pp;
 	if (pl->cmds)
 	{
@@ -124,7 +124,7 @@ void	pipeline_destroy(t_pipeline **pp)
 
 #include <stdio.h>
 
-int	main(int argc, char **argv, char **envp)
+int main(int argc, char **argv, char **envp)
 {
 	t_shell sh;
 	t_pipeline *pl = NULL;
@@ -142,9 +142,9 @@ int	main(int argc, char **argv, char **envp)
 	tokens = tokenize(argv[1]);
 
 	lexer_debug_print(tokens);
-	// parse_tokens(&sh, tokens, &pl);
-	parse_build_pipeline(tokens, &pl);
-	debug_print_pipeline(pl);
+	parse_tokens(&sh, tokens, &pl);
+	build_pipeline_from_tokens(tokens, &pl);
+	debug_print_pipeline(pl, tokens);
 	free_lexout(tokens);
 
 	pipeline_destroy(&pl);
