@@ -1,6 +1,6 @@
 #include "parser.h"
 
-static bool is_redirection_token(t_tok_kind kind)
+static bool	is_redirection_token(t_tok_kind kind)
 {
 	if (kind == TOK_LT || kind == TOK_GT)
 		return (true);
@@ -8,8 +8,8 @@ static bool is_redirection_token(t_tok_kind kind)
 		return (true);
 	return (false);
 }
-void dispatch_parse_token(t_work_state *state, t_work_context *ctx,
-						  const t_lexout *tokens)
+void	dispatch_parse_token(t_work_state *state, t_work_context *ctx,
+		const t_lexout *tokens)
 {
 	state->kind = tokens->kind[state->index];
 	if (state->kind == TOK_WORD)

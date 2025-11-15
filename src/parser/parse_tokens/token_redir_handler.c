@@ -1,6 +1,6 @@
 #include "parser.h"
 
-static t_redir_kind as_redir_kind(t_tok_kind kind)
+static t_redir_kind	as_redir_kind(t_tok_kind kind)
 {
 	if (kind == TOK_LT)
 		return (R_IN);
@@ -10,7 +10,7 @@ static t_redir_kind as_redir_kind(t_tok_kind kind)
 		return (R_HEREDOC);
 	return (R_APPEND);
 }
-bool handle_redirection_operator(t_work_context *ctx, t_work_state *state)
+bool	handle_redirection_operator(t_work_context *ctx, t_work_state *state)
 {
 	if (ctx->expecting_redir_arg)
 	{

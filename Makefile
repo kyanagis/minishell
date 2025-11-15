@@ -33,6 +33,10 @@ CPPFLAGS    := $(addprefix -I,$(INC_DIRS)) -MMD -MP
 LIBFT_DIR   := libft
 LIBFT_A     := $(LIBFT_DIR)/libft.a
 
+ifeq ($(PARSE),1)
+  CPPFLAGS += -DPARSE
+endif
+
 UNAME_S := $(shell uname -s)
 
 ifeq ($(UNAME_S),Darwin)                

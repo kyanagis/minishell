@@ -1,14 +1,14 @@
 #include "parser.h"
 
-static bool parse_tokens_loop(const t_lexout *tokens,
-							  t_work_context *ctx, t_work_state *state)
+static bool	parse_tokens_loop(const t_lexout *tokens, t_work_context *ctx,
+		t_work_state *state)
 {
 	while (state->ok && state->index < tokens->count)
 		dispatch_parse_token(state, ctx, tokens);
 	return (state->ok);
 }
 
-static void cleanup_parse_context(t_work_context *ctx)
+static void	cleanup_parse_context(t_work_context *ctx)
 {
 	dispose_command_builder(ctx->current_builder);
 	ctx->current_builder = NULL;
@@ -19,10 +19,10 @@ static void cleanup_parse_context(t_work_context *ctx)
 
 // : トークン列を検証しながらパイプライン構築処理をまとめて呼び出す。
 
-bool build_pipeline_from_tokens(const t_lexout *tokens, t_pipeline **out)
+bool	build_pipeline_from_tokens(const t_lexout *tokens, t_pipeline **out)
 {
-	t_work_context ctx;
-	t_work_state state;
+	t_work_context	ctx;
+	t_work_state	state;
 
 	if (!out)
 		return (false);
@@ -31,7 +31,8 @@ bool build_pipeline_from_tokens(const t_lexout *tokens, t_pipeline **out)
 		return (true);
 	init_work_context(&ctx, tokens);
 	init_work_state(&state);
-	if (!parse_tokens_loop(tokens, &ctx, &state) || !finalize_pipeline_success(&ctx, &state, out))
+	if (!parse_tokens_loop(tokens, &ctx, &state)
+		|| !finalize_pipeline_success(&ctx, &state, out))
 	{
 		cleanup_parse_context(&ctx);
 		return (false);

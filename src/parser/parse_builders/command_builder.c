@@ -1,6 +1,6 @@
 #include "parser.h"
 
-bool work_command_is_empty(const t_work_command *builder)
+bool	work_command_is_empty(const t_work_command *builder)
 {
 	if (!builder)
 		return (true);
@@ -9,9 +9,9 @@ bool work_command_is_empty(const t_work_command *builder)
 
 //  ビルダー内部のデータ所有権を確定済みコマンド構造体へ移す。
 
-t_cmd *work_command_extract(t_work_command *builder)
+t_cmd	*work_command_extract(t_work_command *builder)
 {
-	t_cmd *cmd;
+	t_cmd	*cmd;
 
 	if (!builder)
 		return (NULL);
@@ -20,13 +20,11 @@ t_cmd *work_command_extract(t_work_command *builder)
 	cmd->argc = builder->argc;
 	cmd->tok_idx_argv = builder->tok_idx_argv;
 	cmd->redirs = builder->r_head;
-
 	builder->argv = NULL;
 	builder->tok_idx_argv = NULL;
 	builder->r_head = NULL;
 	builder->r_tail = NULL;
 	builder->argc = 0;
 	builder->cap = 0;
-
 	return (cmd);
 }

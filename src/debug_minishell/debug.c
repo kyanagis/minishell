@@ -1,112 +1,58 @@
 #include "debug.h"
+#include <stdio.h>
 
-// static void	debug_minishell(t_shell *sh)
-// {
-// 	char		*line;
-// 	t_lexout	*tokens;
-// 	ssize_t		tmp;
-
-// 	while (1)
-// 	{
-// 		update_prompt(sh); // これ多分いらない
-// 		sh->last_status = 0;
-// 		line = readline(sh->prompt);
-// 		if (!line)
-// 		{
-// 			tmp = write(1, "exit\n", 5);
-// 			(void)tmp;
-// 			break ;
-// 		}
-// 		if (!*line) // debug用
-// 		{
-// 			free(line);
-// 			// continue ;
-// 			break ;
-// 		}
-// 		if (g_sig == SIGINT)
-// 		{ // Ctrl-C 中断（プロンプト再表示）
-// 			sh->last_status = 130;
-// 			g_sig = 0;
-// 			free(line);
-// 			continue ;
-// 		}
-// 		add_history(line);
-// 		tokens = tokenize(line);
-// 		free(line);
-// 		if (!tokens)
-// 		{
-// 			sh->last_status = 1;
-// 			continue ;
-// 		}
-// 		if (!parse_tokens(sh, tokens))
-// 		{
-// 			free_lexout(tokens);
-// 			continue ;
-// 		}
-// 		// else
-// 		// 	sh->last_status = 0;
-// 		// ここで実行:
-// 		// sh->last_status = execute(sh, tokens);
-// 		free_lexout(tokens);
-// 	}
-// 	shell_destroy(sh);
-// 	return (sh->last_status);
-// }
-
-static void free_argv(char **argv)
+void	redir_list_destroy(t_redir **head)
 {
-	size_t i;
-
-	if (!argv)
-		return;
-	i = 0;
-	while (argv[i])
-	{
-		free(argv[i]);
-		++i;
-	}
-	free(argv);
-}
-
-static void redir_clear(t_redir **head)
-{
-	t_redir *cur;
-	t_redir *next;
+	t_redir	*cur;
+	t_redir	*next;
 
 	if (!head || !*head)
-		return;
+		return ;
 	cur = *head;
 	while (cur)
 	{
 		next = cur->next;
-		free(cur->arg);
+		if (cur->arg)
+			free(cur->arg);
 		free(cur);
 		cur = next;
 	}
 	*head = NULL;
 }
 
-static void cmd_destroy(t_cmd **pcmd)
+void	cmd_destroy(t_cmd **pcmd)
 {
-	t_cmd *cmd;
+	size_t	i;
+	t_cmd	*cmd;
 
 	if (!pcmd || !*pcmd)
-		return;
+		return ;
 	cmd = *pcmd;
-	free_argv(cmd->argv);
-	redir_clear(&cmd->redirs);
+	if (cmd->argv)
+	{
+		i = 0;
+		while (i < cmd->argc)
+		{
+			free(cmd->argv[i]);
+			++i;
+		}
+		free(cmd->argv);
+	}
+	if (cmd->tok_idx_argv)
+		free(cmd->tok_idx_argv);
+	if (cmd->redirs)
+		redir_list_destroy(&cmd->redirs);
 	free(cmd);
 	*pcmd = NULL;
 }
-
-void pipeline_destroy(t_pipeline **pp)
+void	pipeline_destroy(t_pipeline **ppl)
 {
-	t_pipeline *pl;
-	size_t i;
+	size_t		i;
+	t_pipeline	*pl;
 
-	if (!pp || !*pp)
-		return;
-	pl = *pp;
+	if (!ppl || !*ppl)
+		return ;
+	pl = *ppl;
 	if (pl->cmds)
 	{
 		i = 0;
@@ -119,15 +65,16 @@ void pipeline_destroy(t_pipeline **pp)
 		free(pl->cmds);
 	}
 	free(pl);
-	*pp = NULL;
+	*ppl = NULL;
 }
 
-#include <stdio.h>
-
-int main(int argc, char **argv, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
-	t_shell sh;
-	t_pipeline *pl = NULL;
+	t_shell		sh;
+	t_pipeline	*pl;
+	t_lexout	*tokens;
+
+	pl = NULL;
 	shell_init(&sh, envp);
 	// debug_minishell_readline(&sh);
 	// (void)argv;
@@ -137,16 +84,15 @@ int main(int argc, char **argv, char **envp)
 	(void)envp;
 	// char *s = argv[1];
 	// scanf("%hhd", s);
-
-	t_lexout *tokens;
 	tokens = tokenize(argv[1]);
-
 	lexer_debug_print(tokens);
+#ifndef PARSE
 	parse_tokens(&sh, tokens, &pl);
+#else
 	build_pipeline_from_tokens(tokens, &pl);
+#endif
 	debug_print_pipeline(pl, tokens);
 	free_lexout(tokens);
-
 	pipeline_destroy(&pl);
 	shell_destroy(&sh);
 	return (0);
