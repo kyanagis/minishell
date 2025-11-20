@@ -1,13 +1,13 @@
 #include "debug.h"
 #include <stdio.h>
 
-void	redir_list_destroy(t_redir **head)
+void redir_list_destroy(t_redir **head)
 {
-	t_redir	*cur;
-	t_redir	*next;
+	t_redir *cur;
+	t_redir *next;
 
 	if (!head || !*head)
-		return ;
+		return;
 	cur = *head;
 	while (cur)
 	{
@@ -20,13 +20,13 @@ void	redir_list_destroy(t_redir **head)
 	*head = NULL;
 }
 
-void	cmd_destroy(t_cmd **pcmd)
+void cmd_destroy(t_cmd **pcmd)
 {
-	size_t	i;
-	t_cmd	*cmd;
+	size_t i;
+	t_cmd *cmd;
 
 	if (!pcmd || !*pcmd)
-		return ;
+		return;
 	cmd = *pcmd;
 	if (cmd->argv)
 	{
@@ -45,13 +45,13 @@ void	cmd_destroy(t_cmd **pcmd)
 	free(cmd);
 	*pcmd = NULL;
 }
-void	pipeline_destroy(t_pipeline **ppl)
+void pipeline_destroy(t_pipeline **ppl)
 {
-	size_t		i;
-	t_pipeline	*pl;
+	size_t i;
+	t_pipeline *pl;
 
 	if (!ppl || !*ppl)
-		return ;
+		return;
 	pl = *ppl;
 	if (pl->cmds)
 	{
@@ -68,32 +68,75 @@ void	pipeline_destroy(t_pipeline **ppl)
 	*ppl = NULL;
 }
 
-int	main(int argc, char **argv, char **envp)
+static void run_debug_pipeline(t_shell *sh, const char *line)
 {
-	t_shell		sh;
-	t_pipeline	*pl;
-	t_lexout	*tokens;
+	t_pipeline *pl;
+	t_lexout *tokens;
+	bool ok;
 
 	pl = NULL;
-	shell_init(&sh, envp);
-	// debug_minishell_readline(&sh);
-	// (void)argv;
-	(void)argc;
-	(void)pl;
-	// (void)sh;
-	(void)envp;
-	// char *s = argv[1];
-	// scanf("%hhd", s);
-	tokens = tokenize(argv[1]);
+	tokens = tokenize(line);
+	if (!tokens)
+		return;
 	lexer_debug_print(tokens);
 #ifndef PARSE
-	parse_tokens(&sh, tokens, &pl);
+	ok = parse_tokens(sh, tokens, &pl);
 #else
-	build_pipeline_from_tokens(tokens, &pl);
+	ok = build_pipeline_from_tokens(tokens, &pl);
 #endif
+	if (!ok)
+	{
+		free_lexout(tokens);
+		return;
+	}
 	debug_print_pipeline(pl, tokens);
+	expand_pipeline(sh, tokens, pl);
+	debug_expand_pipeline(pl);
 	free_lexout(tokens);
 	pipeline_destroy(&pl);
+}
+
+static char *read_debug_line(void)
+{
+	char *line;
+	size_t cap;
+	ssize_t len;
+
+	line = NULL;
+	cap = 0;
+	len = getline(&line, &cap, stdin);
+	if (len < 0)
+	{
+		free(line);
+		return (NULL);
+	}
+	if (len > 0 && line[len - 1] == '\n')
+		line[len - 1] = '\0';
+	return (line);
+}
+
+int main(int argc, char **argv, char **envp)
+{
+	t_shell sh;
+	char *line;
+
+	(void)argc;
+	(void)argv;
+	shell_init(&sh, envp);
+	while (1)
+	{
+		write(STDOUT_FILENO, "debug> ", 7);
+		line = read_debug_line();
+		if (!line)
+			break;
+		if (*line == '\0')
+		{
+			free(line);
+			continue;
+		}
+		run_debug_pipeline(&sh, line);
+		free(line);
+	}
 	shell_destroy(&sh);
 	return (0);
 }

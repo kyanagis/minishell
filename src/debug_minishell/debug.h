@@ -4,10 +4,9 @@
 #include "lexer.h"
 #include "minishell.h"
 #include "parser.h"
-
+#include "expander.h"
 void debug_print_pipeline(const t_pipeline *pl, const t_lexout *lx);
-//
-// void				debug_print_pipeline(const t_pipeline *pl);
 void lexer_debug_print(const t_lexout *o);
+void debug_expand_pipeline(const t_pipeline *pl);
 
 #endif

@@ -13,4 +13,9 @@ typedef struct s_expand_work_buf
 
 }			t_expand_work_buf;
 
+bool	expand_pipeline(t_shell *sh, const t_lexout *lexer,
+			t_pipeline *pipeline);
+bool	expand_word(t_shell *sh, const char *src,
+			const unsigned char *mask, size_t len, char **out);
+
 #endif
