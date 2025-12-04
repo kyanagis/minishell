@@ -6,12 +6,13 @@
 /*   By: sakurako <sakurako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 03:13:00 by sakurako          #+#    #+#             */
-/*   Updated: 2025/12/05 03:13:16 by sakurako         ###   ########.fr       */
+/*   Updated: 2025/12/05 05:35:51 by sakurako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sig.h"
-#include "minishell.h"
+#include <unistd.h>
+#include <stdio.h>
 
 volatile sig_atomic_t	g_sig = 0;
 
