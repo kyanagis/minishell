@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyanagis <kyanagis@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sakurako <sakurako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 05:17:23 by kyanagis          #+#    #+#             */
-/*   Updated: 2025/11/09 05:41:24 by kyanagis         ###   ########.fr       */
+/*   Updated: 2025/12/05 03:17:38 by sakurako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,12 @@
 #define MINISHELL_H
 
 #include <stdio.h>
-#include <signal.h>
 
 #include <readline/history.h>
 #include <readline/readline.h>
 #include "libft.h"
 #include "lexer.h"
-extern volatile sig_atomic_t g_sig;
+#include "sig.h"
 
 typedef struct s_shell
 {
