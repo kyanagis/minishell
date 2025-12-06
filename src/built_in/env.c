@@ -6,14 +6,14 @@
 /*   By: skatsuya < skatsuya@student.42tokyo.jp>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 22:14:50 by skatsuya          #+#    #+#             */
-/*   Updated: 2025/12/07 04:42:31 by skatsuya         ###   ########.fr       */
+/*   Updated: 2025/12/07 04:46:08 by skatsuya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "built_in.h"
 #include "minishell.h"
 
-static t_env	*env_new_node(char *str);
+t_env			*env_new_node(char *str);
 static void		env_add_back(t_env **head, t_env *new_node);
 static t_env	*init_env_list(char **envp);
 
@@ -36,7 +36,7 @@ int	ft_env(t_shell *shell)
 	return (0);
 }
 
-static t_env	*env_new_node(char *str)
+t_env	*env_new_node(char *str)
 {
 	t_env	*new;
 	char	*eq_pos;
