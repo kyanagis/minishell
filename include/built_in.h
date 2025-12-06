@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sakurako <sakurako@student.42.fr>          +#+  +:+       +#+        */
+/*   By: skatsuya < skatsuya@student.42tokyo.jp>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 05:17:19 by sakurako          #+#    #+#             */
-/*   Updated: 2025/12/05 07:14:31 by sakurako         ###   ########.fr       */
+/*   Updated: 2025/12/06 22:09:19 by skatsuya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,15 @@
 // message
 # define MSG_EXIT_TOO_MANY_ARGS "minishell: exit: too many arguments\n"
 
-# include <unistd.h>
-# include <stdio.h>
 # include "libft.h"
+# include <stdio.h>
+# include <unistd.h>
+
+typedef struct s_env
+{
+	char			*key; // 変数名
+	char			*value; // 値　(例: "/Users/student")
+	struct s_env	*next; // 次の変数へのポインタ
+}					t_env;
 
 #endif
