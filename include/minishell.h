@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyanagis <kyanagis@student.42.fr>          +#+  +:+       +#+        */
+/*   By: skatsuya < skatsuya@student.42tokyo.jp>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 05:17:23 by kyanagis          #+#    #+#             */
-/*   Updated: 2025/11/09 05:41:24 by kyanagis         ###   ########.fr       */
+/*   Updated: 2025/12/06 23:12:54 by skatsuya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ typedef struct s_shell
 	int last_status; //$?
 	char **envp;	 // execve用
 	char *prompt;
+	t_env *env_list;
 } t_shell;
 
 void shell_init(t_shell *sh, char **envp);
