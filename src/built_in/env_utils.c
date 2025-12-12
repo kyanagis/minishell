@@ -1,32 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: skatsuya <skatsuya@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/05 04:34:05 by sakurako          #+#    #+#             */
-/*   Updated: 2025/12/12 09:36:48 by skatsuya         ###   ########.fr       */
+/*   Created: 2025/12/11 07:44:48 by skatsuya          #+#    #+#             */
+/*   Updated: 2025/12/11 07:45:44 by skatsuya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "built_in.h"
-#include "minishell.h"
 
-int ft_pwd(t_shell *shell, char **argv)
+void	free_env_list(t_env **lst, void (*del)(void *))
 {
-    char *cwd;
+	t_env	*temp;
 
-    (void)shell;
-    (void)argv;
-    cwd = getcwd(NULL, 0); // NULLを渡した場合、sizeが無視されサイズを自動的に確保
-    if (!cwd)
-    {
-        perror("pwd");
-        return (ERROR);
-    }
-    ft_putstr_fd(cwd, STDOUT_FILENO);
-    write(STDOUT_FILENO, "\n", 1);
-    free(cwd);
-    return (NO_ERROR);
+	if (!lst || !del)
+		return ;
+	while (*lst)
+	{
+		temp = (*lst)->next;
+		ft_lstdelone(*lst, del);
+		*lst = temp;
+	}
+	*lst = NULL;
+}
+
+void	ft_envlst_delone(t_env *lst, void (*del)(void *))
+{
+	if (!lst || !del)
+		return ;
+	del(lst->key);
+	del(lst->value);
+	free(lst);
 }

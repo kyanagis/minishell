@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skatsuya < skatsuya@student.42tokyo.jp>    +#+  +:+       +#+        */
+/*   By: skatsuya <skatsuya@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 22:14:50 by skatsuya          #+#    #+#             */
-/*   Updated: 2025/12/07 04:46:08 by skatsuya         ###   ########.fr       */
+/*   Updated: 2025/12/12 09:08:07 by skatsuya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,9 @@ t_env			*env_new_node(char *str);
 static void		env_add_back(t_env **head, t_env *new_node);
 static t_env	*init_env_list(char **envp);
 
-int	ft_env(t_shell *shell)
+int	ft_env(t_shell *shell, char **argv)
 {
+	(void)argv;
 	t_env	*current;
 
 	current = shell->env_list;
@@ -33,7 +34,7 @@ int	ft_env(t_shell *shell)
 		}
 		current = current->next;
 	}
-	return (0);
+	return (NO_ERROR);
 }
 
 t_env	*env_new_node(char *str)

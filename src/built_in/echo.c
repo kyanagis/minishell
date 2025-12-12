@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sakurako <sakurako@student.42.fr>          +#+  +:+       +#+        */
+/*   By: skatsuya <skatsuya@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 03:33:54 by sakurako          #+#    #+#             */
-/*   Updated: 2025/12/05 05:21:01 by sakurako         ###   ########.fr       */
+/*   Updated: 2025/12/12 09:07:55 by skatsuya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 
 static int is_n_str(const char *str);
 
-int ft_echo(char **argv)
+int ft_echo(t_shell *shell, char **argv)
 {
+    (void)shell;
     int n_flag;
 
     argv++;
@@ -34,7 +35,7 @@ int ft_echo(char **argv)
     }
     if (!n_flag)
         ft_putstr_fd("\n", STDOUT_FILENO);
-    return (0);
+    return (NO_ERROR);
 }
 
 static int is_n_str(const char *str)

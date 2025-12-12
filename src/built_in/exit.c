@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sakurako <sakurako@student.42.fr>          +#+  +:+       +#+        */
+/*   By: skatsuya <skatsuya@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 06:06:13 by sakurako          #+#    #+#             */
-/*   Updated: 2025/12/05 07:22:40 by sakurako         ###   ########.fr       */
+/*   Updated: 2025/12/11 13:52:40 by skatsuya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 
 static int is_numeric(char *str);
 
-int ft_exit(char **argv, t_shell *shell)
+int ft_exit(t_shell *shell, char **argv)
 {
     int		status;
-    
+
     ft_putendl_fd("exit", STDERR_FILENO);
     if (!argv[1])
         exit(shell->last_status);
