@@ -1,37 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_utils.c                                        :+:      :+:    :+:   */
+/*   exec_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: skatsuya <skatsuya@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/11 07:44:48 by skatsuya          #+#    #+#             */
-/*   Updated: 2025/12/12 17:46:24 by skatsuya         ###   ########.fr       */
+/*   Created: 2025/12/12 16:51:53 by skatsuya          #+#    #+#             */
+/*   Updated: 2025/12/12 17:06:46 by skatsuya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "built_in.h"
 
-void	free_env_list(t_env **lst, void (*del)(void *))
+int exec_builtin(t_shell *shell, char **argv)
 {
-	t_env	*temp;
-
-	if (!lst || !del)
-		return ;
-	while (*lst)
+	int i;
+	if (!argv || !argv[0])
+		return (EXEC_ERROR);
+	i = 0;
+	while (g_builtins[i].cmd)
 	{
-		temp = (*lst)->next;
-		ft_envlst_delone(*lst, del);
-		*lst = temp;
+		if (ft_strcmp(argv[0], g_builtins[i].cmd) == 0)
+			return (g_builtins[i].func(shell, argv));
+		i++;
 	}
-	*lst = NULL;
-}
-
-void	ft_envlst_delone(t_env *lst, void (*del)(void *))
-{
-	if (!lst || !del)
-		return ;
-	del(lst->key);
-	del(lst->value);
-	free(lst);
+	return (EXEC_ERROR);
 }

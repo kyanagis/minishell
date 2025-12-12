@@ -6,12 +6,14 @@
 /*   By: skatsuya <skatsuya@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 22:34:09 by skatsuya          #+#    #+#             */
-/*   Updated: 2025/12/12 11:58:47 by skatsuya         ###   ########.fr       */
+/*   Updated: 2025/12/12 18:21:45 by skatsuya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "built_in.h"
 #include "minishell.h"
+
+static void ft_unset_one(t_shell *shell, char *key);
 
 int ft_unset(t_shell *shell, char **argv)
 {
@@ -46,7 +48,7 @@ static void ft_unset_one(t_shell *shell, char *key)
 			free(current->key);
 			free(current->value);
 			free(current);
-			return (NO_ERROR);
+			return ;
 		}
 		prev = current;
 		current = current->next;

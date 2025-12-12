@@ -6,13 +6,15 @@
 /*   By: skatsuya <skatsuya@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 06:05:55 by skatsuya          #+#    #+#             */
-/*   Updated: 2025/12/12 09:27:57 by skatsuya         ###   ########.fr       */
+/*   Updated: 2025/12/12 18:12:28 by skatsuya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "built_in.h"
 
 static void swap_node(t_env *node_a, t_env *node_b);
+static t_env *copy_env_list(t_env *env_list);
+static void sort_env_list(t_env *head);
 
 int ft_export(t_shell *shell, char **argv)
 {
@@ -59,7 +61,7 @@ int ft_export(t_shell *shell, char **argv)
 	return (NO_ERROR);
 }
 
-t_env *copy_env_list(t_env *env_list)
+static t_env *copy_env_list(t_env *env_list)
 {
 	t_env	*copy;
 	t_env *copy_head = NULL;
@@ -81,10 +83,9 @@ t_env *copy_env_list(t_env *env_list)
 	return (copy_head);
 }
 
-void sort_env_list(t_env *head)
+static void sort_env_list(t_env *head)
 {
 	t_env *current;
-	char *temp;
 	int swapped;
 
 	if (!head)
@@ -98,7 +99,7 @@ void sort_env_list(t_env *head)
 		{
 			if (ft_strcmp(current->key, current->next->key) > 0)
 			{
-				swap(current, current->next);
+				swap_node(current, current->next);
 				swapped = 1;
 			}
 			current = current->next;

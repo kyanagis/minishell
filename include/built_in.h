@@ -6,7 +6,7 @@
 /*   By: skatsuya <skatsuya@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 05:17:19 by sakurako          #+#    #+#             */
-/*   Updated: 2025/12/12 12:04:19 by skatsuya         ###   ########.fr       */
+/*   Updated: 2025/12/12 18:09:41 by skatsuya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # define FALSE 0
 # define ERROR 1
 # define NO_ERROR 0
+# define EXEC_ERROR -1
 # define EXIT_NUMERIC_STATUS 255
 
 // message
@@ -28,12 +29,37 @@
 # include <unistd.h>
 # include <errno.h>
 
-typedef struct s_env
-{
-	char *key;          // 変数名
-	char *value;        // 値　(例: "/Users/student")
-	struct s_env *next; // 次の変数へのポインタ
-}		t_env;
+// env.c
+int		ft_env(t_shell *shell, char **argv);
+
+// env_utils.c
+void	ft_envlst_delone(t_env *lst, void (*del)(void *));
+void	free_env_list(t_env **lst, void (*del)(void *));
+
+// echo.c
+int		ft_echo(t_shell *shell, char **argv);
+
+// exit.c
+int		ft_exit(t_shell *shell, char **argv);
+
+// export_util.c
+void	ft_export_one(t_shell *shell, char *arg);
+void	env_add_back(t_env **head, t_env *new_node);
+
+// export.c
+int ft_export(t_shell *shell, char **argv);
+
+// pwd.c
+int ft_pwd(t_shell *shell, char **argv);
+
+// unset.c
+int ft_unset(t_shell *shell, char **argv);
+
+// cd.c
+int ft_cd(t_shell *shell, char **argv);
+
+// exec_builtin.c
+int exec_builtin(t_shell *shell, char **argv);
 
 typedef struct s_builtin
 {
@@ -51,30 +77,5 @@ static const t_builtin g_builtins[] = {
 	{"exit", ft_exit},
 	{NULL, NULL}
 };
-
-// env.c
-int		ft_env(t_shell *shell, char **argv);
-t_env	*env_new_node(char *str);
-
-// echo.c
-int		ft_echo(t_shell *shell, char **argv);
-
-// exit.c
-int		ft_exit(char **argv, t_shell *shell);
-
-// export_util.c
-void	ft_export_one(t_shell *shell, char *arg);
-
-// export.c
-int ft_export(t_shell *shell, char **argv);
-
-// pwd.c
-int ft_pwd(t_shell *shell, char **argv);
-
-// unset.c
-int ft_unset(t_shell *shell, char **argv);
-
-// cd.c
-int ft_cd(t_shell *shell, char **argv);
 
 #endif

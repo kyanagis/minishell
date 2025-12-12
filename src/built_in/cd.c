@@ -6,12 +6,16 @@
 /*   By: skatsuya <skatsuya@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 07:55:29 by skatsuya          #+#    #+#             */
-/*   Updated: 2025/12/12 09:34:48 by skatsuya         ###   ########.fr       */
+/*   Updated: 2025/12/12 17:37:29 by skatsuya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "built_in.h"
 #include "minishell.h"
+
+void update_oldpwd(t_shell *shell);
+static void update_pwd(t_shell *shell);
+static char *get_env(t_shell *shell, char *key);
 
 int ft_cd(t_shell *shell, char **argv)
 {
@@ -62,7 +66,7 @@ void update_oldpwd(t_shell *shell)
 	}
 }
 
-void update_pwd(t_shell *shell)
+static void update_pwd(t_shell *shell)
 {
 	char *cwd;
 	char *new_arg;
@@ -79,7 +83,7 @@ void update_pwd(t_shell *shell)
 	free(cwd);
 }
 
-char *get_env(t_shell *shell, char *key)
+static char *get_env(t_shell *shell, char *key)
 {
 	t_env *current;
 
