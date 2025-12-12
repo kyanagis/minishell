@@ -22,7 +22,8 @@ OBJ_DIR     := obj
 SRC_DIRS    := src src/lexer src/parser src/parser/parse_builders \
                src/parser/parse_core src/parser/parse_syntax \
                src/parser/parse_tokens src/expand \
-               src/debug_minishell
+               src/debug_minishell \
+               src/built_in
 SRCS        := $(foreach d,$(SRC_DIRS),$(wildcard $(d)/*.c))
 OBJS        := $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRCS))
 DEPS        := $(OBJS:.o=.d)
@@ -39,7 +40,7 @@ endif
 
 UNAME_S := $(shell uname -s)
 
-ifeq ($(UNAME_S),Darwin)                
+ifeq ($(UNAME_S),Darwin)
   RL_DIR := $(shell brew --prefix readline 2>/dev/null)
   ifneq ($(RL_DIR),)
     RL_INC := -I$(RL_DIR)/include
