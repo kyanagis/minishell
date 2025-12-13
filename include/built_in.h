@@ -6,7 +6,7 @@
 /*   By: skatsuya <skatsuya@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 05:17:19 by sakurako          #+#    #+#             */
-/*   Updated: 2025/12/12 18:09:41 by skatsuya         ###   ########.fr       */
+/*   Updated: 2025/12/13 15:17:36 by skatsuya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # define FALSE 0
 # define ERROR 1
 # define NO_ERROR 0
-# define EXEC_ERROR -1
+# define NOT_BUILTIN -1
 # define EXIT_NUMERIC_STATUS 255
 
 // message
