@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   token_dispatcher.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kyanagis <kyanagis@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/12/15 04:03:46 by kyanagis          #+#    #+#             */
+/*   Updated: 2025/12/15 04:05:03 by kyanagis         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parser.h"
 
 static bool	is_redirection_token(t_tok_kind kind)
@@ -8,6 +20,7 @@ static bool	is_redirection_token(t_tok_kind kind)
 		return (true);
 	return (false);
 }
+
 void	dispatch_parse_token(t_work_state *state, t_work_context *ctx,
 		const t_lexout *tokens)
 {

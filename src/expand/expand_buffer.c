@@ -1,13 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expand_buffer.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kyanagis <kyanagis@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/12/15 04:04:21 by kyanagis          #+#    #+#             */
+/*   Updated: 2025/12/15 04:04:22 by kyanagis         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "expander.h"
 
-void init_work_buf(t_expand_work_buf *buf)
+void	init_work_buf(t_expand_work_buf *buf)
 {
 	buf->data = NULL;
 	buf->len = 0;
 	buf->cap = 0;
 }
 
-void destroy_work_buf(t_expand_work_buf *buf)
+void	destroy_work_buf(t_expand_work_buf *buf)
 {
 	if (buf->data)
 		free(buf->data);
@@ -16,11 +28,11 @@ void destroy_work_buf(t_expand_work_buf *buf)
 	buf->cap = 0;
 }
 
-static bool buf_reserve(t_expand_work_buf *buf, size_t add_len)
+static bool	buf_reserve(t_expand_work_buf *buf, size_t add_len)
 {
-	size_t need_cap;
-	size_t new_cap;
-	char *new_data;
+	size_t	need_cap;
+	size_t	new_cap;
+	char	*new_data;
 
 	need_cap = buf->len + add_len + 1;
 	if (need_cap <= buf->cap)
@@ -42,7 +54,7 @@ static bool buf_reserve(t_expand_work_buf *buf, size_t add_len)
 	return (true);
 }
 
-bool buf_append_char(t_expand_work_buf *buf, char c)
+bool	buf_append_char(t_expand_work_buf *buf, char c)
 {
 	if (!buf_reserve(buf, 1))
 		return (false);
@@ -52,9 +64,9 @@ bool buf_append_char(t_expand_work_buf *buf, char c)
 	return (true);
 }
 
-bool buf_append_str(t_expand_work_buf *buf, const char *s)
+bool	buf_append_str(t_expand_work_buf *buf, const char *s)
 {
-	size_t len;
+	size_t	len;
 
 	if (!s)
 		return (true);

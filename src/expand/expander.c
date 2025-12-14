@@ -1,18 +1,30 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expander.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kyanagis <kyanagis@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/12/15 04:04:15 by kyanagis          #+#    #+#             */
+/*   Updated: 2025/12/15 04:04:16 by kyanagis         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "expander.h"
 
-static bool token_index_valid(const t_lexout *lexer, size_t idx)
+static bool	token_index_valid(const t_lexout *lexer, size_t idx)
 {
 	if (!lexer || idx >= lexer->count)
 		return (false);
 	return (true);
 }
 
-static bool expand_argv(t_shell *sh, const t_lexout *lexer, t_cmd *cmd)
+static bool	expand_argv(t_shell *sh, const t_lexout *lexer, t_cmd *cmd)
 {
-	size_t idx;
-	size_t tok_idx;
-	char *expanded;
-	t_expand_input input;
+	size_t			idx;
+	size_t			tok_idx;
+	char			*expanded;
+	t_expand_input	input;
 
 	if (!cmd->argv || !cmd->tok_idx_argv)
 		return (true);
@@ -34,10 +46,10 @@ static bool expand_argv(t_shell *sh, const t_lexout *lexer, t_cmd *cmd)
 	return (true);
 }
 
-static bool expand_redirs(t_shell *sh, const t_lexout *lexer, t_redir *redir)
+static bool	expand_redirs(t_shell *sh, const t_lexout *lexer, t_redir *redir)
 {
-	char *expanded;
-	t_expand_input input;
+	char			*expanded;
+	t_expand_input	input;
 
 	while (redir)
 	{
@@ -58,7 +70,7 @@ static bool expand_redirs(t_shell *sh, const t_lexout *lexer, t_redir *redir)
 	return (true);
 }
 
-static bool expand_cmd(t_shell *sh, const t_lexout *lexer, t_cmd *cmd)
+static bool	expand_cmd(t_shell *sh, const t_lexout *lexer, t_cmd *cmd)
 {
 	if (!cmd)
 		return (true);
@@ -67,10 +79,10 @@ static bool expand_cmd(t_shell *sh, const t_lexout *lexer, t_cmd *cmd)
 	return (expand_redirs(sh, lexer, cmd->redirs));
 }
 
-bool expand_pipeline(t_shell *sh, const t_lexout *lexer,
-					 t_pipeline *pipeline)
+bool	expand_pipeline(t_shell *sh, const t_lexout *lexer,
+		t_pipeline *pipeline)
 {
-	size_t idx;
+	size_t	idx;
 
 	if (!sh || !lexer || !pipeline)
 		return (false);
