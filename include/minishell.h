@@ -14,10 +14,12 @@
 #define MINISHELL_H
 
 #include <stdio.h>
-#include <signal.h>
 
 #include <readline/history.h>
 #include <readline/readline.h>
+#include "libft.h"
+#include "lexer.h"
+#include "sig.h"
 
 extern volatile sig_atomic_t g_sig;
 
