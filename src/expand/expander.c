@@ -1,17 +1,30 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expander.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kyanagis <kyanagis@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/12/15 04:04:15 by kyanagis          #+#    #+#             */
+/*   Updated: 2025/12/15 04:04:16 by kyanagis         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "expander.h"
 
-static bool token_index_valid(const t_lexout *lexer, size_t idx)
+static bool	token_index_valid(const t_lexout *lexer, size_t idx)
 {
 	if (!lexer || idx >= lexer->count)
 		return (false);
 	return (true);
 }
 
-static bool expand_argv(t_shell *sh, const t_lexout *lexer, t_cmd *cmd)
+static bool	expand_argv(t_shell *sh, const t_lexout *lexer, t_cmd *cmd)
 {
-	size_t idx;
-	size_t tok_idx;
-	char *expanded;
+	size_t			idx;
+	size_t			tok_idx;
+	char			*expanded;
+	t_expand_input	input;
 
 	if (!cmd->argv || !cmd->tok_idx_argv)
 		return (true);
@@ -21,8 +34,10 @@ static bool expand_argv(t_shell *sh, const t_lexout *lexer, t_cmd *cmd)
 		tok_idx = cmd->tok_idx_argv[idx];
 		if (!token_index_valid(lexer, tok_idx))
 			return (false);
-		if (!expand_word(sh, cmd->argv[idx], lexer->qmask[tok_idx],
-						 lexer->len[tok_idx], &expanded))
+		input.src = cmd->argv[idx];
+		input.mask = lexer->qmask[tok_idx];
+		input.len = lexer->len[tok_idx];
+		if (!expand_word(sh, &input, &expanded))
 			return (false);
 		free(cmd->argv[idx]);
 		cmd->argv[idx] = expanded;
@@ -31,9 +46,10 @@ static bool expand_argv(t_shell *sh, const t_lexout *lexer, t_cmd *cmd)
 	return (true);
 }
 
-static bool expand_redirs(t_shell *sh, const t_lexout *lexer, t_redir *redir)
+static bool	expand_redirs(t_shell *sh, const t_lexout *lexer, t_redir *redir)
 {
-	char *expanded;
+	char			*expanded;
+	t_expand_input	input;
 
 	while (redir)
 	{
@@ -41,8 +57,10 @@ static bool expand_redirs(t_shell *sh, const t_lexout *lexer, t_redir *redir)
 		{
 			if (!token_index_valid(lexer, redir->tok_idx))
 				return (false);
-			if (!expand_word(sh, redir->arg, lexer->qmask[redir->tok_idx],
-							 lexer->len[redir->tok_idx], &expanded))
+			input.src = redir->arg;
+			input.mask = lexer->qmask[redir->tok_idx];
+			input.len = lexer->len[redir->tok_idx];
+			if (!expand_word(sh, &input, &expanded))
 				return (false);
 			free(redir->arg);
 			redir->arg = expanded;
@@ -52,7 +70,7 @@ static bool expand_redirs(t_shell *sh, const t_lexout *lexer, t_redir *redir)
 	return (true);
 }
 
-static bool expand_cmd(t_shell *sh, const t_lexout *lexer, t_cmd *cmd)
+static bool	expand_cmd(t_shell *sh, const t_lexout *lexer, t_cmd *cmd)
 {
 	if (!cmd)
 		return (true);
@@ -61,10 +79,10 @@ static bool expand_cmd(t_shell *sh, const t_lexout *lexer, t_cmd *cmd)
 	return (expand_redirs(sh, lexer, cmd->redirs));
 }
 
-bool expand_pipeline(t_shell *sh, const t_lexout *lexer,
-					 t_pipeline *pipeline)
+bool	expand_pipeline(t_shell *sh, const t_lexout *lexer,
+		t_pipeline *pipeline)
 {
-	size_t idx;
+	size_t	idx;
 
 	if (!sh || !lexer || !pipeline)
 		return (false);
