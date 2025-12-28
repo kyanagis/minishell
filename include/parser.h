@@ -3,6 +3,8 @@
 
 #include "minishell.h"
 
+typedef struct s_free_table t_free_table;
+
 typedef enum e_redir_kind
 {
 	R_IN,
@@ -82,7 +84,7 @@ void dispose_pipeline_builder(t_work_pipeline *builder);
 bool finalize_pipeline_success(t_work_context *ctx, t_work_state *state,
 							   t_pipeline **out);
 bool parse_tokens(t_shell *sh, t_lexout *tokens,
-				  t_pipeline **pl);
+				  t_pipeline **pl, t_free_table *table);
 bool parse_syntax_error(const char *unexpected);
 const char *token_str(t_tok_kind kind);
 
@@ -96,7 +98,8 @@ bool handle_word_token(t_work_context *ctx, t_work_state *state,
 					   const t_lexout *tokens);
 bool handle_redirection_operator(t_work_context *ctx, t_work_state *state);
 bool handle_pipe_token(t_work_context *ctx, t_work_state *state);
-bool build_pipeline_from_tokens(const t_lexout *tokens, t_pipeline **out);
+bool build_pipeline_from_tokens(const t_lexout *tokens, t_pipeline **out,
+								t_free_table *table);
 void dispatch_parse_token(t_work_state *state, t_work_context *ctx,
 						  const t_lexout *tokens);
 

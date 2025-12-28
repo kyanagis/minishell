@@ -5,6 +5,8 @@
 #include "minishell.h"
 #include "parser.h"
 
+typedef struct s_free_table t_free_table;
+
 typedef struct s_expand_work_buf
 {
 	char *data;
@@ -29,7 +31,7 @@ bool handle_dollar(t_expand_work_buf *buf, t_shell *sh,
 				   const t_expand_input *input, size_t *idx);
 
 bool expand_pipeline(t_shell *sh, const t_lexout *lexer,
-					 t_pipeline *pipeline);
+					 t_pipeline *pipeline, t_free_table *table);
 bool expand_word(t_shell *sh, const t_expand_input *input, char **out);
 
 #endif

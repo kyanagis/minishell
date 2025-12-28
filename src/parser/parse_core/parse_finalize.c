@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_finalize.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyanagis <kyanagis@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kyanagis <kyanagis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 04:03:58 by kyanagis          #+#    #+#             */
-/*   Updated: 2025/12/15 04:03:59 by kyanagis         ###   ########.fr       */
+/*   Updated: 2025/12/27 11:32:34 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,25 @@
 
 //  構築途中のコマンドを確定し、パイプラインビルダーへ引き渡す。
 
-void	flush_current_command(t_work_context *ctx, t_work_state *state)
+void flush_current_command(t_work_context *ctx, t_work_state *state)
 {
-	t_cmd	*cmd;
+	t_cmd *cmd;
 
 	if (!ctx->current_builder)
 	{
 		state->ok = false;
-		return ;
+		return;
 	}
 	cmd = work_command_extract(ctx->current_builder);
 	if (!cmd)
 	{
 		state->ok = false;
-		return ;
+		return;
 	}
 	work_pipeline_push(&ctx->pipeline_builder, cmd);
 }
 
-static bool	validate_final_state(t_work_context *ctx, t_work_state *state)
+static bool validate_final_state(t_work_context *ctx, t_work_state *state)
 {
 	if (ctx->expecting_redir_arg)
 	{
@@ -47,8 +47,8 @@ static bool	validate_final_state(t_work_context *ctx, t_work_state *state)
 	return (true);
 }
 
-static bool	emit_pipeline(t_work_context *ctx, t_pipeline **out,
-		t_work_state *state)
+static bool emit_pipeline(t_work_context *ctx, t_pipeline **out,
+						  t_work_state *state)
 {
 	*out = work_pipeline_build(&ctx->pipeline_builder);
 	if (*out)
@@ -57,8 +57,8 @@ static bool	emit_pipeline(t_work_context *ctx, t_pipeline **out,
 	return (false);
 }
 
-bool	finalize_pipeline_success(t_work_context *ctx, t_work_state *state,
-		t_pipeline **out)
+bool finalize_pipeline_success(t_work_context *ctx, t_work_state *state,
+							   t_pipeline **out)
 {
 	if (!validate_final_state(ctx, state))
 		return (false);

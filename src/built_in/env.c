@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skatsuya <skatsuya@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kyanagis <kyanagis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 22:14:50 by skatsuya          #+#    #+#             */
-/*   Updated: 2025/12/12 17:58:46 by skatsuya         ###   ########.fr       */
+/*   Updated: 2025/12/29 07:55:41 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "built_in.h"
 #include "minishell.h"
 
-int	ft_env(t_shell *shell, char **argv)
+int ft_env(t_shell *shell, char **argv)
 {
 	(void)argv;
-	t_env	*current;
+	t_env *current;
 
 	current = shell->env_list;
 	while (current)

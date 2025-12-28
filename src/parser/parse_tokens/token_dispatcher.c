@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   token_dispatcher.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyanagis <kyanagis@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kyanagis <kyanagis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 04:03:46 by kyanagis          #+#    #+#             */
-/*   Updated: 2025/12/15 04:05:03 by kyanagis         ###   ########.fr       */
+/*   Updated: 2025/12/27 11:32:51 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-static bool	is_redirection_token(t_tok_kind kind)
+static bool is_redirection_token(t_tok_kind kind)
 {
 	if (kind == TOK_LT || kind == TOK_GT)
 		return (true);
@@ -21,8 +21,8 @@ static bool	is_redirection_token(t_tok_kind kind)
 	return (false);
 }
 
-void	dispatch_parse_token(t_work_state *state, t_work_context *ctx,
-		const t_lexout *tokens)
+void dispatch_parse_token(t_work_state *state, t_work_context *ctx,
+						  const t_lexout *tokens)
 {
 	state->kind = tokens->kind[state->index];
 	if (state->kind == TOK_WORD)

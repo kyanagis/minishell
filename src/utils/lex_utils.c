@@ -1,46 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   lex_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyanagis <kyanagis@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kyanagis <kyanagis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/05 08:50:55 by kyanagis          #+#    #+#             */
-/*   Updated: 2025/11/11 02:05:59 by kyanagis         ###   ########.fr       */
+/*   Created: 2025/12/27 11:20:05 by kyanagis          #+#    #+#             */
+/*   Updated: 2025/12/27 11:20:06 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "lexer.h"
 
-// void	shell_destroy(t_shell *sh)
-// {
-// 	if (!sh)
-// 		return ;
-// 	free_env(sh->envp);
-// }
-
-void	free_env(char **env)
-{
-	char	**p;
-
-	if (!env)
-		return ;
-	p = env;
-	while (*p)
-	{
-		free(*p);
-		p++;
-	}
-	free(env);
-}
-void	free_lexout(t_lexout *lx)
+void free_lexout(t_lexout *lx)
 {
 	size_t n;
 	char **a;
 	unsigned char **m;
 
 	if (!lx)
-		return ;
+		return;
 	n = lx->count;
 	a = lx->argv;
 	m = lx->qmask;

@@ -1,30 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sig.h                                              :+:      :+:    :+:   */
+/*   exec_builtin_check.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kyanagis <kyanagis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/05 03:13:27 by sakurako          #+#    #+#             */
-/*   Updated: 2025/12/27 11:33:50 by kyanagis         ###   ########.fr       */
+/*   Created: 2025/12/27 10:19:05 by kyanagis          #+#    #+#             */
+/*   Updated: 2025/12/28 18:20:01 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SIG_H
-#define SIG_H
+#include "executor.h"
 
-#include <signal.h>
-#include <sys/wait.h>
-#include "minishell.h"
-#include <readline/history.h>
-#include <readline/readline.h>
+bool is_builtin(const char *name)
+{
+	size_t idx;
 
-extern volatile sig_atomic_t g_sig;
-
-void handle_sigint(int sig);
-void init_signals(void);
-void set_default_signals(void);
-void set_ignore_signals(void);
-int wait_child_process(pid_t pid);
-
-#endif
+	if (!name)
+		return (false);
+	idx = 0;
+	while (g_builtins[idx].cmd)
+	{
+		if (ft_strcmp(name, g_builtins[idx].cmd) == 0)
+			return (true);
+		++idx;
+	}
+	return (false);
+}

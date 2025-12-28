@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   command_builder.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyanagis <kyanagis@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kyanagis <kyanagis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 04:04:08 by kyanagis          #+#    #+#             */
-/*   Updated: 2025/12/15 04:04:08 by kyanagis         ###   ########.fr       */
+/*   Updated: 2025/12/27 11:32:19 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-bool	work_command_is_empty(const t_work_command *builder)
+bool work_command_is_empty(const t_work_command *builder)
 {
 	if (!builder)
 		return (true);
@@ -21,9 +21,9 @@ bool	work_command_is_empty(const t_work_command *builder)
 
 //  ビルダー内部のデータ所有権を確定済みコマンド構造体へ移す。
 
-t_cmd	*work_command_extract(t_work_command *builder)
+t_cmd *work_command_extract(t_work_command *builder)
 {
-	t_cmd	*cmd;
+	t_cmd *cmd;
 
 	if (!builder)
 		return (NULL);

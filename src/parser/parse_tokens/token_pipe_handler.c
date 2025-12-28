@@ -3,25 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   token_pipe_handler.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyanagis <kyanagis@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kyanagis <kyanagis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 04:03:43 by kyanagis          #+#    #+#             */
-/*   Updated: 2025/12/15 04:03:44 by kyanagis         ###   ########.fr       */
+/*   Updated: 2025/12/27 11:32:55 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-static bool	command_ready_for_pipe(t_work_context *ctx)
+static bool command_ready_for_pipe(t_work_context *ctx)
 {
 	if (ctx->expecting_redir_arg)
 		return (false);
 	return (!work_command_is_empty(ctx->current_builder));
 }
 
-static bool	extract_current_command(t_work_context *ctx, t_work_state *state)
+static bool extract_current_command(t_work_context *ctx, t_work_state *state)
 {
-	t_cmd	*cmd;
+	t_cmd *cmd;
 
 	cmd = work_command_extract(ctx->current_builder);
 	if (!cmd)
@@ -33,7 +33,7 @@ static bool	extract_current_command(t_work_context *ctx, t_work_state *state)
 	return (true);
 }
 
-bool	handle_pipe_token(t_work_context *ctx, t_work_state *state)
+bool handle_pipe_token(t_work_context *ctx, t_work_state *state)
 {
 	if (!command_ready_for_pipe(ctx))
 	{

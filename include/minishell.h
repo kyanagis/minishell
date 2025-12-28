@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skatsuya <skatsuya@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kyanagis <kyanagis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 05:17:23 by kyanagis          #+#    #+#             */
-/*   Updated: 2025/12/12 17:35:13 by skatsuya         ###   ########.fr       */
+/*   Updated: 2025/12/27 11:33:43 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@ extern volatile sig_atomic_t g_sig;
 
 typedef struct s_env
 {
-	char *key;          // 変数名
-	char *value;        // 値　(例: "/Users/student")
+	char *key;			// 変数名
+	char *value;		// 値　(例: "/Users/student")
 	struct s_env *next; // 次の変数へのポインタ
-}		t_env;
+} t_env;
 
 typedef struct s_shell
 {
@@ -37,6 +37,8 @@ typedef struct s_shell
 	char *prompt;
 	t_env *env_list;
 } t_shell;
+
+typedef struct s_free_table t_free_table;
 
 #include "libft.h"
 #include "lexer.h"
@@ -47,5 +49,7 @@ void shell_init(t_shell *sh, char **envp);
 void update_prompt(t_shell *sh);
 void shell_destroy(t_shell *sh);
 void free_env(char **env);
+const char *get_envp_value_len(t_shell *sh, const char *key, size_t len);
+const char *get_envp_value(t_shell *sh, const char *key);
 
 #endif

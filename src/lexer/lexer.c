@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyanagis <kyanagis@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kyanagis <kyanagis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 19:59:53 by kyanagis          #+#    #+#             */
-/*   Updated: 2025/11/12 09:55:11 by kyanagis         ###   ########.fr       */
+/*   Updated: 2025/12/27 11:32:04 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 #include <stdlib.h>
 
-static void	init_lexer(t_lexer *lx, size_t n)
+static void init_lexer(t_lexer *lx, size_t n)
 {
 	lx->work = (char *)ft_xmalloc(n * 2 + 1);
 	lx->mask = (unsigned char *)ft_xmalloc(n * 2 + 1);
@@ -30,11 +30,11 @@ static void	init_lexer(t_lexer *lx, size_t n)
 	grow_meta(lx, 1);
 }
 
-t_lexout	*tokenize(const char *line)
+t_lexout *tokenize(const char *line)
 {
-	t_lexer	lx;
-	size_t	n;
-	char	*input;
+	t_lexer lx;
+	size_t n;
+	char *input;
 
 	if (!line)
 		return (NULL);
@@ -47,12 +47,12 @@ t_lexout	*tokenize(const char *line)
 	return (finalize_lexer(&lx));
 }
 
-void	lexout_free(t_lexout *o)
+void lexout_free(t_lexout *o)
 {
-	size_t	i;
+	size_t i;
 
 	if (!o)
-		return ;
+		return;
 	i = 0;
 	while (i < o->count)
 	{

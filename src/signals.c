@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sakurako <sakurako@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kyanagis <kyanagis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 03:13:00 by sakurako          #+#    #+#             */
-/*   Updated: 2025/12/05 05:35:51 by sakurako         ###   ########.fr       */
+/*   Updated: 2025/12/26 15:10:53 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <unistd.h>
 #include <stdio.h>
 
-volatile sig_atomic_t	g_sig = 0;
+volatile sig_atomic_t g_sig = 0;
 
 void handle_sigint(int sig)
 {
@@ -36,16 +36,15 @@ void init_signals(void)
     sa_int.sa_flags = 0;
     sigemptyset(&sa_int.sa_mask);
 
-    //SIGQUIT(CTRL-\)
+    // SIGQUIT(CTRL-\)
     sa_quit.sa_handler = SIG_IGN;
     sa_quit.sa_flags = 0;
     sigemptyset(&sa_quit.sa_mask);
-    if (sigaction(SIGINT, &sa_int, NULL) == -1
-		|| sigaction(SIGQUIT, &sa_quit, NULL) == -1)
-	{
-		ft_putstr_fd("Error: Failed to set up signal handlers\n", 2);
-		exit(1);
-	}
+    if (sigaction(SIGINT, &sa_int, NULL) == -1 || sigaction(SIGQUIT, &sa_quit, NULL) == -1)
+    {
+        ft_putstr_fd("Error: Failed to set up signal handlers\n", 2);
+        exit(1);
+    }
 }
 
 void set_default_signals(void)
@@ -81,7 +80,7 @@ int wait_child_process(pid_t pid)
             ft_putstr_fd("Quit (core dumped)\n", 2);
         exit_code = 128 + sig;
     }
-    else if (WIFEXITED(status)) // 普通にexitした場合
+    else if (WIFEXITED(status))          // 普通にexitした場合
         exit_code = WEXITSTATUS(status); // exitの引数をそのまま使う
     else
         exit_code = 1;

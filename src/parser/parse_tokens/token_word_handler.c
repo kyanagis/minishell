@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_word_handler.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyanagis <kyanagis@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kyanagis <kyanagis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 04:03:38 by kyanagis          #+#    #+#             */
-/*   Updated: 2025/12/15 04:12:37 by kyanagis         ###   ########.fr       */
+/*   Updated: 2025/12/27 11:32:59 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,14 @@
 
 // マスク情報をキャッシュし、ヒアドキュメントが引用されたかを取得する。
 
-static bool	get_heredoc_quote_flag(t_work_context *ctx, const t_lexout *tokens,
-		size_t index)
+static bool get_heredoc_quote_flag(t_work_context *ctx, const t_lexout *tokens,
+								   size_t index)
 {
-	unsigned char	*cache;
-	unsigned char	*mask;
-	size_t			len;
-	size_t			i;
-	bool			quoted;
+	unsigned char *cache;
+	unsigned char *mask;
+	size_t len;
+	size_t i;
+	bool quoted;
 
 	cache = ctx->heredoc_quote_cache;
 	if (cache && cache[index] != 0)
@@ -36,7 +36,7 @@ static bool	get_heredoc_quote_flag(t_work_context *ctx, const t_lexout *tokens,
 		if (mask[i++] != 0)
 			quoted = true;
 		if (quoted)
-			break ;
+			break;
 	}
 	if (cache && quoted)
 		cache[index] = 2;
@@ -45,14 +45,14 @@ static bool	get_heredoc_quote_flag(t_work_context *ctx, const t_lexout *tokens,
 	return (quoted);
 }
 
-static void	ensure_argument_capacity(t_work_command *builder)
+static void ensure_argument_capacity(t_work_command *builder)
 {
-	char	**argv;
-	size_t	*idx;
-	size_t	new_cap;
+	char **argv;
+	size_t *idx;
+	size_t new_cap;
 
 	if (builder->cap != 0 && builder->argc + 1 < builder->cap)
-		return ;
+		return;
 	new_cap = 4;
 	if (builder->cap != 0)
 		new_cap = builder->cap * 2;
@@ -70,7 +70,7 @@ static void	ensure_argument_capacity(t_work_command *builder)
 	builder->cap = new_cap;
 }
 
-static bool	ensure_builder_ready(t_work_context *ctx, t_work_state *state)
+static bool ensure_builder_ready(t_work_context *ctx, t_work_state *state)
 {
 	if (ctx->current_builder)
 		return (true);
@@ -80,16 +80,16 @@ static bool	ensure_builder_ready(t_work_context *ctx, t_work_state *state)
 	return (ctx->current_builder != NULL);
 }
 
-static bool	append_redirection_token(t_work_context *ctx, t_work_state *state,
-		const char *word, const t_lexout *tokens)
+static bool append_redirection_token(t_work_context *ctx, t_work_state *state,
+									 const char *word, const t_lexout *tokens)
 {
-	t_redir			*redir;
-	t_work_command	*builder;
+	t_redir *redir;
+	t_work_command *builder;
 
 	state->heredoc_delim_quoted = false;
 	if (ctx->pending_redir_kind == R_HEREDOC)
 		state->heredoc_delim_quoted = get_heredoc_quote_flag(ctx, tokens,
-				state->index);
+															 state->index);
 	if (!ensure_builder_ready(ctx, state))
 		return (false);
 	builder = ctx->current_builder;
@@ -109,11 +109,11 @@ static bool	append_redirection_token(t_work_context *ctx, t_work_state *state,
 
 // 受け取った単語トークンを引数/リダイレクトとしてコマンドに積む。
 
-bool	handle_word_token(t_work_context *ctx, t_work_state *state,
-		const t_lexout *tokens)
+bool handle_word_token(t_work_context *ctx, t_work_state *state,
+					   const t_lexout *tokens)
 {
-	const char		*word;
-	t_work_command	*builder;
+	const char *word;
+	t_work_command *builder;
 
 	word = tokens->argv[state->index];
 	if (ctx->expecting_redir_arg)
