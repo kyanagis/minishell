@@ -14,19 +14,19 @@
 #include "executor.h"
 #include "error_messages.h"
 
-static void safe_putstr(const char *s)
+static void	safe_putstr(const char *s)
 {
-	size_t len;
+	size_t	len;
 
 	if (!s)
-		return;
+		return ;
 	len = ft_strlen(s);
 	if (len == 0)
-		return;
+		return ;
 	write(STDERR_FILENO, s, len);
 }
 
-static const char *status_message(int status)
+static const char	*status_message(int status)
 {
 	if (status == STATUS_CMD_NOT_FOUND)
 		return ("command not found");
@@ -35,9 +35,9 @@ static const char *status_message(int status)
 	return ("error");
 }
 
-int print_error(const char *prefix, const char *subject, int status)
+int	print_error(const char *prefix, const char *subject, int status)
 {
-	const char *msg;
+	const char	*msg;
 
 	msg = status_message(status);
 	safe_putstr(prefix);
@@ -48,7 +48,7 @@ int print_error(const char *prefix, const char *subject, int status)
 	return (status);
 }
 
-int simple_error(const char *subject, const char *msg, int status)
+int	simple_error(const char *subject, const char *msg, int status)
 {
 	safe_putstr(ERR_PREFIX);
 	if (subject)
@@ -60,7 +60,7 @@ int simple_error(const char *subject, const char *msg, int status)
 	return (status);
 }
 
-void cmd_not_found(const char *cmd)
+void	cmd_not_found(const char *cmd)
 {
 	safe_putstr(ERR_PREFIX);
 	safe_putstr(cmd);

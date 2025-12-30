@@ -12,7 +12,7 @@
 
 #include "free_table.h"
 
-void lexer_cleanup_on_error(t_free_table *table)
+void	lexer_cleanup_on_error(t_free_table *table)
 {
-	ft_release(table);
+	(void)table;
 }

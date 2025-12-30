@@ -12,12 +12,12 @@
 
 #include "minishell.h"
 
-void free_env(char **env)
+void	free_env(char **env)
 {
-	char **p;
+	char	**p;
 
 	if (!env)
-		return;
+		return ;
 	p = env;
 	while (*p)
 	{
@@ -27,23 +27,24 @@ void free_env(char **env)
 	free(env);
 }
 
-const char *get_envp_value_len(t_shell *sh, const char *key, size_t len)
+const char	*get_envp_value_len(t_shell *sh, const char *key, size_t len)
 {
-	size_t idx;
+	size_t	idx;
 
 	if (!sh || !sh->envp || !key || len == 0)
 		return (NULL);
 	idx = 0;
 	while (sh->envp[idx])
 	{
-		if (ft_strncmp(sh->envp[idx], key, len) == 0 && sh->envp[idx][len] == '=')
+		if (ft_strncmp(sh->envp[idx], key, len) == 0
+			&& sh->envp[idx][len] == '=')
 			return (sh->envp[idx] + len + 1);
 		++idx;
 	}
 	return (NULL);
 }
 
-const char *get_envp_value(t_shell *sh, const char *key)
+const char	*get_envp_value(t_shell *sh, const char *key)
 {
 	if (!key)
 		return (NULL);

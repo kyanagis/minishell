@@ -14,6 +14,7 @@
 #define MINISHELL_H
 
 #include <stdio.h>
+#include <stdbool.h>
 
 #include <readline/history.h>
 #include <readline/readline.h>
@@ -36,6 +37,7 @@ typedef struct s_shell
 	char **envp;	 // execve用
 	char *prompt;
 	t_env *env_list;
+	bool should_exit;
 } t_shell;
 
 typedef struct s_free_table t_free_table;

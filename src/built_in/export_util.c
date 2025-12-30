@@ -97,7 +97,10 @@ t_env *init_env_list(char **envp)
 	{
 		new_node = env_new_node(envp[i]);
 		if (!new_node)
+		{
+			free_env_list(&head, free);
 			return (NULL);
+		}
 		env_add_back(&head, new_node);
 		i++;
 	}

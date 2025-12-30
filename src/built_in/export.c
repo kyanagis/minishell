@@ -15,6 +15,7 @@
 static void swap_node(t_env *node_a, t_env *node_b);
 static t_env *copy_env_list(t_env *env_list);
 static void sort_env_list(t_env *head);
+static bool append_env_copy(t_env **copy_head, t_env *env_node);
 
 int ft_export(t_shell *shell, char **argv)
 {
@@ -61,23 +62,40 @@ int ft_export(t_shell *shell, char **argv)
 	return (NO_ERROR);
 }
 
+static bool append_env_copy(t_env **copy_head, t_env *env_node)
+{
+	t_env *copy;
+
+	copy = malloc(sizeof(t_env));
+	if (!copy)
+		return (false);
+	copy->key = NULL;
+	copy->value = NULL;
+	copy->next = NULL;
+	copy->key = ft_strdup(env_node->key);
+	if (!copy->key)
+		return (ft_envlst_delone(copy, free), false);
+	if (env_node->value)
+	{
+		copy->value = ft_strdup(env_node->value);
+		if (!copy->value)
+			return (ft_envlst_delone(copy, free), false);
+	}
+	env_add_back(copy_head, copy);
+	return (true);
+}
+
 static t_env *copy_env_list(t_env *env_list)
 {
-	t_env	*copy;
 	t_env *copy_head = NULL;
 
 	while (env_list)
 	{
-		copy = malloc(sizeof(t_env));
-		if (!copy)
+		if (!append_env_copy(&copy_head, env_list))
+		{
+			free_env_list(&copy_head, free);
 			return (NULL);
-		copy->key = ft_strdup(env_list->key);
-		if (!env_list->value)
-			copy->value = NULL;
-		else
-			copy->value = ft_strdup(env_list->value);
-		copy->next = NULL;
-		env_add_back(&copy_head, copy);
+		}
 		env_list = env_list->next;
 	}
 	return (copy_head);

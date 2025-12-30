@@ -17,27 +17,32 @@ static int is_numeric(char *str);
 
 int ft_exit(t_shell *shell, char **argv)
 {
-    int		status;
+	int status;
 
-    ft_putendl_fd("exit", STDERR_FILENO);
-    if (!argv[1])
-        exit(shell->last_status);
-    if (!is_numeric(argv[1]))
-    {
-        ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
-        ft_putstr_fd(argv[1], STDERR_FILENO);
-        ft_putstr_fd(": numeric argument required\n", STDERR_FILENO);
-        // メモリ解放忘れそう
-        exit(EXIT_NUMERIC_STATUS);
-    }
-    if (argv[2])
-    {
-        ft_putstr_fd(MSG_EXIT_TOO_MANY_ARGS, STDERR_FILENO);
-        return (ERROR);
-    }
-    status = ft_atoi(argv[1]);
-    exit(status % 256);
-    return (NO_ERROR);
+	if (!shell || !argv)
+		return (ERROR);
+	ft_putendl_fd("exit", STDERR_FILENO);
+	if (!argv[1])
+	{
+		shell->should_exit = true;
+		return (shell->last_status);
+	}
+	if (!is_numeric(argv[1]))
+	{
+		ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
+		ft_putstr_fd(argv[1], STDERR_FILENO);
+		ft_putstr_fd(": numeric argument required\n", STDERR_FILENO);
+		shell->should_exit = true;
+		return (EXIT_NUMERIC_STATUS);
+	}
+	if (argv[2])
+	{
+		ft_putstr_fd(MSG_EXIT_TOO_MANY_ARGS, STDERR_FILENO);
+		return (ERROR);
+	}
+	status = ft_atoi(argv[1]);
+	shell->should_exit = true;
+	return (status % 256);
 }
 
 static int is_numeric(char *str)

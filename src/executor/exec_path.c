@@ -15,9 +15,9 @@
 #include <unistd.h>
 #include "executor.h"
 
-static int check_command_path(const char *path)
+static int	check_command_path(const char *path)
 {
-	struct stat st;
+	struct stat	st;
 
 	if (access(path, F_OK) != 0)
 		return (STATUS_CMD_NOT_FOUND);
@@ -28,10 +28,10 @@ static int check_command_path(const char *path)
 	return (0);
 }
 
-static char *join_path(const char *dir, const char *cmd)
+static char	*join_path(const char *dir, const char *cmd)
 {
-	char *tmp;
-	char *res;
+	char	*tmp;
+	char	*res;
 
 	tmp = ft_strjoin(dir, "/");
 	if (!tmp)
@@ -41,36 +41,39 @@ static char *join_path(const char *dir, const char *cmd)
 	return (res);
 }
 
-static char *search_in_path(const char *paths, const char *cmd, int *err_code)
+static char	*search_in_path(const char *paths, const char *cmd, int *err_code)
 {
-	char **dirs;
-	char *full;
-	int check;
-	char **cur;
+	char	**dirs;
+	char	*full;
+	int		check;
+	char	**cur;
+
 	dirs = ft_split(paths, ':');
 	if (!dirs)
 		return (NULL);
-	for (cur = dirs; *cur; ++cur)
+	cur = dirs;
+	while (*cur)
 	{
 		full = join_path(*cur, cmd);
 		if (!full)
-			break;
+			break ;
 		check = check_command_path(full);
 		if (check == 0)
 			return (free_env(dirs), full);
 		if (err_code)
 			*err_code = check;
 		free(full);
+		cur++;
 	}
 	free_env(dirs);
 	return (NULL);
 }
 
-char *resolve_path(t_shell *sh, const char *cmd, int *err_code)
+char	*resolve_path(t_shell *sh, const char *cmd, int *err_code)
 {
-	char *path;
-	const char *paths;
-	int check;
+	char		*path;
+	const char	*paths;
+	int			check;
 
 	if (err_code)
 		*err_code = STATUS_CMD_NOT_FOUND;

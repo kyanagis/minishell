@@ -12,14 +12,14 @@
 
 #include "lexer.h"
 
-void free_lexout(t_lexout *lx)
+void	free_lexout(t_lexout *lx)
 {
-	size_t n;
-	char **a;
-	unsigned char **m;
+	size_t			n;
+	char			**a;
+	unsigned char	**m;
 
 	if (!lx)
-		return;
+		return ;
 	n = lx->count;
 	a = lx->argv;
 	m = lx->qmask;

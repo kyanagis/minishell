@@ -18,15 +18,15 @@
 #define HANDLER_COUNT 3 // 解析対象が増えたら++する .
 
 // 解析対象が増えたらここに関数ポインタをセットする .
-static void init_handlers(t_state_handler *handlers)
+static void	init_handlers(t_state_handler *handlers)
 {
 	handlers[0] = (void *)handle_gen;
 	handlers[1] = (void *)handle_squote;
 	handlers[2] = (void *)handle_dquote;
 }
 
-static int handle_double_operator(t_lexer *lx, const char *input,
-								  size_t *index, char c)
+static int	handle_double_operator(t_lexer *lx, const char *input,
+		size_t *index, char c)
 {
 	if (c == '<' && input[*index] == '<')
 	{
@@ -43,11 +43,11 @@ static int handle_double_operator(t_lexer *lx, const char *input,
 	return (0);
 }
 
-void scan_line(t_lexer *lx, const char *input)
+void	scan_line(t_lexer *lx, const char *input)
 {
-	size_t index;
-	char c;
-	t_state_handler g_handlers[HANDLER_COUNT];
+	size_t			index;
+	char			c;
+	t_state_handler	g_handlers[HANDLER_COUNT];
 
 	init_handlers(g_handlers);
 	index = 0;
@@ -56,8 +56,8 @@ void scan_line(t_lexer *lx, const char *input)
 		c = input[index];
 		index++;
 		if (lx->state == LEX_GEN && handle_double_operator(lx, input, &index,
-														   c))
-			continue;
+				c))
+			continue ;
 		g_handlers[lx->state](lx, input, &index, c);
 	}
 	if (lx->token_start != -1)

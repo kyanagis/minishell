@@ -13,9 +13,9 @@
 #include <stdlib.h>
 #include "executor.h"
 
-static size_t env_list_len(t_env *env)
+static size_t	env_list_len(t_env *env)
 {
-	size_t len;
+	size_t	len;
 
 	len = 0;
 	while (env)
@@ -26,12 +26,12 @@ static size_t env_list_len(t_env *env)
 	return (len);
 }
 
-static void free_env_partial(char **envp, size_t count)
+static void	free_env_partial(char **envp, size_t count)
 {
-	size_t idx;
+	size_t	idx;
 
 	if (!envp)
-		return;
+		return ;
 	idx = 0;
 	while (idx < count)
 	{
@@ -41,10 +41,10 @@ static void free_env_partial(char **envp, size_t count)
 	free(envp);
 }
 
-static char *join_key_value(t_env *node)
+static char	*join_key_value(t_env *node)
 {
-	char *tmp;
-	char *res;
+	char	*tmp;
+	char	*res;
 
 	if (!node->value)
 		return (ft_strdup(node->key));
@@ -56,9 +56,9 @@ static char *join_key_value(t_env *node)
 	return (res);
 }
 
-static bool fill_env_entries(char **envp, t_env *cur, size_t *filled)
+static bool	fill_env_entries(char **envp, t_env *cur, size_t *filled)
 {
-	size_t idx;
+	size_t	idx;
 
 	idx = 0;
 	while (cur)
@@ -76,11 +76,11 @@ static bool fill_env_entries(char **envp, t_env *cur, size_t *filled)
 	return (true);
 }
 
-bool sync_envp(t_shell *sh)
+bool	sync_envp(t_shell *sh)
 {
-	char **envp;
-	size_t count;
-	size_t idx;
+	char	**envp;
+	size_t	count;
+	size_t	idx;
 
 	if (!sh || !sh->env_list)
 		return (true);
@@ -96,20 +96,5 @@ bool sync_envp(t_shell *sh)
 	envp[count] = NULL;
 	free_env(sh->envp);
 	sh->envp = envp;
-	return (true);
-}
-
-bool ensure_env_list(t_shell *sh)
-{
-	static bool initialized = false;
-
-	if (!sh)
-		return (false);
-	if (initialized)
-		return (true);
-	sh->env_list = init_env_list(sh->envp);
-	if (!sh->env_list)
-		return (false);
-	initialized = true;
 	return (true);
 }

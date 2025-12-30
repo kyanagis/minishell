@@ -12,7 +12,7 @@
 
 #include "executor.h"
 
-static int dispatch_execute(t_shell *sh, t_pipeline *pl)
+static int	dispatch_execute(t_shell *sh, t_pipeline *pl)
 {
 	if (!pl || pl->ncmds == 0)
 		return (0);
@@ -21,9 +21,9 @@ static int dispatch_execute(t_shell *sh, t_pipeline *pl)
 	return (execute_pipeline(sh, pl));
 }
 
-int execute_commands(t_shell *sh, t_pipeline *pl)
+int	execute_commands(t_shell *sh, t_pipeline *pl)
 {
-	int status;
+	int	status;
 
 	if (!sh)
 		return (STATUS_GENERAL_ERR);

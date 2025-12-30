@@ -1,29 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_builtin_check.c                               :+:      :+:    :+:   */
+/*   main_utils.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kyanagis <kyanagis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/27 10:19:05 by kyanagis          #+#    #+#             */
-/*   Updated: 2025/12/28 18:20:01 by kyanagis         ###   ########.fr       */
+/*   Created: 2025/12/30 00:00:00 by kyanagis          #+#    #+#             */
+/*   Updated: 2025/12/30 00:00:00 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "executor.h"
+#ifndef MAIN_UTILS_H
+#define MAIN_UTILS_H
 
-bool	is_builtin(const char *name)
-{
-	size_t	idx;
+#include <stdbool.h>
+#include "lexer.h"
+#include "free_table.h"
+#include "minishell.h"
 
-	if (!name)
-		return (false);
-	idx = 0;
-	while (g_builtins[idx].cmd)
-	{
-		if (ft_strcmp(name, g_builtins[idx].cmd) == 0)
-			return (true);
-		++idx;
-	}
-	return (false);
-}
+void	parse_and_execute(t_shell *sh, t_free_table *table, t_lexout *tokens);
+bool	is_eof(char *line);
+bool	should_skip_line(t_shell *sh, char *line);
+
+#endif

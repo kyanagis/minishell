@@ -1,36 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token_redir_handler.c                              :+:      :+:    :+:   */
+/*   exec_env_init.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kyanagis <kyanagis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/15 04:03:41 by kyanagis          #+#    #+#             */
-/*   Updated: 2025/12/27 11:32:57 by kyanagis         ###   ########.fr       */
+/*   Created: 2025/01/03 00:00:00 by kyanagis          #+#    #+#             */
+/*   Updated: 2025/01/03 00:00:00 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "executor.h"
 
-static t_redir_kind	as_redir_kind(t_tok_kind kind)
+bool	ensure_env_list(t_shell *sh)
 {
-	if (kind == TOK_LT)
-		return (R_IN);
-	if (kind == TOK_GT)
-		return (R_OUT);
-	if (kind == TOK_DLT)
-		return (R_HEREDOC);
-	return (R_APPEND);
-}
+	static bool	initialized = false;
 
-bool	handle_redirection_operator(t_work_context *ctx, t_work_state *state)
-{
-	if (ctx->expecting_redir_arg)
-	{
-		state->ok = false;
+	if (!sh)
 		return (false);
-	}
-	ctx->pending_redir_kind = as_redir_kind(state->kind);
-	ctx->expecting_redir_arg = true;
+	if (initialized)
+		return (true);
+	sh->env_list = init_env_list(sh->envp);
+	if (!sh->env_list)
+		return (false);
+	initialized = true;
 	return (true);
 }

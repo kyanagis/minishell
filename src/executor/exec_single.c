@@ -13,7 +13,7 @@
 #include <unistd.h>
 #include "executor.h"
 
-static void restore_stdio(int saved_in, int saved_out)
+static void	restore_stdio(int saved_in, int saved_out)
 {
 	if (saved_in >= 0)
 	{
@@ -27,12 +27,13 @@ static void restore_stdio(int saved_in, int saved_out)
 	}
 }
 
-static int run_parent_builtin(t_shell *sh, t_cmd *cmd)
+static int	run_parent_builtin(t_shell *sh, t_cmd *cmd)
 {
-	t_fd_target tgt;
-	int saved_in;
-	int saved_out;
-	int status;
+	t_fd_target	tgt;
+	int			saved_in;
+	int			saved_out;
+	int			status;
+
 	saved_in = dup(STDIN_FILENO);
 	saved_out = dup(STDOUT_FILENO);
 	if (saved_in < 0 || saved_out < 0)
@@ -54,12 +55,12 @@ static int run_parent_builtin(t_shell *sh, t_cmd *cmd)
 	return (status);
 }
 
-static int fork_external_single(t_shell *sh, t_cmd *cmd)
+static int	fork_external_single(t_shell *sh, t_cmd *cmd)
 {
-	pid_t pid;
-	int status;
-	pid_t list[1];
-	int pipefd[2];
+	pid_t	pid;
+	int		status;
+	pid_t	list[1];
+	int		pipefd[2];
 
 	pipefd[0] = -1;
 	pipefd[1] = -1;
@@ -73,11 +74,11 @@ static int fork_external_single(t_shell *sh, t_cmd *cmd)
 	return (status);
 }
 
-int execute_single(t_shell *sh, t_cmd *cmd)
+int	execute_single(t_shell *sh, t_cmd *cmd)
 {
-	t_fd_target tgt;
-	int status;
-	bool builtin_flag;
+	t_fd_target	tgt;
+	int			status;
+	bool		builtin_flag;
 
 	if (!cmd)
 		return (0);

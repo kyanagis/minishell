@@ -14,13 +14,13 @@
 
 // パイプライン配列がいっぱいなら倍増させる。
 
-static void ensure_command_capacity(t_work_pipeline *builder)
+static void	ensure_command_capacity(t_work_pipeline *builder)
 {
-	t_cmd **next;
-	size_t new_capacity;
+	t_cmd	**next;
+	size_t	new_capacity;
 
 	if (builder->len + 1 <= builder->cap)
-		return;
+		return ;
 	new_capacity = builder->cap;
 	if (new_capacity == 0)
 		new_capacity = 2;
@@ -34,16 +34,16 @@ static void ensure_command_capacity(t_work_pipeline *builder)
 	builder->cap = new_capacity;
 }
 
-void work_pipeline_push(t_work_pipeline *builder, t_cmd *cmd)
+void	work_pipeline_push(t_work_pipeline *builder, t_cmd *cmd)
 {
 	if (!builder || !cmd)
-		return;
+		return ;
 	ensure_command_capacity(builder);
 	builder->arr[builder->len] = cmd;
 	builder->len++;
 }
 
-static void reset_builder_storage(t_work_pipeline *builder)
+static void	reset_builder_storage(t_work_pipeline *builder)
 {
 	free(builder->arr);
 	builder->arr = NULL;
@@ -52,10 +52,10 @@ static void reset_builder_storage(t_work_pipeline *builder)
 }
 
 //  ビルダー内容を確定パイプライン構造体へコピーする。
-t_pipeline *work_pipeline_build(t_work_pipeline *builder)
+t_pipeline	*work_pipeline_build(t_work_pipeline *builder)
 {
-	t_pipeline *pipeline;
-	t_cmd **commands;
+	t_pipeline	*pipeline;
+	t_cmd		**commands;
 
 	if (!builder || builder->len == 0)
 		return (NULL);

@@ -15,10 +15,10 @@
 #include "executor.h"
 #include "error_messages.h"
 
-int execute_external(t_shell *sh, char **argv)
+int	execute_external(t_shell *sh, char **argv)
 {
-	char *path;
-	int err;
+	char	*path;
+	int		err;
 
 	if (!argv || !argv[0])
 		return (0);

@@ -12,9 +12,9 @@
 
 #include "free_table.h"
 
-void destroy_redir_list(t_redir *head)
+void	destroy_redir_list(t_redir *head)
 {
-	t_redir *next;
+	t_redir	*next;
 
 	while (head)
 	{
@@ -25,12 +25,12 @@ void destroy_redir_list(t_redir *head)
 	}
 }
 
-void destroy_command(t_cmd *cmd)
+void	destroy_command(t_cmd *cmd)
 {
-	size_t i;
+	size_t	i;
 
 	if (!cmd)
-		return;
+		return ;
 	destroy_redir_list(cmd->redirs);
 	i = 0;
 	while (cmd->argv && i < cmd->argc)
@@ -43,12 +43,12 @@ void destroy_command(t_cmd *cmd)
 	free(cmd);
 }
 
-void destroy_pipeline(t_pipeline *pl)
+void	destroy_pipeline(t_pipeline *pl)
 {
-	size_t i;
+	size_t	i;
 
 	if (!pl)
-		return;
+		return ;
 	i = 0;
 	while (i < pl->ncmds)
 	{

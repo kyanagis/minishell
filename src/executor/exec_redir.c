@@ -15,9 +15,9 @@
 #include "executor.h"
 #include "error_messages.h"
 
-static int open_infile(const char *path)
+static int	open_infile(const char *path)
 {
-	int fd;
+	int	fd;
 
 	fd = open(path, O_RDONLY);
 	if (fd < 0)
@@ -25,10 +25,10 @@ static int open_infile(const char *path)
 	return (fd);
 }
 
-static int open_outfile(const char *path, bool append)
+static int	open_outfile(const char *path, bool append)
 {
-	int flags;
-	int fd;
+	int	flags;
+	int	fd;
 
 	flags = O_WRONLY | O_CREAT;
 	if (append)
@@ -41,7 +41,7 @@ static int open_outfile(const char *path, bool append)
 	return (fd);
 }
 
-static int open_redir_fd(t_shell *sh, t_redir *redir)
+static int	open_redir_fd(t_shell *sh, t_redir *redir)
 {
 	if (redir->kind == R_IN)
 		return (open_infile(redir->arg));
@@ -52,23 +52,23 @@ static int open_redir_fd(t_shell *sh, t_redir *redir)
 	return (open_heredoc(sh, redir));
 }
 
-static void store_redir_target(t_fd_target *tgt, t_redir *redir, int fd)
+static void	store_redir_target(t_fd_target *tgt, t_redir *redir, int fd)
 {
 	if (redir->kind == R_IN || redir->kind == R_HEREDOC)
 	{
 		if (tgt->in_fd != STDIN_FILENO && tgt->in_fd >= 0)
 			close(tgt->in_fd);
 		tgt->in_fd = fd;
-		return;
+		return ;
 	}
 	if (tgt->out_fd != STDOUT_FILENO && tgt->out_fd >= 0)
 		close(tgt->out_fd);
 	tgt->out_fd = fd;
 }
 
-int prepare_redirections(t_shell *sh, t_redir *redir, t_fd_target *tgt)
+int	prepare_redirections(t_shell *sh, t_redir *redir, t_fd_target *tgt)
 {
-	int fd;
+	int	fd;
 
 	while (redir)
 	{
@@ -76,6 +76,8 @@ int prepare_redirections(t_shell *sh, t_redir *redir, t_fd_target *tgt)
 		if (fd < 0)
 		{
 			close_fd_target(tgt);
+			if (sh && redir->kind == R_HEREDOC && sh->last_status == 130)
+				return (130);
 			return (STATUS_GENERAL_ERR);
 		}
 		store_redir_target(tgt, redir, fd);

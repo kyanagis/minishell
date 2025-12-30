@@ -13,12 +13,12 @@
 #include "parser.h"
 #include "free_table.h"
 
-static void free_command_args(char **argv, size_t argc)
+static void	free_command_args(char **argv, size_t argc)
 {
-	size_t i;
+	size_t	i;
 
 	if (!argv)
-		return;
+		return ;
 	i = 0;
 	while (i < argc)
 	{
@@ -28,27 +28,27 @@ static void free_command_args(char **argv, size_t argc)
 	free(argv);
 }
 
-void dispose_command_builder(t_work_command *builder)
+void	dispose_command_builder(t_work_command *builder)
 {
 	if (!builder)
-		return;
+		return ;
 	destroy_redir_list(builder->r_head);
 	free_command_args(builder->argv, builder->argc);
 	free(builder->tok_idx_argv);
 	free(builder);
 }
 
-static void free_pipeline_command(t_cmd *cmd)
+static void	free_pipeline_command(t_cmd *cmd)
 {
 	destroy_command(cmd);
 }
 
-void dispose_pipeline_builder(t_work_pipeline *builder)
+void	dispose_pipeline_builder(t_work_pipeline *builder)
 {
-	size_t i;
+	size_t	i;
 
 	if (!builder->arr)
-		return;
+		return ;
 	i = 0;
 	while (i < builder->len)
 	{
@@ -61,8 +61,9 @@ void dispose_pipeline_builder(t_work_pipeline *builder)
 	builder->cap = 0;
 }
 
-void parser_cleanup_on_error(t_work_context *ctx, t_free_table *table)
+void	parser_cleanup_on_error(t_work_context *ctx, t_free_table *table)
 {
+	(void)table;
 	if (ctx)
 	{
 		dispose_command_builder(ctx->current_builder);
@@ -71,5 +72,4 @@ void parser_cleanup_on_error(t_work_context *ctx, t_free_table *table)
 		free(ctx->heredoc_quote_cache);
 		ctx->heredoc_quote_cache = NULL;
 	}
-	ft_release(table);
 }

@@ -13,9 +13,9 @@
 #include "parser.h"
 
 //  リダイレクト演算子の直後に単語が並ぶかを確認する。
-static bool validate_redir_operand(t_lexout *tokens, size_t index)
+static bool	validate_redir_operand(t_lexout *tokens, size_t index)
 {
-	t_tok_kind next;
+	t_tok_kind	next;
 
 	if (index + 1 == tokens->count)
 		return (parse_syntax_error("newline"));
@@ -25,22 +25,22 @@ static bool validate_redir_operand(t_lexout *tokens, size_t index)
 	return (true);
 }
 
-bool lt_syntax_scan(t_lexout *tokens, size_t i)
+bool	lt_syntax_scan(t_lexout *tokens, size_t i)
 {
 	return (validate_redir_operand(tokens, i));
 }
 
-bool gt_syntax_scan(t_lexout *tokens, size_t i)
+bool	gt_syntax_scan(t_lexout *tokens, size_t i)
 {
 	return (validate_redir_operand(tokens, i));
 }
 
-bool dlt_syntax_scan(t_lexout *tokens, size_t i)
+bool	dlt_syntax_scan(t_lexout *tokens, size_t i)
 {
 	return (validate_redir_operand(tokens, i));
 }
 
-bool dgt_syntax_scan(t_lexout *tokens, size_t i)
+bool	dgt_syntax_scan(t_lexout *tokens, size_t i)
 {
 	return (validate_redir_operand(tokens, i));
 }

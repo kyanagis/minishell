@@ -13,15 +13,15 @@
 #include <unistd.h>
 #include "executor.h"
 
-void init_fd_target(t_fd_target *tgt, int in_fd, int out_fd)
+void	init_fd_target(t_fd_target *tgt, int in_fd, int out_fd)
 {
 	if (!tgt)
-		return;
+		return ;
 	tgt->in_fd = in_fd;
 	tgt->out_fd = out_fd;
 }
 
-int apply_fd_target(t_fd_target *tgt)
+int	apply_fd_target(t_fd_target *tgt)
 {
 	if (!tgt)
 		return (STATUS_GENERAL_ERR);
@@ -32,10 +32,10 @@ int apply_fd_target(t_fd_target *tgt)
 	return (0);
 }
 
-void close_fd_target(t_fd_target *tgt)
+void	close_fd_target(t_fd_target *tgt)
 {
 	if (!tgt)
-		return;
+		return ;
 	if (tgt->in_fd >= 0 && tgt->in_fd != STDIN_FILENO)
 		close(tgt->in_fd);
 	if (tgt->out_fd >= 0 && tgt->out_fd != STDOUT_FILENO)

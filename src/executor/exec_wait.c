@@ -13,9 +13,9 @@
 #include <unistd.h>
 #include "executor.h"
 
-int status_from_wait(int status)
+int	status_from_wait(int status)
 {
-	int sig;
+	int	sig;
 
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
@@ -31,13 +31,13 @@ int status_from_wait(int status)
 	return (STATUS_GENERAL_ERR);
 }
 
-int wait_children(pid_t *pids, size_t count)
+int	wait_children(pid_t *pids, size_t count)
 {
-	size_t waited;
-	pid_t last_pid;
-	int status;
-	int last_status;
-	pid_t pid;
+	size_t	waited;
+	pid_t	last_pid;
+	int		status;
+	int		last_status;
+	pid_t	pid;
 
 	if (!pids || count == 0)
 		return (0);
@@ -49,7 +49,7 @@ int wait_children(pid_t *pids, size_t count)
 	{
 		pid = waitpid(-1, &status, 0);
 		if (pid == -1)
-			break;
+			break ;
 		if (pid == last_pid)
 			last_status = status_from_wait(status);
 		++waited;

@@ -6,15 +6,15 @@
 /*   By: kyanagis <kyanagis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 04:04:19 by kyanagis          #+#    #+#             */
-/*   Updated: 2025/12/27 11:30:45 by kyanagis         ###   ########.fr       */
+/*   Updated: 2025/12/29 13:21:25 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expander.h"
 
-static bool append_last_status(t_expand_work_buf *buf, t_shell *sh)
+static bool	append_last_status(t_expand_work_buf *buf, t_shell *sh)
 {
-	char *value;
+	char	*value;
 
 	value = ft_itoa(sh->last_status);
 	if (!value)
@@ -28,24 +28,24 @@ static bool append_last_status(t_expand_work_buf *buf, t_shell *sh)
 	return (true);
 }
 
-static size_t read_var_len(const char *src)
+static size_t	read_var_len(const char *src)
 {
-	size_t len;
+	size_t	len;
 
 	len = 0;
 	while (src[len])
 	{
 		if (!ft_isalnum((unsigned char)src[len]) && src[len] != '_')
-			break;
+			break ;
 		++len;
 	}
 	return (len);
 }
 
-static bool append_variable(t_expand_work_buf *buf, t_shell *sh,
-							const char *src, size_t len)
+static bool	append_variable(t_expand_work_buf *buf, t_shell *sh,
+		const char *src, size_t len)
 {
-	const char *value;
+	const char	*value;
 
 	value = get_envp_value_len(sh, src, len);
 	if (!value)
@@ -53,11 +53,11 @@ static bool append_variable(t_expand_work_buf *buf, t_shell *sh,
 	return (buf_append_str(buf, value));
 }
 
-bool handle_dollar(t_expand_work_buf *buf, t_shell *sh,
-				   const t_expand_input *input, size_t *idx)
+bool	handle_dollar(t_expand_work_buf *buf, t_shell *sh,
+		const t_expand_input *input, size_t *idx)
 {
-	size_t var_len;
-	const char *src;
+	size_t			var_len;
+	const char		*src;
 
 	src = input->src;
 	if (*idx + 1 >= input->len)

@@ -13,9 +13,9 @@
 #include "executor.h"
 #include "free_table.h"
 
-void executor_cleanup_on_error(t_fd_target *tgt, t_free_table *table)
+void	executor_cleanup_on_error(t_fd_target *tgt, t_free_table *table)
 {
 	if (tgt)
 		close_fd_target(tgt);
-	ft_release(table);
+	(void)table;
 }

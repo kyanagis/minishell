@@ -12,14 +12,14 @@
 
 #include "lexer.h"
 
-static void write_with_mask(t_lexer *lx, char c, unsigned char qm)
+static void	write_with_mask(t_lexer *lx, char c, unsigned char qm)
 {
 	lx->work[lx->write_pos] = c;
 	lx->mask[lx->write_pos] = qm;
 	lx->write_pos++;
 }
 
-static void store_token_refs(t_lexer *lx, size_t len, t_tok_kind kind)
+static void	store_token_refs(t_lexer *lx, size_t len, t_tok_kind kind)
 {
 	grow_meta(lx, lx->args_len + 1);
 	lx->work[lx->write_pos++] = '\0';
@@ -33,20 +33,20 @@ static void store_token_refs(t_lexer *lx, size_t len, t_tok_kind kind)
 	lx->token_start = -1;
 }
 
-void push_current_token(t_lexer *lx)
+void	push_current_token(t_lexer *lx)
 {
-	size_t len;
+	size_t	len;
 
 	if (lx->token_start < 0)
-		return;
+		return ;
 	len = lx->write_pos - (size_t)lx->token_start;
 	store_token_refs(lx, len, TOK_WORD);
 }
 
-void push_operator_token(t_lexer *lx, const char *op, size_t n,
-						 t_tok_kind kind)
+void	push_operator_token(t_lexer *lx, const char *op, size_t n,
+		t_tok_kind kind)
 {
-	size_t i;
+	size_t	i;
 
 	if (lx->token_start != -1)
 		push_current_token(lx);

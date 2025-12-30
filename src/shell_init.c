@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   shell_init.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kyanagis <kyanagis@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/12/30 00:00:00 by kyanagis          #+#    #+#             */
+/*   Updated: 2025/12/30 00:00:00 by kyanagis         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 #include "minishell.h"
 #include <stdlib.h>
@@ -50,39 +62,19 @@ char	**env_dup(char **src)
 	return (dst);
 }
 
-static char	*build_prompt(t_shell *sh)
-{
-	char	*status;
-	char	*tmp;
-	char	*res;
-
-	status = ft_itoa(sh->last_status);
-	if (!status)
-		return (ft_strdup("minishell "));
-	tmp = ft_strjoin("minishell:", status); // test 本番では>のみのプロンプトっぽいのでしゅうせいします　.
-	free(status);
-	if (!tmp)
-		return (ft_strdup("minishell> "));
-	res = ft_strjoin(tmp, "> ");
-	free(tmp);
-	if (!res)
-		return (ft_strdup("minishell$ "));
-	return (res);
-}
-
-void	update_prompt(t_shell *sh)
-{
-	if (sh->prompt)
-		free(sh->prompt);
-	sh->last_status %= 256;
-	sh->prompt = build_prompt(sh);
-}
-
 void	shell_init(t_shell *sh, char **envp)
 {
+	sh->env_list = NULL;
 	sh->envp = env_dup(envp);
 	sh->last_status = 0;
+	sh->should_exit = false;
 	sh->prompt = NULL;
+	if (!sh->envp)
+	{
+		sh->last_status = 1;
+		sh->should_exit = true;
+		return ;
+	}
 	update_prompt(sh);
 }
 

@@ -14,7 +14,7 @@
 #include <stdlib.h>
 #include "executor.h"
 
-static void close_child_fds(int prev_read, int pipefd[2], t_fd_target *tgt)
+static void	close_child_fds(int prev_read, int pipefd[2], t_fd_target *tgt)
 {
 	if (prev_read >= 0 && prev_read != tgt->in_fd)
 		close(prev_read);
@@ -28,10 +28,10 @@ static void close_child_fds(int prev_read, int pipefd[2], t_fd_target *tgt)
 		close(tgt->out_fd);
 }
 
-void execute_child(t_shell *sh, t_cmd *cmd, int prev_read, int pipefd[2])
+void	execute_child(t_shell *sh, t_cmd *cmd, int prev_read, int pipefd[2])
 {
-	t_fd_target tgt;
-	int status;
+	t_fd_target	tgt;
+	int			status;
 
 	set_default_signals();
 	init_fd_target(&tgt, STDIN_FILENO, STDOUT_FILENO);
