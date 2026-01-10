@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyanagis <kyanagis@student.42.fr>          +#+  +:+       +#+        */
+/*   By: skatsuya < skatsuya@student.42tokyo.jp>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 05:17:19 by sakurako          #+#    #+#             */
-/*   Updated: 2025/12/27 11:33:29 by kyanagis         ###   ########.fr       */
+/*   Updated: 2026/01/11 06:39:49 by skatsuya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,6 @@ int ft_unset(t_shell *shell, char **argv);
 
 // cd.c
 int ft_cd(t_shell *shell, char **argv);
-
-// exec_builtin.c
-int exec_builtin(t_shell *shell, char **argv);
 
 t_env *init_env_list(char **envp);
 
