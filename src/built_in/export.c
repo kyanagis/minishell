@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skatsuya <skatsuya@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: skatsuya < skatsuya@student.42tokyo.jp>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 06:05:55 by skatsuya          #+#    #+#             */
-/*   Updated: 2026/01/13 18:41:21 by skatsuya         ###   ########.fr       */
+/*   Updated: 2026/01/13 19:05:37 by skatsuya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "built_in.h"
 
-static void print_one_line(t_env *node);
-static int print_export_env(t_shell *shell);
+static void	print_one_line(t_env *node);
+static int	print_export_env(t_shell *shell);
 
-int ft_export(t_shell *shell, char **argv)
+int	ft_export(t_shell *shell, char **argv)
 {
-	size_t i;
+	size_t	i;
 
 	if (!argv[1])
 		return (print_export_env(shell));
@@ -30,10 +30,10 @@ int ft_export(t_shell *shell, char **argv)
 	return (NO_ERROR);
 }
 
-static int print_export_env(t_shell *shell)
+static int	print_export_env(t_shell *shell)
 {
-	t_env *head;
-	t_env *current;
+	t_env	*head;
+	t_env	*current;
 
 	head = copy_env_list(shell->env_list);
 	if (!head)
@@ -49,7 +49,7 @@ static int print_export_env(t_shell *shell)
 	return (NO_ERROR);
 }
 
-static void print_one_line(t_env *node)
+static void	print_one_line(t_env *node)
 {
 	ft_putstr_fd("declare -x ", STDOUT_FILENO);
 	ft_putstr_fd(node->key, STDOUT_FILENO);
