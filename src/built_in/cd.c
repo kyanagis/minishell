@@ -3,24 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skatsuya <skatsuya@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: skatsuya < skatsuya@student.42tokyo.jp>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 07:55:29 by skatsuya          #+#    #+#             */
-/*   Updated: 2025/12/12 17:37:29 by skatsuya         ###   ########.fr       */
+/*   Updated: 2026/01/13 19:49:48 by skatsuya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "built_in.h"
 #include "minishell.h"
 
-void update_oldpwd(t_shell *shell);
-static void update_pwd(t_shell *shell);
-static char *get_env(t_shell *shell, char *key);
+void		update_oldpwd(t_shell *shell);
+static void	update_pwd(t_shell *shell);
+static char	*get_env(t_shell *shell, char *key);
 
-int ft_cd(t_shell *shell, char **argv)
+int	ft_cd(t_shell *shell, char **argv)
 {
-	char *dest;
-	int error_temp;
+	char	*dest;
+	int		error_temp;
 
 	if (argv[1])
 		dest = argv[1];
@@ -46,11 +46,10 @@ int ft_cd(t_shell *shell, char **argv)
 	return (NO_ERROR);
 }
 
-// 現在のPWD環境変数の値を検索し、OLDPWDとして保存
-void update_oldpwd(t_shell *shell)
+void	update_oldpwd(t_shell *shell)
 {
-	t_env *current;
-	char *new_arg;
+	t_env	*current;
+	char	*new_arg;
 
 	current = shell->env_list;
 	while (current)
@@ -66,26 +65,26 @@ void update_oldpwd(t_shell *shell)
 	}
 }
 
-static void update_pwd(t_shell *shell)
+static void	update_pwd(t_shell *shell)
 {
-	char *cwd;
-	char *new_arg;
+	char	*cwd;
+	char	*new_arg;
 
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
-    {
-        perror("pwd");
-        return ;
-    }
+	{
+		perror("pwd");
+		return ;
+	}
 	new_arg = ft_strjoin("PWD=", cwd);
 	ft_export_one(shell, new_arg);
 	free(new_arg);
 	free(cwd);
 }
 
-static char *get_env(t_shell *shell, char *key)
+static char	*get_env(t_shell *shell, char *key)
 {
-	t_env *current;
+	t_env	*current;
 
 	current = shell->env_list;
 	while (current)

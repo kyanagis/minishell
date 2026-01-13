@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skatsuya <skatsuya@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: skatsuya < skatsuya@student.42tokyo.jp>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 22:34:09 by skatsuya          #+#    #+#             */
-/*   Updated: 2025/12/12 18:21:45 by skatsuya         ###   ########.fr       */
+/*   Updated: 2026/01/13 19:48:39 by skatsuya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "built_in.h"
 #include "minishell.h"
 
-static void ft_unset_one(t_shell *shell, char *key);
+static void	ft_unset_one(t_shell *shell, char *key);
 
-int ft_unset(t_shell *shell, char **argv)
+int	ft_unset(t_shell *shell, char **argv)
 {
-	size_t i;
+	size_t	i;
 
 	if (!argv[1])
 		return (NO_ERROR);
@@ -30,10 +30,10 @@ int ft_unset(t_shell *shell, char **argv)
 	return (NO_ERROR);
 }
 
-static void ft_unset_one(t_shell *shell, char *key)
+static void	ft_unset_one(t_shell *shell, char *key)
 {
-	t_env *current;
-	t_env *prev;
+	t_env	*current;
+	t_env	*prev;
 
 	current = shell->env_list;
 	prev = NULL;
