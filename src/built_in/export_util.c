@@ -3,29 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   export_util.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyanagis <kyanagis@student.42.fr>          +#+  +:+       +#+        */
+/*   By: skatsuya < skatsuya@student.42tokyo.jp>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 04:43:14 by skatsuya          #+#    #+#             */
-/*   Updated: 2025/12/27 13:00:40 by kyanagis         ###   ########.fr       */
+/*   Updated: 2026/01/20 20:09:37 by skatsuya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "built_in.h"
 #include "minishell.h"
 
-static t_env *env_new_node(char *str);
-void env_add_back(t_env **head, t_env *new_node);
-// static t_env	*init_env_list(char **envp);
-
-// 引数有りの場合のexport処理
-void ft_export_one(t_shell *shell, char *arg)
+void	ft_export_one(t_shell *shell, char *arg)
 {
-	t_env *new_node;
-	t_env *current;
+	t_env	*new_node;
+	t_env	*current;
 
 	new_node = env_new_node(arg);
 	if (!new_node)
-		return;
+		return ;
 	current = shell->env_list;
 	while (current)
 	{
@@ -35,74 +30,88 @@ void ft_export_one(t_shell *shell, char *arg)
 			{
 				free(current->value);
 				current->value = new_node->value;
+				new_node->value = NULL;
 			}
-			free(new_node->key);
-			free(new_node);
-			return;
+			ft_envlst_delone(new_node, free);
+			return ;
 		}
 		current = current->next;
 	}
 	env_add_back(&shell->env_list, new_node);
 }
 
-static t_env *env_new_node(char *str)
+bool	append_env_copy(t_env **copy_head, t_env *env_node)
 {
-	t_env *new;
-	char *eq_pos;
+	t_env	*copy;
 
-	new = malloc(sizeof(t_env));
-	if (!new)
-		return (NULL);
-	eq_pos = ft_strchr(str, '=');
-	if (eq_pos)
+	copy = malloc(sizeof(t_env));
+	if (!copy)
+		return (false);
+	copy->key = NULL;
+	copy->value = NULL;
+	copy->next = NULL;
+	copy->key = ft_strdup(env_node->key);
+	if (!copy->key)
+		return (ft_envlst_delone(copy, free), false);
+	if (env_node->value)
 	{
-		new->key = ft_substr(str, 0, eq_pos - str);
-		new->value = ft_strdup(eq_pos + 1);
+		copy->value = ft_strdup(env_node->value);
+		if (!copy->value)
+			return (ft_envlst_delone(copy, free), false);
 	}
-	else
-	{
-		new->key = ft_strdup(str);
-		new->value = NULL;
-	}
-	new->next = NULL;
-	return (new);
+	env_add_back(copy_head, copy);
+	return (true);
 }
 
-void env_add_back(t_env **head, t_env *new_node)
+t_env	*copy_env_list(t_env *env_list)
 {
-	t_env *current;
+	t_env	*copy_head;
 
-	if (!head || !new_node)
-		return;
-	if (!*head)
+	copy_head = NULL;
+	while (env_list)
 	{
-		*head = new_node;
-		return;
-	}
-	current = *head;
-	while (current->next)
-		current = current->next;
-	current->next = new_node;
-}
-
-t_env *init_env_list(char **envp)
-{
-	t_env *head;
-	t_env *new_node;
-	size_t i;
-
-	head = NULL;
-	i = 0;
-	while (envp[i])
-	{
-		new_node = env_new_node(envp[i]);
-		if (!new_node)
+		if (!append_env_copy(&copy_head, env_list))
 		{
-			free_env_list(&head, free);
+			free_env_list(&copy_head, free);
 			return (NULL);
 		}
-		env_add_back(&head, new_node);
-		i++;
+		env_list = env_list->next;
 	}
-	return (head);
+	return (copy_head);
+}
+
+void	sort_env_list(t_env *head)
+{
+	t_env	*current;
+	int		swapped;
+
+	if (!head)
+		return ;
+	swapped = 1;
+	while (swapped)
+	{
+		swapped = 0;
+		current = head;
+		while (current->next)
+		{
+			if (ft_strcmp(current->key, current->next->key) > 0)
+			{
+				swap_node(current, current->next);
+				swapped = 1;
+			}
+			current = current->next;
+		}
+	}
+}
+
+void	swap_node(t_env *node_a, t_env *node_b)
+{
+	char	*temp;
+
+	temp = node_a->key;
+	node_a->key = node_b->key;
+	node_b->key = temp;
+	temp = node_a->value;
+	node_a->value = node_b->value;
+	node_b->value = temp;
 }
