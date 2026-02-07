@@ -3,54 +3,51 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skatsuya <skatsuya@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: skatsuya < skatsuya@student.42tokyo.jp>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 07:55:29 by skatsuya          #+#    #+#             */
-/*   Updated: 2025/12/12 17:37:29 by skatsuya         ###   ########.fr       */
+/*   Updated: 2026/01/11 02:07:19 by skatsuya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "built_in.h"
 #include "minishell.h"
 
-void update_oldpwd(t_shell *shell);
-static void update_pwd(t_shell *shell);
-static char *get_env(t_shell *shell, char *key);
+void		update_oldpwd(t_shell *shell);
+static void	update_pwd(t_shell *shell);
+static char	*get_env(t_shell *shell, char *key);
+static int	print_cd_error(char *dest, int err_num);
 
-int ft_cd(t_shell *shell, char **argv)
+int	ft_cd(t_shell *shell, char **argv)
 {
-	char *dest;
-	int error_temp;
+	char	*dest;
 
+	if (argv[1] && argv[2])
+	{
+		ft_putstr_fd("minishell: cd: too many arguments\n", STDERR_FILENO);
+		return (ERROR);
+	}
 	if (argv[1])
 		dest = argv[1];
 	else
 		dest = get_env(shell, "HOME");
 	if (!dest)
 	{
-		ft_putstr_fd("bash: cd: HOME not set\n", STDERR_FILENO);
+		ft_putstr_fd("minishell: cd: HOME not set\n", STDERR_FILENO);
 		return (ERROR);
 	}
 	if ((chdir(dest)) < 0)
-	{
-		error_temp = errno;
-		ft_putstr_fd("bash: cd: ", STDERR_FILENO);
-		ft_putstr_fd(dest, STDERR_FILENO);
-		ft_putstr_fd(": ", STDERR_FILENO);
-		ft_putstr_fd(strerror(error_temp), STDERR_FILENO);
-		ft_putstr_fd("\n", STDERR_FILENO);
-		return (ERROR);
-	}
+		return (print_cd_error(dest, errno));
 	update_oldpwd(shell);
 	update_pwd(shell);
 	return (NO_ERROR);
 }
 
 // 現在のPWD環境変数の値を検索し、OLDPWDとして保存
-void update_oldpwd(t_shell *shell)
+void	update_oldpwd(t_shell *shell)
 {
-	t_env *current;
-	char *new_arg;
+	t_env	*current;
+	char	*new_arg;
 
 	current = shell->env_list;
 	while (current)
@@ -66,26 +63,26 @@ void update_oldpwd(t_shell *shell)
 	}
 }
 
-static void update_pwd(t_shell *shell)
+static void	update_pwd(t_shell *shell)
 {
-	char *cwd;
-	char *new_arg;
+	char	*cwd;
+	char	*new_arg;
 
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
-    {
-        perror("pwd");
-        return ;
-    }
+	{
+		perror("pwd");
+		return ;
+	}
 	new_arg = ft_strjoin("PWD=", cwd);
 	ft_export_one(shell, new_arg);
 	free(new_arg);
 	free(cwd);
 }
 
-static char *get_env(t_shell *shell, char *key)
+static char	*get_env(t_shell *shell, char *key)
 {
-	t_env *current;
+	t_env	*current;
 
 	current = shell->env_list;
 	while (current)
@@ -95,4 +92,14 @@ static char *get_env(t_shell *shell, char *key)
 		current = current->next;
 	}
 	return (NULL);
+}
+
+static int	print_cd_error(char *dest, int err_num)
+{
+	ft_putstr_fd("minishell: cd: ", STDERR_FILENO);
+	ft_putstr_fd(dest, STDERR_FILENO);
+	ft_putstr_fd(": ", STDERR_FILENO);
+	ft_putstr_fd(strerror(err_num), STDERR_FILENO);
+	ft_putstr_fd("\n", STDERR_FILENO);
+	return (ERROR);
 }
