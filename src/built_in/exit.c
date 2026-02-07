@@ -3,21 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skatsuya <skatsuya@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: skatsuya < skatsuya@student.42tokyo.jp>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 06:06:13 by sakurako          #+#    #+#             */
-/*   Updated: 2025/12/11 13:52:40 by skatsuya         ###   ########.fr       */
+/*   Updated: 2026/01/20 19:53:50 by skatsuya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "built_in.h"
 #include "minishell.h"
 
-static int is_numeric(char *str);
+static int	exit_error_numaric(char *str);
+static int	is_numeric(char *str);
 
-int ft_exit(t_shell *shell, char **argv)
+int	ft_exit(t_shell *shell, char **argv)
 {
-	int status;
+	int	status;
 
 	if (!shell || !argv)
 		return (ERROR);
@@ -29,11 +30,8 @@ int ft_exit(t_shell *shell, char **argv)
 	}
 	if (!is_numeric(argv[1]))
 	{
-		ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
-		ft_putstr_fd(argv[1], STDERR_FILENO);
-		ft_putstr_fd(": numeric argument required\n", STDERR_FILENO);
 		shell->should_exit = true;
-		return (EXIT_NUMERIC_STATUS);
+		return (exit_error_numaric(argv[1]));
 	}
 	if (argv[2])
 	{
@@ -42,22 +40,35 @@ int ft_exit(t_shell *shell, char **argv)
 	}
 	status = ft_atoi(argv[1]);
 	shell->should_exit = true;
-	return (status % 256);
+	return ((unsigned char)status);
 }
 
-static int is_numeric(char *str)
+static int	exit_error_numaric(char *str)
 {
-    if (ft_strlen(str) > 20)
-        return (FALSE);
-    while (ft_isspace(*str))
-        str++;
-    if (*str == '+' || *str == '-')
-        str++;
-    while (*str)
-    {
-        if (!ft_isdigit(*str))
-            return (FALSE);
-        str++;
-    }
-    return (TRUE);
+	ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
+	ft_putstr_fd(str, STDERR_FILENO);
+	ft_putstr_fd(": numeric argument required\n", STDERR_FILENO);
+	return (EXIT_NUMERIC_STATUS);
+}
+
+static int	is_numeric(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (ft_isspace(str[i]))
+		i++;
+	if (str[i] == '+' || str[i] == '-')
+		i++;
+	if (!str[i])
+		return (FALSE);
+	if (ft_strlen(str) > 20)
+		return (FALSE);
+	while (str[i])
+	{
+		if (!ft_isdigit(str[i]))
+			return (FALSE);
+		i++;
+	}
+	return (TRUE);
 }
