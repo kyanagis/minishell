@@ -12,13 +12,17 @@
 
 #include "built_in.h"
 #include "minishell.h"
+#include <limits.h>
 
 static int	exit_error_numaric(char *str);
-static int	is_numeric(char *str);
+static bool	read_sign(const char *str, size_t *idx, int *sign);
+static bool	read_number(const char *str, size_t *idx,
+				unsigned long long limit, unsigned long long *acc);
+static bool	parse_exit_status(const char *str, unsigned char *out);
 
 int	ft_exit(t_shell *shell, char **argv)
 {
-	int	status;
+	unsigned char	exit_status;
 
 	if (!shell || !argv)
 		return (ERROR);
@@ -28,7 +32,7 @@ int	ft_exit(t_shell *shell, char **argv)
 		shell->should_exit = true;
 		return (shell->last_status);
 	}
-	if (!is_numeric(argv[1]))
+	if (!parse_exit_status(argv[1], &exit_status))
 	{
 		shell->should_exit = true;
 		return (exit_error_numaric(argv[1]));
@@ -38,9 +42,8 @@ int	ft_exit(t_shell *shell, char **argv)
 		ft_putstr_fd(MSG_EXIT_TOO_MANY_ARGS, STDERR_FILENO);
 		return (ERROR);
 	}
-	status = ft_atoi(argv[1]);
 	shell->should_exit = true;
-	return ((unsigned char)status);
+	return ((unsigned char)exit_status);
 }
 
 static int	exit_error_numaric(char *str)
@@ -51,24 +54,60 @@ static int	exit_error_numaric(char *str)
 	return (EXIT_NUMERIC_STATUS);
 }
 
-static int	is_numeric(char *str)
+static bool	parse_exit_status(const char *str, unsigned char *out)
 {
-	int	i;
+	unsigned long long	acc;
+	unsigned long long	limit;
+	size_t				i;
+	int					sign;
 
+	if (!str || !out)
+		return (false);
 	i = 0;
-	while (ft_isspace(str[i]))
-		i++;
-	if (str[i] == '+' || str[i] == '-')
-		i++;
-	if (!str[i])
-		return (FALSE);
-	if (ft_strlen(str) > 20)
-		return (FALSE);
-	while (str[i])
+	if (!read_sign(str, &i, &sign))
+		return (false);
+	limit = (unsigned long long)LLONG_MAX;
+	if (sign < 0)
+		limit += 1;
+	if (!read_number(str, &i, limit, &acc))
+		return (false);
+	if (str[i] != '\0')
+		return (false);
+	if (sign < 0)
+		acc = 0ULL - acc;
+	*out = (unsigned char)acc;
+	return (true);
+}
+
+static bool	read_sign(const char *str, size_t *idx, int *sign)
+{
+	*sign = 1;
+	while (str[*idx] && ft_isspace(str[*idx]))
+		(*idx)++;
+	if (str[*idx] == '+' || str[*idx] == '-')
 	{
-		if (!ft_isdigit(str[i]))
-			return (FALSE);
-		i++;
+		if (str[*idx] == '-')
+			*sign = -1;
+		(*idx)++;
 	}
-	return (TRUE);
+	if (!ft_isdigit(str[*idx]))
+		return (false);
+	return (true);
+}
+
+static bool	read_number(const char *str, size_t *idx,
+				unsigned long long limit, unsigned long long *acc)
+{
+	int	digit;
+
+	*acc = 0;
+	while (ft_isdigit(str[*idx]))
+	{
+		digit = str[*idx] - '0';
+		if (*acc > (limit - (unsigned long long)digit) / 10)
+			return (false);
+		*acc = *acc * 10 + (unsigned long long)digit;
+		(*idx)++;
+	}
+	return (true);
 }

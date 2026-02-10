@@ -13,8 +13,8 @@
 #include "built_in.h"
 #include "minishell.h"
 
-static t_env *env_new_node(char *str);
-void env_add_back(t_env **head, t_env *new_node);
+static t_env	*env_new_node(char *str);
+void			env_add_back(t_env **head, t_env *new_node);
 // static t_env	*init_env_list(char **envp);
 
 // 引数有りの場合のexport処理
@@ -45,14 +45,28 @@ void ft_export_one(t_shell *shell, char *arg)
 	env_add_back(&shell->env_list, new_node);
 }
 
-static t_env *env_new_node(char *str)
+static void	free_env_node(t_env *node)
 {
-	t_env *new;
-	char *eq_pos;
+	if (!node)
+		return ;
+	free(node->key);
+	free(node->value);
+	free(node);
+}
 
+static t_env	*env_new_node(char *str)
+{
+	t_env	*new;
+	char	*eq_pos;
+
+	if (!str)
+		return (NULL);
 	new = malloc(sizeof(t_env));
 	if (!new)
 		return (NULL);
+	new->key = NULL;
+	new->value = NULL;
+	new->next = NULL;
 	eq_pos = ft_strchr(str, '=');
 	if (eq_pos)
 	{
@@ -64,7 +78,8 @@ static t_env *env_new_node(char *str)
 		new->key = ft_strdup(str);
 		new->value = NULL;
 	}
-	new->next = NULL;
+	if (!new->key || (eq_pos && !new->value))
+		return (free_env_node(new), NULL);
 	return (new);
 }
 

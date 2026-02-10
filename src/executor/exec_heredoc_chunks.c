@@ -27,78 +27,80 @@ void free_chunks(t_hd_chunk *head)
 	}
 }
 
-static char *join_line_with_newline(char *line, size_t *out_len)
+static char	*join_line_with_newline(char *line, size_t *out_len)
 {
-	size_t len;
-	char *res;
+	size_t	line_len;
+	char	*res;
 
-	len = ft_strlen(line);
-	res = (char *)ft_calloc(len + 2, sizeof(char));
+	line_len = ft_strlen(line);
+	res = (char *)ft_calloc(line_len + 2, sizeof(char));
 	if (!res)
 	{
 		free(line);
 		return (NULL);
 	}
-	ft_memcpy(res, line, len);
-	res[len] = '\n';
-	res[len + 1] = '\0';
+	ft_memcpy(res, line, line_len);
+	res[line_len] = '\n';
+	res[line_len + 1] = '\0';
 	free(line);
-	*out_len = len + 1;
+	*out_len = line_len + 1;
 	return (res);
 }
 
 static char *expand_heredoc_line(t_shell *sh, char *line, bool quoted)
 {
 	t_expand_input input;
-	unsigned char *mask;
+	unsigned char *quote_mask;
 	char *expanded;
+	size_t line_len;
 
 	if (quoted)
 		return (line);
-	mask = (unsigned char *)ft_calloc(ft_strlen(line), sizeof(unsigned char));
-	if (!mask)
+	line_len = ft_strlen(line);
+	quote_mask = (unsigned char *)ft_calloc(line_len, sizeof(unsigned char));
+	if (!quote_mask)
 	{
 		free(line);
 		return (NULL);
 	}
 	input.src = line;
-	input.mask = mask;
-	input.len = ft_strlen(line);
+	input.mask = quote_mask;
+	input.len = line_len;
 	if (!expand_word(sh, &input, &expanded))
 	{
-		free(mask);
+		free(quote_mask);
 		free(line);
 		return (NULL);
 	}
-	free(mask);
+	free(quote_mask);
 	free(line);
 	return (expanded);
 }
 
-static bool append_expanded_line(t_shell *sh, bool quoted,
-								 t_chunk_state *state, char *line)
+static bool	append_expanded_line(t_shell *sh, bool quoted,
+			t_chunk_state *chunk_state, char *line)
 {
-	char *with_nl;
-	size_t chunk_len;
-	t_hd_chunk *node;
+	char		*line_with_newline;
+	size_t		line_len;
+	t_hd_chunk	*chunk;
 
-	with_nl = expand_heredoc_line(sh, line, quoted);
-	if (!with_nl)
+	line_with_newline = expand_heredoc_line(sh, line, quoted);
+	if (!line_with_newline)
 		return (false);
-	with_nl = join_line_with_newline(with_nl, &chunk_len);
-	if (!with_nl)
+	line_with_newline = join_line_with_newline(line_with_newline, &line_len);
+	if (!line_with_newline)
 		return (false);
-	node = (t_hd_chunk *)ft_calloc(1, sizeof(t_hd_chunk));
-	if (!node)
-		return (free(with_nl), false);
-	node->data = with_nl;
-	node->len = chunk_len;
-	if (*state->tail)
-		(*state->tail)->next = node;
+	chunk = (t_hd_chunk *)ft_calloc(1, sizeof(t_hd_chunk));
+	if (!chunk)
+		return (free(line_with_newline), false);
+	chunk->data = line_with_newline;
+	chunk->len = line_len;
+	if (*chunk_state->tail)
+		(*chunk_state->tail)->next = chunk;
 	else
-		*state->head = node;
-	*state->tail = node;
-	*state->total_len += chunk_len;
+		*chunk_state->head = chunk;
+	*chunk_state->tail = chunk;
+	*chunk_state->total_len += line_len;
 	return (true);
 }
 
@@ -120,26 +122,27 @@ static bool handle_null_line(t_shell *sh, t_redir *redir)
 bool collect_chunks(t_shell *sh, t_redir *redir,
 					t_hd_chunk **head, size_t *total_len)
 {
-	char *line;
-	t_hd_chunk *tail;
-	t_chunk_state state;
+	char			*input_line;
+	t_hd_chunk		*chunk_tail;
+	t_chunk_state	chunk_state;
 
 	*total_len = 0;
-	tail = NULL;
-	state.head = head;
-	state.tail = &tail;
-	state.total_len = total_len;
-	line = readline(HEREDOC_PROMPT);
-	while (line)
+	chunk_tail = NULL;
+	chunk_state.head = head;
+	chunk_state.tail = &chunk_tail;
+	chunk_state.total_len = total_len;
+	input_line = readline(HEREDOC_PROMPT);
+	while (input_line)
 	{
-		if (ft_strcmp(line, redir->arg) == 0)
+		if (ft_strcmp(input_line, redir->arg) == 0)
 		{
-			free(line);
+			free(input_line);
 			return (true);
 		}
-		if (!append_expanded_line(sh, redir->delim_quoted, &state, line))
+		if (!append_expanded_line(sh, redir->delim_quoted,
+				&chunk_state, input_line))
 			return (false);
-		line = readline(HEREDOC_PROMPT);
+		input_line = readline(HEREDOC_PROMPT);
 	}
 	return (handle_null_line(sh, redir));
 }
