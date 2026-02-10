@@ -22,7 +22,6 @@ OBJ_DIR     := obj
 SRC_DIRS    := src src/lexer src/parser src/parser/parse_builders \
                src/parser/parse_core src/parser/parse_syntax \
                src/parser/parse_tokens src/expand \
-               src/debug_minishell \
                src/built_in \
                src/executor \
                src/utils \
