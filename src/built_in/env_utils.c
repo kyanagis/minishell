@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skatsuya <skatsuya@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: skatsuya < skatsuya@student.42tokyo.jp>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 07:44:48 by skatsuya          #+#    #+#             */
-/*   Updated: 2025/12/12 17:46:24 by skatsuya         ###   ########.fr       */
+/*   Updated: 2026/01/20 20:11:00 by skatsuya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,4 +34,66 @@ void	ft_envlst_delone(t_env *lst, void (*del)(void *))
 	del(lst->key);
 	del(lst->value);
 	free(lst);
+}
+
+t_env	*env_new_node(char *str)
+{
+	t_env	*new;
+	char	*eq_pos;
+
+	new = malloc(sizeof(t_env));
+	if (!new)
+		return (NULL);
+	eq_pos = ft_strchr(str, '=');
+	if (eq_pos)
+	{
+		new->key = ft_substr(str, 0, eq_pos - str);
+		new->value = ft_strdup(eq_pos + 1);
+	}
+	else
+	{
+		new->key = ft_strdup(str);
+		new->value = NULL;
+	}
+	new->next = NULL;
+	return (new);
+}
+
+void	env_add_back(t_env **head, t_env *new_node)
+{
+	t_env	*current;
+
+	if (!head || !new_node)
+		return ;
+	if (!*head)
+	{
+		*head = new_node;
+		return ;
+	}
+	current = *head;
+	while (current->next)
+		current = current->next;
+	current->next = new_node;
+}
+
+t_env	*init_env_list(char **envp)
+{
+	t_env	*head;
+	t_env	*new_node;
+	size_t	i;
+
+	head = NULL;
+	i = 0;
+	while (envp[i])
+	{
+		new_node = env_new_node(envp[i]);
+		if (!new_node)
+		{
+			free_env_list(&head, free);
+			return (NULL);
+		}
+		env_add_back(&head, new_node);
+		i++;
+	}
+	return (head);
 }

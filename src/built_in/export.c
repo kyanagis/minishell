@@ -3,137 +3,61 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skatsuya <skatsuya@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: skatsuya < skatsuya@student.42tokyo.jp>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 06:05:55 by skatsuya          #+#    #+#             */
-/*   Updated: 2025/12/12 18:12:28 by skatsuya         ###   ########.fr       */
+/*   Updated: 2026/01/20 20:10:20 by skatsuya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "built_in.h"
 
-static void swap_node(t_env *node_a, t_env *node_b);
-static t_env *copy_env_list(t_env *env_list);
-static void sort_env_list(t_env *head);
-static bool append_env_copy(t_env **copy_head, t_env *env_node);
+static void	print_one_line(t_env *node);
+static int	print_export_env(t_shell *shell);
 
-int ft_export(t_shell *shell, char **argv)
+int	ft_export(t_shell *shell, char **argv)
 {
-	t_env *current;
-	t_env *head;
+	size_t	i;
 
-	if (argv[1])
+	if (!argv[1])
+		return (print_export_env(shell));
+	i = 1;
+	while (argv[i])
 	{
-		size_t i;
-		i = 1;
-		while (argv[i])
-		{
-			ft_export_one(shell, argv[i]);
-			i++;
-		}
-	}
-	else if (!argv[1])
-	{
-		current = copy_env_list(shell->env_list);
-		head = current;
-		sort_env_list(current);
-		while (current)
-		{
-			if (current->value)
-			{
-				ft_putstr_fd("declare -x ", STDOUT_FILENO);
-				ft_putstr_fd(current->key, STDOUT_FILENO);
-				ft_putstr_fd("=", STDOUT_FILENO);
-				ft_putstr_fd("\"", STDOUT_FILENO);
-				ft_putstr_fd(current->value, STDOUT_FILENO);
-				ft_putstr_fd("\"", STDOUT_FILENO);
-				write(STDOUT_FILENO, "\n", 1);
-			}
-			else
-			{
-				ft_putstr_fd("declare -x ", STDOUT_FILENO);
-				ft_putstr_fd(current->key, STDOUT_FILENO);
-				write(STDOUT_FILENO, "\n", 1);
-			}
-			current = current->next;
-		}
-		free_env_list(&head, free);
+		ft_export_one(shell, argv[i]);
+		i++;
 	}
 	return (NO_ERROR);
 }
 
-static bool append_env_copy(t_env **copy_head, t_env *env_node)
+static int	print_export_env(t_shell *shell)
 {
-	t_env *copy;
+	t_env	*head;
+	t_env	*current;
 
-	copy = malloc(sizeof(t_env));
-	if (!copy)
-		return (false);
-	copy->key = NULL;
-	copy->value = NULL;
-	copy->next = NULL;
-	copy->key = ft_strdup(env_node->key);
-	if (!copy->key)
-		return (ft_envlst_delone(copy, free), false);
-	if (env_node->value)
-	{
-		copy->value = ft_strdup(env_node->value);
-		if (!copy->value)
-			return (ft_envlst_delone(copy, free), false);
-	}
-	env_add_back(copy_head, copy);
-	return (true);
-}
-
-static t_env *copy_env_list(t_env *env_list)
-{
-	t_env *copy_head = NULL;
-
-	while (env_list)
-	{
-		if (!append_env_copy(&copy_head, env_list))
-		{
-			free_env_list(&copy_head, free);
-			return (NULL);
-		}
-		env_list = env_list->next;
-	}
-	return (copy_head);
-}
-
-static void sort_env_list(t_env *head)
-{
-	t_env *current;
-	int swapped;
-
+	head = copy_env_list(shell->env_list);
 	if (!head)
-		return ;
-	swapped = 1;
-	while (swapped)
+		return (ERROR);
+	sort_env_list(head);
+	current = head;
+	while (current)
 	{
-		swapped = 0;
-		current = head;
-		while (current->next)
-		{
-			if (ft_strcmp(current->key, current->next->key) > 0)
-			{
-				swap_node(current, current->next);
-				swapped = 1;
-			}
-			current = current->next;
-		}
+		print_one_line(current);
+		current = current->next;
 	}
+	free_env_list(&head, free);
+	return (NO_ERROR);
 }
 
-static void swap_node(t_env *node_a, t_env *node_b)
+static void	print_one_line(t_env *node)
 {
-	char *temp;
-
-	temp = node_a->key;
-	node_a->key = node_b->key;
-	node_b->key = temp;
-
-	temp = node_a->value;
-	node_a->value = node_b->value;
-	node_b->value = temp;
+	ft_putstr_fd("declare -x ", STDOUT_FILENO);
+	ft_putstr_fd(node->key, STDOUT_FILENO);
+	if (node->value)
+	{
+		ft_putstr_fd("=\"", STDOUT_FILENO);
+		ft_putstr_fd(node->value, STDOUT_FILENO);
+		ft_putstr_fd("\"", STDOUT_FILENO);
+	}
+	write(STDOUT_FILENO, "\n", 1);
 }
