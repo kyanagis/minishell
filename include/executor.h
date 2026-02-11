@@ -34,6 +34,13 @@ typedef struct s_fd_target
 	int	out_fd;
 }	t_fd_target;
 
+typedef struct s_child_ctx
+{
+	int		prev_read;
+	int		*pipefd;
+	pid_t	*pids;
+}	t_child_ctx;
+
 int		execute_commands(t_shell *sh, t_pipeline *pl);
 
 bool	ensure_env_list(t_shell *sh);
@@ -41,7 +48,7 @@ bool	sync_envp(t_shell *sh);
 
 int		execute_single(t_shell *sh, t_cmd *cmd);
 int		execute_pipeline(t_shell *sh, t_pipeline *pl);
-void	execute_child(t_shell *sh, t_cmd *cmd, int prev_read, int pipefd[2]);
+void	execute_child(t_shell *sh, t_cmd *cmd, t_child_ctx *ctx);
 ssize_t	run_pipeline(t_shell *sh, t_pipeline *pl, pid_t *pids);
 
 int		execute_external(t_shell *sh, char **argv);

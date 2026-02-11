@@ -31,7 +31,11 @@ typedef struct s_chunk_state
 
 bool	collect_chunks(t_shell *sh, t_redir *redir,
 			t_hd_chunk **head, size_t *total_len);
+int		handle_heredoc_line(t_shell *sh, t_redir *redir,
+			t_chunk_state *chunk_state, char *input_line);
 void	free_chunks(t_hd_chunk *head);
+bool	append_expanded_line(t_shell *sh, bool quoted,
+			t_chunk_state *chunk_state, char *line);
 bool	write_chunks(int fd, t_hd_chunk *head);
 int		open_temp_file(t_hd_chunk *head);
 int		open_pipe_reader(t_hd_chunk *head);

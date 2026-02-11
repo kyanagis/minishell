@@ -54,7 +54,11 @@ void	update_oldpwd(t_shell *shell)
 	{
 		if (ft_strcmp(current->key, "PWD") == 0)
 		{
+			if (!current->value)
+				return ;
 			new_arg = ft_strjoin("OLDPWD=", current->value);
+			if (!new_arg)
+				return ;
 			ft_export_one(shell, new_arg);
 			free(new_arg);
 			return ;
@@ -75,6 +79,11 @@ static void	update_pwd(t_shell *shell)
 		return ;
 	}
 	new_arg = ft_strjoin("PWD=", cwd);
+	if (!new_arg)
+	{
+		free(cwd);
+		return ;
+	}
 	ft_export_one(shell, new_arg);
 	free(new_arg);
 	free(cwd);

@@ -49,8 +49,11 @@ bool	should_skip_line(t_shell *sh, char *line)
 	{
 		sh->last_status = 130;
 		g_sig = 0;
-		free(line);
-		return (true);
+		if (!*line)
+		{
+			free(line);
+			return (true);
+		}
 	}
 	if (!*line)
 	{

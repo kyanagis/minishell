@@ -14,5 +14,7 @@
 
 void	expander_cleanup_on_error(t_free_table *table)
 {
-	(void)table;
+	if (!table)
+		return ;
+	ft_release(table);
 }
