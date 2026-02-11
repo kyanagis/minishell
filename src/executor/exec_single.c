@@ -57,18 +57,22 @@ static int	run_parent_builtin(t_shell *sh, t_cmd *cmd)
 
 static int	fork_external_single(t_shell *sh, t_cmd *cmd)
 {
-	pid_t	pid;
-	int		status;
-	pid_t	list[1];
-	int		pipefd[2];
+	pid_t		pid;
+	int			status;
+	pid_t		list[1];
+	int			pipefd[2];
+	t_child_ctx	ctx;
 
 	pipefd[0] = -1;
 	pipefd[1] = -1;
+	ctx.prev_read = -1;
+	ctx.pipefd = pipefd;
+	ctx.pids = NULL;
 	pid = fork();
 	if (pid < 0)
 		return (STATUS_GENERAL_ERR);
 	if (pid == 0)
-		execute_child(sh, cmd, -1, pipefd);
+		execute_child(sh, cmd, &ctx);
 	list[0] = pid;
 	status = wait_children(list, 1);
 	return (status);

@@ -15,12 +15,10 @@
 
 static bool	open_pipe_if_needed(int pipe_fd[2], bool needed)
 {
+	pipe_fd[0] = -1;
+	pipe_fd[1] = -1;
 	if (!needed)
-	{
-		pipe_fd[0] = -1;
-		pipe_fd[1] = -1;
 		return (true);
-	}
 	if (pipe(pipe_fd) == -1)
 		return (false);
 	return (true);
@@ -38,8 +36,7 @@ static void	close_parent_fds(int *prev_read_fd, int pipe_fd[2])
 		*prev_read_fd = -1;
 }
 
-static pid_t	spawn_child(t_shell *sh, t_cmd *cmd, int prev_read_fd,
-			int pipe_fd[2])
+static pid_t	spawn_child(t_shell *sh, t_cmd *cmd, t_child_ctx *ctx)
 {
 	pid_t	pid;
 
@@ -47,7 +44,7 @@ static pid_t	spawn_child(t_shell *sh, t_cmd *cmd, int prev_read_fd,
 	if (pid < 0)
 		return (-1);
 	if (pid == 0)
-		execute_child(sh, cmd, prev_read_fd, pipe_fd);
+		execute_child(sh, cmd, ctx);
 	return (pid);
 }
 
@@ -69,22 +66,22 @@ static void	cleanup_failed_pipeline(pid_t *pids, size_t launched,
 
 ssize_t	run_pipeline(t_shell *sh, t_pipeline *pl, pid_t *pids)
 {
-	int		pipe_fd[2];
-	int		prev_read_fd;
-	size_t	index;
+	int			pipe_fd[2];
+	int			prev_read_fd;
+	size_t		index;
+	t_child_ctx	ctx;
 
 	prev_read_fd = -1;
 	index = 0;
 	while (index < pl->ncmds)
 	{
-		pipe_fd[0] = -1;
-		pipe_fd[1] = -1;
 		if (!open_pipe_if_needed(pipe_fd, index + 1 < pl->ncmds))
 		{
 			cleanup_failed_pipeline(pids, index, &prev_read_fd, pipe_fd);
 			return (-1);
 		}
-		pids[index] = spawn_child(sh, pl->cmds[index], prev_read_fd, pipe_fd);
+		ctx = (t_child_ctx){prev_read_fd, pipe_fd, pids};
+		pids[index] = spawn_child(sh, pl->cmds[index], &ctx);
 		if (pids[index] < 0)
 		{
 			cleanup_failed_pipeline(pids, index, &prev_read_fd, pipe_fd);

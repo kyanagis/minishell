@@ -5,142 +5,60 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: kyanagis <kyanagis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/03 00:00:00 by kyanagis          #+#    #+#             */
-/*   Updated: 2025/12/30 15:22:57 by kyanagis         ###   ########.fr       */
+/*   Created: 2026/02/11 00:00:00 by kyanagis          #+#    #+#             */
+/*   Updated: 2026/02/11 00:00:00 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+#include <unistd.h>
 #include "exec_heredoc_internal.h"
-#include "expander.h"
 
-void free_chunks(t_hd_chunk *head)
+static void	heredoc_sigint(int sig)
 {
-	t_hd_chunk *next;
-
-	while (head)
-	{
-		next = head->next;
-		free(head->data);
-		free(head);
-		head = next;
-	}
+	(void)sig;
+	g_sig = SIGINT;
+	write(STDOUT_FILENO, "\n", 1);
 }
 
-static char	*join_line_with_newline(char *line, size_t *out_len)
+static void	setup_heredoc_signals(struct sigaction *old_int,
+			struct sigaction *old_quit)
 {
-	size_t	line_len;
-	char	*res;
+	struct sigaction	sa_int;
+	struct sigaction	sa_quit;
 
-	line_len = ft_strlen(line);
-	res = (char *)ft_calloc(line_len + 2, sizeof(char));
-	if (!res)
-	{
-		free(line);
-		return (NULL);
-	}
-	ft_memcpy(res, line, line_len);
-	res[line_len] = '\n';
-	res[line_len + 1] = '\0';
-	free(line);
-	*out_len = line_len + 1;
-	return (res);
+	g_sig = 0;
+	sa_int.sa_handler = heredoc_sigint;
+	sa_int.sa_flags = 0;
+	sigemptyset(&sa_int.sa_mask);
+	sigaction(SIGINT, &sa_int, old_int);
+	sa_quit.sa_handler = SIG_IGN;
+	sa_quit.sa_flags = 0;
+	sigemptyset(&sa_quit.sa_mask);
+	sigaction(SIGQUIT, &sa_quit, old_quit);
 }
 
-static char *expand_heredoc_line(t_shell *sh, char *line, bool quoted)
+bool	collect_chunks(t_shell *sh, t_redir *redir,
+			t_hd_chunk **head, size_t *total_len)
 {
-	t_expand_input input;
-	unsigned char *quote_mask;
-	char *expanded;
-	size_t line_len;
-
-	if (quoted)
-		return (line);
-	line_len = ft_strlen(line);
-	quote_mask = (unsigned char *)ft_calloc(line_len, sizeof(unsigned char));
-	if (!quote_mask)
-	{
-		free(line);
-		return (NULL);
-	}
-	input.src = line;
-	input.mask = quote_mask;
-	input.len = line_len;
-	if (!expand_word(sh, &input, &expanded))
-	{
-		free(quote_mask);
-		free(line);
-		return (NULL);
-	}
-	free(quote_mask);
-	free(line);
-	return (expanded);
-}
-
-static bool	append_expanded_line(t_shell *sh, bool quoted,
-			t_chunk_state *chunk_state, char *line)
-{
-	char		*line_with_newline;
-	size_t		line_len;
-	t_hd_chunk	*chunk;
-
-	line_with_newline = expand_heredoc_line(sh, line, quoted);
-	if (!line_with_newline)
-		return (false);
-	line_with_newline = join_line_with_newline(line_with_newline, &line_len);
-	if (!line_with_newline)
-		return (false);
-	chunk = (t_hd_chunk *)ft_calloc(1, sizeof(t_hd_chunk));
-	if (!chunk)
-		return (free(line_with_newline), false);
-	chunk->data = line_with_newline;
-	chunk->len = line_len;
-	*chunk_state->tail = chunk;
-	chunk_state->tail = &chunk->next;
-	*chunk_state->total_len += line_len;
-	return (true);
-}
-
-static bool handle_null_line(t_shell *sh, t_redir *redir)
-{
-	if (g_sig == SIGINT)
-	{
-		sh->last_status = 130;
-		return (false);
-	}
-	ft_putstr_fd("minishell: warning: here-document delimited by end-of-file",
-				 STDERR_FILENO);
-	ft_putstr_fd(" (wanted `", STDERR_FILENO);
-	ft_putstr_fd(redir->arg, STDERR_FILENO);
-	ft_putendl_fd("')", STDERR_FILENO);
-	return (true);
-}
-
-bool collect_chunks(t_shell *sh, t_redir *redir,
-					t_hd_chunk **head, size_t *total_len)
-{
-	char			*input_line;
-	t_chunk_state	chunk_state;
+	char				*input_line;
+	t_chunk_state		chunk_state;
+	int					status;
+	struct sigaction	old_int;
+	struct sigaction	old_quit;
 
 	*total_len = 0;
 	chunk_state.tail = head;
 	chunk_state.total_len = total_len;
-	ft_putstr_fd(HEREDOC_PROMPT, STDOUT_FILENO);
-	input_line = get_next_line(STDIN_FILENO);
-	while (input_line)
+	setup_heredoc_signals(&old_int, &old_quit);
+	while (1)
 	{
-		if (ft_strchr(input_line, '\n'))
-			*ft_strchr(input_line, '\n') = '\0';
-		if (ft_strcmp(input_line, redir->arg) == 0)
-		{
-			free(input_line);
-			return (true);
-		}
-		if (!append_expanded_line(sh, redir->delim_quoted,
-				&chunk_state, input_line))
-			return (false);
 		ft_putstr_fd(HEREDOC_PROMPT, STDOUT_FILENO);
 		input_line = get_next_line(STDIN_FILENO);
+		status = handle_heredoc_line(sh, redir, &chunk_state, input_line);
+		if (status <= 0)
+			break ;
 	}
-	return (handle_null_line(sh, redir));
+	sigaction(SIGINT, &old_int, NULL);
+	sigaction(SIGQUIT, &old_quit, NULL);
+	return (status == 0);
 }
