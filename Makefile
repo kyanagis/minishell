@@ -5,6 +5,11 @@ BASE_CFLAGS := -Wall -Wextra -Werror
 
 DEBUG       ?= 0
 SAN         ?= 0
+AFL         ?= 0
+
+ifneq (,$(findstring 1,$(AFL)))
+  CC := afl-gcc
+endif
 
 ifeq ($(DEBUG),1)
   CFLAGS := $(BASE_CFLAGS) -g3 -O0
