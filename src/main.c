@@ -18,12 +18,13 @@
 #include "lexer.h"
 #include "main_utils.h"
 
-static void process_line(t_shell *sh, char *line)
+static void	process_line(t_shell *sh, char *line)
 {
-	t_lexout *tokens;
-	t_free_table table;
+	t_lexout		*tokens;
+	t_free_table	table;
 
 	init_free_table(&table);
+	sh->table = &table;
 	tokens = tokenize(line);
 	if (!tokens)
 		sh->last_status = 1;
@@ -37,11 +38,12 @@ static void process_line(t_shell *sh, char *line)
 		}
 	}
 	ft_release(&table);
+	sh->table = NULL;
 }
 
-static void run_shell(t_shell *sh)
+static void	run_shell(t_shell *sh)
 {
-	char *line;
+	char	*line;
 
 	init_signals();
 	while (1)
@@ -49,20 +51,24 @@ static void run_shell(t_shell *sh)
 		update_prompt(sh);
 		line = readline(sh->prompt);
 		if (is_eof(line))
-			break;
+		{
+			break ;
+		}
 		if (!should_skip_line(sh, line))
 		{
 			process_line(sh, line);
 			free(line);
 		}
 		if (sh->should_exit)
-			break;
+		{
+			break ;
+		}
 	}
 }
 
-int main(int argc, char **argv, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
-	t_shell sh;
+	t_shell	sh;
 
 	(void)argc;
 	(void)argv;

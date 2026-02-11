@@ -69,6 +69,7 @@ void	shell_init(t_shell *sh, char **envp)
 	sh->last_status = 0;
 	sh->should_exit = false;
 	sh->prompt = NULL;
+	sh->table = NULL;
 	if (!sh->envp)
 	{
 		sh->last_status = 1;
@@ -94,4 +95,5 @@ void	shell_destroy(t_shell *sh)
 	}
 	if (sh->prompt)
 		free(sh->prompt);
+	rl_clear_history();
 }

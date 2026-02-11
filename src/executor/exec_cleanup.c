@@ -17,5 +17,6 @@ void	executor_cleanup_on_error(t_fd_target *tgt, t_free_table *table)
 {
 	if (tgt)
 		close_fd_target(tgt);
-	(void)table;
+	if (table)
+		ft_release(table);
 }
