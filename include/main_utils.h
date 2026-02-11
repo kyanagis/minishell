@@ -11,12 +11,10 @@
 /* ************************************************************************** */
 
 #ifndef MAIN_UTILS_H
-#define MAIN_UTILS_H
+# define MAIN_UTILS_H
 
-#include <stdbool.h>
-#include "lexer.h"
-#include "free_table.h"
-#include "minishell.h"
+# include "free_table.h"
+# include "minishell.h"
 
 void	parse_and_execute(t_shell *sh, t_free_table *table, t_lexout *tokens);
 bool	is_eof(char *line);

@@ -14,14 +14,7 @@
 # define MINISHELL_H
 
 # include <stdbool.h>
-# include <stdio.h>
-# include <readline/history.h>
-# include <readline/readline.h>
-# include "libft.h"
-# include "lexer.h"
-# include "sig.h"
-
-extern volatile sig_atomic_t	g_sig;
+# include <stddef.h>
 
 typedef struct s_env
 {
@@ -30,7 +23,57 @@ typedef struct s_env
 	struct s_env	*next;
 }	t_env;
 
-struct							s_free_table;
+typedef enum e_tok_kind
+{
+	TOK_WORD,
+	TOK_PIPE,
+	TOK_LT,
+	TOK_GT,
+	TOK_DLT,
+	TOK_DGT
+}	t_tok_kind;
+
+typedef struct s_lexout
+{
+	char			**argv;
+	unsigned char	**qmask;
+	size_t			*len;
+	t_tok_kind		*kind;
+	size_t			count;
+}	t_lexout;
+
+typedef enum e_redir_kind
+{
+	R_IN,
+	R_OUT,
+	R_HEREDOC,
+	R_APPEND
+}	t_redir_kind;
+
+typedef struct s_redir
+{
+	t_redir_kind	kind;
+	char			*arg;
+	bool			delim_quoted;
+	size_t			tok_idx;
+	struct s_redir	*next;
+}	t_redir;
+
+typedef struct s_cmd
+{
+	char		**argv;
+	size_t		argc;
+	size_t		*tok_idx_argv;
+	t_redir		*redirs;
+}	t_cmd;
+
+typedef struct s_pipeline
+{
+	size_t		ncmds;
+	t_cmd		**cmds;
+}	t_pipeline;
+
+typedef struct s_free_table	t_free_table;
 
 typedef struct s_shell
 {
@@ -39,7 +82,7 @@ typedef struct s_shell
 	char				*prompt;
 	t_env				*env_list;
 	bool				should_exit;
-	struct s_free_table	*table;
+	t_free_table		*table;
 }	t_shell;
 
 void		shell_init(t_shell *sh, char **envp);

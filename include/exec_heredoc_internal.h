@@ -13,7 +13,8 @@
 #ifndef EXEC_HEREDOC_INTERNAL_H
 # define EXEC_HEREDOC_INTERNAL_H
 
-# include "executor.h"
+# include "minishell.h"
+# include "sig.h"
 
 typedef struct s_hd_chunk
 {
@@ -29,8 +30,8 @@ typedef struct s_chunk_state
 	size_t		*total_len;
 }	t_chunk_state;
 
-bool	collect_chunks(t_shell *sh, t_redir *redir,
-			t_hd_chunk **head, size_t *total_len);
+bool	collect_chunks(t_shell *sh, t_redir *redir, t_hd_chunk **head,
+			size_t *total_len);
 int		handle_heredoc_line(t_shell *sh, t_redir *redir,
 			t_chunk_state *chunk_state, char *input_line);
 void	free_chunks(t_hd_chunk *head);

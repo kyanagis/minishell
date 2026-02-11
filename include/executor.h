@@ -13,13 +13,10 @@
 #ifndef EXECUTOR_H
 # define EXECUTOR_H
 
-# include <stdbool.h>
 # include <sys/types.h>
-# include <sys/wait.h>
 # include "minishell.h"
-# include "parser.h"
-# include "sig.h"
-# include "built_in.h"
+
+typedef struct s_free_table	t_free_table;
 
 # define STATUS_CMD_NOT_FOUND 127
 # define STATUS_CMD_NOT_EXEC 126

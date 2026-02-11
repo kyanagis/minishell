@@ -13,6 +13,8 @@
 #include "minishell.h"
 #include "parser.h"
 
+typedef bool	t_parse_handler(t_lexout *lx, size_t i);
+
 #define PARSE_HANDLER_COUNT 6
 
 static bool	word_syntax_scan(t_lexout *lx, size_t i)
@@ -35,7 +37,7 @@ static bool	pipe_syntax_scan(t_lexout *tokens, size_t i)
 	return (true);
 }
 
-static void	init_parse_handler(t_parse_handler *parse_handler)
+static void	init_parse_handler(t_parse_handler **parse_handler)
 {
 	parse_handler[TOK_WORD] = word_syntax_scan;
 	parse_handler[TOK_PIPE] = pipe_syntax_scan;
@@ -48,7 +50,7 @@ static void	init_parse_handler(t_parse_handler *parse_handler)
 static bool	syntax_scan(t_lexout *tokens)
 {
 	size_t			i;
-	t_parse_handler	parse_handler[PARSE_HANDLER_COUNT];
+	t_parse_handler	*parse_handler[PARSE_HANDLER_COUNT];
 	t_tok_kind		k;
 
 	i = 0;

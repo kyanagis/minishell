@@ -13,6 +13,9 @@
 #include "sig.h"
 #include <unistd.h>
 #include <stdio.h>
+#include <sys/wait.h>
+#include <readline/history.h>
+#include <readline/readline.h>
 
 volatile sig_atomic_t g_sig = 0;
 

@@ -12,17 +12,20 @@
 
 #include "lexer.h"
 
-// static const t_state_handler	g_handlers[3] = {handle_gen, handle_squote,
+typedef void	t_state_handler(t_lexer *lx, const char *input,
+				size_t *index, char c);
+
+// static const t_state_handler *g_handlers[3] = {handle_gen, handle_squote,
 // 		handle_dquote};
 
 #define HANDLER_COUNT 3 // 解析対象が増えたら++する .
 
 // 解析対象が増えたらここに関数ポインタをセットする .
-static void	init_handlers(t_state_handler *handlers)
+static void	init_handlers(t_state_handler **handlers)
 {
-	handlers[0] = (void *)handle_gen;
-	handlers[1] = (void *)handle_squote;
-	handlers[2] = (void *)handle_dquote;
+	handlers[0] = handle_gen;
+	handlers[1] = handle_squote;
+	handlers[2] = handle_dquote;
 }
 
 static int	handle_double_operator(t_lexer *lx, const char *input,
@@ -47,7 +50,7 @@ void	scan_line(t_lexer *lx, const char *input)
 {
 	size_t			index;
 	char			c;
-	t_state_handler	g_handlers[HANDLER_COUNT];
+	t_state_handler	*g_handlers[HANDLER_COUNT];
 
 	init_handlers(g_handlers);
 	index = 0;

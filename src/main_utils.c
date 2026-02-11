@@ -11,11 +11,11 @@
 /* ************************************************************************** */
 
 #include "main_utils.h"
-#include "minishell.h"
 #include "parser.h"
 #include "expander.h"
 #include "executor.h"
 #include "free_table.h"
+#include "sig.h"
 
 void	parse_and_execute(t_shell *sh, t_free_table *table, t_lexout *tokens)
 {

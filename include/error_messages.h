@@ -11,8 +11,8 @@
 /* ************************************************************************** */
 
 #ifndef ERROR_MESSAGES_H
-#define ERROR_MESSAGES_H
+# define ERROR_MESSAGES_H
 
-#define ERR_PREFIX "minishell: "
+# define ERR_PREFIX "minishell: "
 
 #endif

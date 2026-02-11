@@ -12,16 +12,35 @@
 
 #include "built_in.h"
 
-int exec_builtin(t_shell *shell, char **argv)
+static const t_builtin	g_builtins[] = {
+	{"cd", ft_cd},
+	{"echo", ft_echo},
+	{"pwd", ft_pwd},
+	{"export", ft_export},
+	{"unset", ft_unset},
+	{"env", ft_env},
+	{"exit", ft_exit},
+	{NULL, NULL}
+};
+
+const t_builtin	*get_builtins(void)
 {
-	int i;
+	return (g_builtins);
+}
+
+int	exec_builtin(t_shell *shell, char **argv)
+{
+	const t_builtin	*builtins;
+	int				i;
+
 	if (!argv || !argv[0])
 		return (NOT_BUILTIN);
+	builtins = get_builtins();
 	i = 0;
-	while (g_builtins[i].cmd)
+	while (builtins[i].cmd)
 	{
-		if (ft_strcmp(argv[0], g_builtins[i].cmd) == 0)
-			return (g_builtins[i].func(shell, argv));
+		if (ft_strcmp(argv[0], builtins[i].cmd) == 0)
+			return (builtins[i].func(shell, argv));
 		i++;
 	}
 	return (NOT_BUILTIN);

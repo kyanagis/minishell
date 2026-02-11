@@ -11,20 +11,17 @@
 /* ************************************************************************** */
 
 #ifndef SIG_H
-#define SIG_H
+# define SIG_H
 
-#include <signal.h>
-#include <sys/wait.h>
-#include "minishell.h"
-#include <readline/history.h>
-#include <readline/readline.h>
+# include <signal.h>
+# include <sys/types.h>
 
-extern volatile sig_atomic_t g_sig;
+extern volatile sig_atomic_t	g_sig;
 
-void handle_sigint(int sig);
-void init_signals(void);
-void set_default_signals(void);
-void set_ignore_signals(void);
-int wait_child_process(pid_t pid);
+void	handle_sigint(int sig);
+void	init_signals(void);
+void	set_default_signals(void);
+void	set_ignore_signals(void);
+int		wait_child_process(pid_t pid);
 
 #endif

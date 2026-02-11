@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "lexer.h"
 
 static size_t	next_capacity(size_t current, size_t need)

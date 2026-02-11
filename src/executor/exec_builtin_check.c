@@ -11,17 +11,20 @@
 /* ************************************************************************** */
 
 #include "executor.h"
+#include "built_in.h"
 
 bool	is_builtin(const char *name)
 {
+	const t_builtin	*builtins;
 	size_t	idx;
 
 	if (!name)
 		return (false);
+	builtins = get_builtins();
 	idx = 0;
-	while (g_builtins[idx].cmd)
+	while (builtins[idx].cmd)
 	{
-		if (ft_strcmp(name, g_builtins[idx].cmd) == 0)
+		if (ft_strcmp(name, builtins[idx].cmd) == 0)
 			return (true);
 		++idx;
 	}

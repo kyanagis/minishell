@@ -17,6 +17,8 @@
 #include "free_table.h"
 #include "lexer.h"
 #include "main_utils.h"
+#include <readline/history.h>
+#include <readline/readline.h>
 
 static void	process_line(t_shell *sh, char *line)
 {
