@@ -10,8 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
 #include "executor.h"
+#include "libft.h"
+#include <stdlib.h>
 
 static size_t	env_list_len(t_env *env)
 {

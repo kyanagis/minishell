@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "parser.h"
+#include <stdlib.h>
 #include "free_table.h"
 
 static bool	parse_tokens_loop(const t_lexout *tokens, t_work_context *ctx,

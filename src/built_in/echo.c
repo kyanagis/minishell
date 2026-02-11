@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "built_in.h"
+#include <unistd.h>
 
 static int is_n_str(const char *str);
 

@@ -16,6 +16,9 @@
 #include "executor.h"
 #include "free_table.h"
 #include "sig.h"
+#include "libft.h"
+#include <stdlib.h>
+#include <unistd.h>
 
 void	parse_and_execute(t_shell *sh, t_free_table *table, t_lexout *tokens)
 {

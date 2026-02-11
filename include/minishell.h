@@ -15,6 +15,8 @@
 
 # include <stdbool.h>
 # include <stddef.h>
+# include <stdio.h>
+# include "libft.h"
 
 typedef struct s_env
 {

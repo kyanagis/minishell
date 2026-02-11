@@ -11,7 +11,9 @@
 /* ************************************************************************** */
 
 #include "built_in.h"
+#include "env_utils.h"
 #include "minishell.h"
+#include <stdlib.h>
 
 void	ft_export_one(t_shell *shell, char *arg)
 {

@@ -13,7 +13,6 @@
 #ifndef FREE_TABLE_H
 # define FREE_TABLE_H
 
-# include <stdbool.h>
 # include "minishell.h"
 
 typedef struct s_work_context	t_work_context;

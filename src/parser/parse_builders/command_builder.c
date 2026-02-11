@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "parser.h"
 
 bool	work_command_is_empty(const t_work_command *builder)

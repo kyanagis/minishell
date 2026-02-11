@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "parser.h"
 
 void	init_work_context(t_work_context *ctx, const t_lexout *tokens)

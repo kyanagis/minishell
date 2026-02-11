@@ -10,13 +10,17 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "parser.h"
-#include "expander.h"
+#include "env_utils.h"
 #include "executor.h"
+#include "expander.h"
 #include "free_table.h"
 #include "lexer.h"
 #include "main_utils.h"
+#include "minishell.h"
+#include "parser.h"
+#include "sig.h"
+#include <stdio.h>
+#include <stdlib.h>
 #include <readline/history.h>
 #include <readline/readline.h>
 

@@ -10,7 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "parser.h"
+#include <unistd.h>
 
 bool	parse_syntax_error(const char *unexpected)
 {

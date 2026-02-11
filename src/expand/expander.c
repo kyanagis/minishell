@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "expander.h"
+#include <stdlib.h>
 #include "free_table.h"
 
 static bool	token_index_valid(const t_lexout *lexer, size_t idx)

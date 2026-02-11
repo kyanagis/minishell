@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include "expander.h"
+#include "libft.h"
+#include <stdlib.h>
 
 void	init_work_buf(t_expand_work_buf *buf)
 {

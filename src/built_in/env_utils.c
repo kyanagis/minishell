@@ -10,7 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "built_in.h"
+#include "env_utils.h"
+#include "libft.h"
+#include <stdlib.h>
 
 void	free_env_list(t_env **lst, void (*del)(void *))
 {

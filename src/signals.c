@@ -11,11 +11,13 @@
 /* ************************************************************************** */
 
 #include "sig.h"
+#include "libft.h"
 #include <unistd.h>
 #include <stdio.h>
 #include <sys/wait.h>
 #include <readline/history.h>
 #include <readline/readline.h>
+#include <stdlib.h>
 
 volatile sig_atomic_t g_sig = 0;
 

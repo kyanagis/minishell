@@ -12,6 +12,11 @@
 
 #include "built_in.h"
 #include "minishell.h"
+#include <errno.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
 
 void		update_oldpwd(t_shell *shell);
 static void	update_pwd(t_shell *shell);

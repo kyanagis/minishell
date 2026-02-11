@@ -12,6 +12,7 @@
 
 #include <stdlib.h>
 #include "exec_heredoc_internal.h"
+#include "libft.h"
 #include "expander.h"
 
 void	free_chunks(t_hd_chunk *head)

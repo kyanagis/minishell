@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "built_in.h"
+#include <unistd.h>
 #include "minishell.h"
 #include <limits.h>
 

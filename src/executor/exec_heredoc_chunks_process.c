@@ -10,8 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
 #include "exec_heredoc_internal.h"
+#include "libft.h"
+#include <stdlib.h>
+#include <unistd.h>
 
 static bool	handle_null_line(t_shell *sh, t_redir *redir)
 {

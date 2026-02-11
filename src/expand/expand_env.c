@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include "expander.h"
+#include "libft.h"
+#include <stdlib.h>
 
 static bool	append_last_status(t_expand_work_buf *buf, t_shell *sh)
 {

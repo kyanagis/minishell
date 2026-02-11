@@ -12,8 +12,11 @@
 
 #include <unistd.h>
 #include <stdlib.h>
+#include "built_in.h"
+#include "env_utils.h"
 #include "executor.h"
 #include "free_table.h"
+#include "sig.h"
 
 static void	close_child_fds(int prev_read, int pipefd[2], t_fd_target *tgt)
 {

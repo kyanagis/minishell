@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "exec_heredoc_internal.h"
+#include "executor.h"
 
 int	open_heredoc(t_shell *sh, t_redir *redir)
 {

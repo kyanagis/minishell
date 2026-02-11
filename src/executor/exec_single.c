@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include <unistd.h>
+#include "built_in.h"
 #include "executor.h"
 
 static void	restore_stdio(int saved_in, int saved_out)

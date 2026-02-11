@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "free_table.h"
+#include <stdlib.h>
 
 void	destroy_redir_list(t_redir *head)
 {

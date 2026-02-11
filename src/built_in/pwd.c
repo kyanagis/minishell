@@ -12,6 +12,9 @@
 
 #include "built_in.h"
 #include "minishell.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 
 int ft_pwd(t_shell *shell, char **argv)
 {

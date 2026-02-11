@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "env_utils.h"
 #include "executor.h"
 
 bool	ensure_env_list(t_shell *sh)

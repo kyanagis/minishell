@@ -12,6 +12,7 @@
 
 #include "built_in.h"
 #include "minishell.h"
+#include <stdlib.h>
 
 static void ft_unset_one(t_shell *shell, char *key);
 

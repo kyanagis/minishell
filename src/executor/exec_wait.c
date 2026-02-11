@@ -10,10 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "executor.h"
+#include "libft.h"
+#include "sig.h"
 #include <signal.h>
 #include <sys/wait.h>
 #include <unistd.h>
-#include "executor.h"
 
 int	status_from_wait(int status)
 {

@@ -10,7 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "minishell.h"
+#include <stdlib.h>
 
 void	free_env(char **env)
 {

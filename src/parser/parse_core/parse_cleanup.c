@@ -12,6 +12,7 @@
 
 #include "parser.h"
 #include "free_table.h"
+#include <stdlib.h>
 
 static void	free_command_args(char **argv, size_t argc)
 {

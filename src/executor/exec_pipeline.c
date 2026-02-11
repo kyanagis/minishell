@@ -13,6 +13,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include "executor.h"
+#include "libft.h"
 
 ssize_t	run_pipeline(t_shell *sh, t_pipeline *pl, pid_t *pids);
 

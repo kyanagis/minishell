@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "built_in.h"
+#include <unistd.h>
 #include "minishell.h"
 
 int ft_env(t_shell *shell, char **argv)

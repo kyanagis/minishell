@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include "built_in.h"
+#include "env_utils.h"
+#include <unistd.h>
 
 static void	print_one_line(t_env *node);
 static int	print_export_env(t_shell *shell);

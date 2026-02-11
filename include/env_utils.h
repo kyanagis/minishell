@@ -1,39 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lex_utils.c                                       :+:      :+:    :+:   */
+/*   env_utils.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kyanagis <kyanagis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/27 11:20:05 by kyanagis          #+#    #+#             */
-/*   Updated: 2025/12/27 11:20:06 by kyanagis         ###   ########.fr       */
+/*   Created: 2026/02/11 00:00:00 by kyanagis          #+#    #+#             */
+/*   Updated: 2026/02/11 00:00:00 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer.h"
-#include <stdlib.h>
+#ifndef ENV_UTILS_H
+# define ENV_UTILS_H
 
-void	free_lexout(t_lexout *lx)
-{
-	size_t			n;
-	char			**a;
-	unsigned char	**m;
+# include "minishell.h"
 
-	if (!lx)
-		return ;
-	n = lx->count;
-	a = lx->argv;
-	m = lx->qmask;
-	while (n--)
-	{
-		free(*a);
-		free(*m);
-		a++;
-		m++;
-	}
-	free(lx->argv);
-	free(lx->qmask);
-	free(lx->len);
-	free(lx->kind);
-	free(lx);
-}
+void	ft_envlst_delone(t_env *lst, void (*del)(void *));
+void	free_env_list(t_env **lst, void (*del)(void *));
+t_env	*env_new_node(char *str);
+void	env_add_back(t_env **head, t_env *new_node);
+t_env	*init_env_list(char **envp);
+
+#endif

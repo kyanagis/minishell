@@ -10,8 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
 #include "exec_heredoc_internal.h"
+#include "executor.h"
+#include "libft.h"
+#include <unistd.h>
 
 static void	heredoc_sigint(int sig)
 {

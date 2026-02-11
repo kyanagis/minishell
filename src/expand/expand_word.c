@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include "expander.h"
+#include "lexer.h"
+#include "libft.h"
 
 static unsigned char	read_mask(const unsigned char *mask, size_t idx)
 {

@@ -14,6 +14,8 @@
 #include <stdlib.h>
 #include <fcntl.h>
 #include "exec_heredoc_internal.h"
+#include "executor.h"
+#include "libft.h"
 
 static bool	read_urandom(unsigned char *buf, size_t len)
 {

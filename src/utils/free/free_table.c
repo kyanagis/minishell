@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "free_table.h"
+#include "lexer.h"
 
 void	init_free_table(t_free_table *table)
 {

@@ -13,6 +13,7 @@
 #include <unistd.h>
 #include "executor.h"
 #include "error_messages.h"
+#include "libft.h"
 
 static void	safe_putstr(const char *s)
 {
