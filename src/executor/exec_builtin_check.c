@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin_check.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyanagis <kyanagis@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kyanagis <kyanagis@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/27 10:19:05 by kyanagis          #+#    #+#             */
-/*   Updated: 2025/12/28 18:20:01 by kyanagis         ###   ########.fr       */
+/*   Updated: 2026/02/12 18:44:30 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "executor.h"
 #include "built_in.h"
+#include "executor.h"
 
 bool	is_builtin(const char *name)
 {
 	const t_builtin	*builtins;
-	size_t	idx;
+	size_t			idx;
 
 	if (!name)
 		return (false);

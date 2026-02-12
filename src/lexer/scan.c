@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   scan.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyanagis <kyanagis@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kyanagis <kyanagis@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 20:00:01 by kyanagis          #+#    #+#             */
-/*   Updated: 2025/12/27 11:32:11 by kyanagis         ###   ########.fr       */
+/*   Updated: 2026/02/12 18:42:13 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 
-typedef void	t_state_handler(t_lexer *lx, const char *input,
-				size_t *index, char c);
+// typedef void	t_state_handler(t_lexer *lx, const char *input,
+// 				size_t *index, char c);
 
 // static const t_state_handler *g_handlers[3] = {handle_gen, handle_squote,
 // 		handle_dquote};

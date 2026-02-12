@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   command_builder.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyanagis <kyanagis@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kyanagis <kyanagis@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 04:04:08 by kyanagis          #+#    #+#             */
-/*   Updated: 2025/12/27 11:32:19 by kyanagis         ###   ########.fr       */
+/*   Updated: 2026/02/12 18:47:28 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "parser.h"
 
-bool	work_command_is_empty(const t_work_command *builder)
+bool	work_command_is_empty(t_work_command *builder)
 {
 	if (!builder)
 		return (true);
