@@ -6,7 +6,7 @@
 /*   By: kyanagis <kyanagis@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 04:56:29 by kyanagis          #+#    #+#             */
-/*   Updated: 2025/11/12 13:37:22 by kyanagis         ###   ########.fr       */
+/*   Updated: 2026/02/12 18:43:56 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	*ft_xstrdup(const char *s)
 {
-	char *dst;
+	char	*dst;
 
 	dst = ft_strdup(s);
 	if (!dst)
