@@ -29,7 +29,7 @@ int	status_from_wait(int status)
 		if (sig == SIGQUIT)
 			ft_putstr_fd("Quit (core dumped)\n", STDERR_FILENO);
 		else if (sig == SIGINT)
-			write(STDOUT_FILENO, "\n", 1);
+			ft_putstr_fd("\n", STDOUT_FILENO);
 		return (128 + sig);
 	}
 	return (STATUS_GENERAL_ERR);

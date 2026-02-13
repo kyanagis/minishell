@@ -61,5 +61,5 @@ static void	print_one_line(t_env *node)
 		ft_putstr_fd(node->value, STDOUT_FILENO);
 		ft_putstr_fd("\"", STDOUT_FILENO);
 	}
-	write(STDOUT_FILENO, "\n", 1);
+	ft_putstr_fd("\n", STDOUT_FILENO);
 }

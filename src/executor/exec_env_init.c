@@ -15,15 +15,12 @@
 
 bool	ensure_env_list(t_shell *sh)
 {
-	static bool	initialized = false;
-
 	if (!sh)
 		return (false);
-	if (initialized)
+	if (sh->env_list)
 		return (true);
 	sh->env_list = init_env_list(sh->envp);
 	if (!sh->env_list)
 		return (false);
-	initialized = true;
 	return (true);
 }

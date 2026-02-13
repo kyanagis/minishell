@@ -15,18 +15,5 @@
 
 bool	is_builtin(const char *name)
 {
-	const t_builtin	*builtins;
-	size_t			idx;
-
-	if (!name)
-		return (false);
-	builtins = get_builtins();
-	idx = 0;
-	while (builtins[idx].cmd)
-	{
-		if (ft_strcmp(name, builtins[idx].cmd) == 0)
-			return (true);
-		++idx;
-	}
-	return (false);
+	return (get_builtin_func(name) != NULL);
 }

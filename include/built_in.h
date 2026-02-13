@@ -56,12 +56,8 @@ int						ft_cd(t_shell *shell, char **argv);
 /* exec_builtin.c */
 int						exec_builtin(t_shell *shell, char **argv);
 
-typedef struct s_builtin
-{
-	char				*cmd;
-	int					(*func)(t_shell *shell, char **argv);
-}						t_builtin;
+typedef int				(*t_builtin_fn)(t_shell *shell, char **argv);
 
-const t_builtin			*get_builtins(void);
+t_builtin_fn			get_builtin_func(const char *name);
 
 #endif

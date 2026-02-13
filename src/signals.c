@@ -19,76 +19,76 @@
 #include <readline/readline.h>
 #include <stdlib.h>
 
-volatile sig_atomic_t g_sig = 0;
+volatile sig_atomic_t	g_sig = 0;
 
-void handle_sigint(int sig)
+void	handle_sigint(int sig)
 {
-    g_sig = sig;
+	ssize_t	w;
 
-    write(1, "\n", 1);
-    rl_on_new_line();
-    rl_replace_line("", 0);
-    rl_redisplay();
+	g_sig = sig;
+	w = write(1, "\n", 1);
+	if (w < 0)
+		return ;
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
 }
 
-void init_signals(void)
+void	init_signals(void)
 {
-    struct sigaction sa_int;
-    struct sigaction sa_quit;
+	struct sigaction	sa_int;
+	struct sigaction	sa_quit;
 
-    // SIGINT(CTRL-C)
-    sa_int.sa_handler = handle_sigint;
-    sa_int.sa_flags = 0;
-    sigemptyset(&sa_int.sa_mask);
-
-    // SIGQUIT(CTRL-\)
-    sa_quit.sa_handler = SIG_IGN;
-    sa_quit.sa_flags = 0;
-    sigemptyset(&sa_quit.sa_mask);
-    if (sigaction(SIGINT, &sa_int, NULL) == -1 || sigaction(SIGQUIT, &sa_quit, NULL) == -1)
-    {
-        ft_putstr_fd("Error: Failed to set up signal handlers\n", 2);
-        exit(1);
-    }
+	sa_int.sa_handler = handle_sigint;
+	sa_int.sa_flags = 0;
+	sigemptyset(&sa_int.sa_mask);
+	sa_quit.sa_handler = SIG_IGN;
+	sa_quit.sa_flags = 0;
+	sigemptyset(&sa_quit.sa_mask);
+	if (sigaction(SIGINT, &sa_int, NULL) == -1
+		|| sigaction(SIGQUIT, &sa_quit, NULL) == -1)
+	{
+		ft_putstr_fd("Error: Failed to set up signal handlers\n", 2);
+		exit(1);
+	}
 }
 
-void set_default_signals(void)
+void	set_default_signals(void)
 {
-    // 子プロセス側のシグナル設定を初期状態に戻す
-    signal(SIGINT, SIG_DFL);
-    signal(SIGQUIT, SIG_DFL);
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 }
 
-void set_ignore_signals(void)
+void	set_ignore_signals(void)
 {
-    signal(SIGINT, SIG_IGN);
-    signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 }
 
-int wait_child_process(pid_t pid)
+int	wait_child_process(pid_t pid)
 {
-    int status;
-    int exit_code;
-    int sig;
+	int	status;
+	int	exit_code;
+	int	sig;
 
-    // 親プロセスは待機中、シグナルを無視する（表示崩れ防止）
-    set_ignore_signals();
-    if (waitpid(pid, &status, 0) == -1)
-        return (1);
-    // 終了ステータスの判定と表示処理
-    if (WIFSIGNALED(status)) // シグナルで死んだ場合
-    {
-        sig = WTERMSIG(status);
-        if (sig == SIGINT) // Ctrl-Cなら改行だけ
-            write(1, "\n", 1);
-        else if (sig == SIGQUIT) // Ctrl-\ならエラーメッセージ
-            ft_putstr_fd("Quit (core dumped)\n", 2);
-        exit_code = 128 + sig;
-    }
-    else if (WIFEXITED(status))          // 普通にexitした場合
-        exit_code = WEXITSTATUS(status); // exitの引数をそのまま使う
-    else
-        exit_code = 1;
-
-    return (exit_code);
+	set_ignore_signals();
+	if (waitpid(pid, &status, 0) == -1)
+		return (1);
+	if (WIFSIGNALED(status))
+	{
+		sig = WTERMSIG(status);
+		if (sig == SIGINT)
+		{
+			if (write(1, "\n", 1) < 0)
+				return (1);
+		}
+		else if (sig == SIGQUIT)
+			ft_putstr_fd("Quit (core dumped)\n", 2);
+		exit_code = 128 + sig;
+	}
+	else if (WIFEXITED(status))
+		exit_code = WEXITSTATUS(status);
+	else
+		exit_code = 1;
+	return (exit_code);
 }

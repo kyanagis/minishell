@@ -18,13 +18,16 @@
 static void	safe_putstr(const char *s)
 {
 	size_t	len;
+	ssize_t	written;
 
 	if (!s)
 		return ;
 	len = ft_strlen(s);
 	if (len == 0)
 		return ;
-	write(STDERR_FILENO, s, len);
+	written = write(STDERR_FILENO, s, len);
+	if (written < 0)
+		return ;
 }
 
 static const char	*status_message(int status)

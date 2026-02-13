@@ -11,14 +11,14 @@
 /* ************************************************************************** */
 
 #include "built_in.h"
-#include <unistd.h>
 #include "minishell.h"
+#include <unistd.h>
 
-int ft_env(t_shell *shell, char **argv)
+int	ft_env(t_shell *shell, char **argv)
 {
-	(void)argv;
-	t_env *current;
+	t_env	*current;
 
+	(void)argv;
 	current = shell->env_list;
 	while (current)
 	{

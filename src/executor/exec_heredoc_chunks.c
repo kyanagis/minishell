@@ -17,9 +17,13 @@
 
 static void	heredoc_sigint(int sig)
 {
+	ssize_t	w;
+
 	(void)sig;
 	g_sig = SIGINT;
-	write(STDOUT_FILENO, "\n", 1);
+	w = write(STDOUT_FILENO, "\n", 1);
+	if (w < 0)
+		return ;
 }
 
 static void	setup_heredoc_signals(struct sigaction *old_int,

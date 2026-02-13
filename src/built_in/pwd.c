@@ -16,20 +16,20 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-int ft_pwd(t_shell *shell, char **argv)
+int	ft_pwd(t_shell *shell, char **argv)
 {
-    char *cwd;
+	char	*cwd;
 
-    (void)shell;
-    (void)argv;
-    cwd = getcwd(NULL, 0); // NULLを渡した場合、sizeが無視されサイズを自動的に確保
-    if (!cwd)
-    {
-        perror("pwd");
-        return (ERROR);
-    }
-    ft_putstr_fd(cwd, STDOUT_FILENO);
-    write(STDOUT_FILENO, "\n", 1);
-    free(cwd);
-    return (NO_ERROR);
+	(void)shell;
+	(void)argv;
+	cwd = getcwd(NULL, 0);
+	if (!cwd)
+	{
+		perror("pwd");
+		return (ERROR);
+	}
+	ft_putstr_fd(cwd, STDOUT_FILENO);
+	ft_putstr_fd("\n", STDOUT_FILENO);
+	free(cwd);
+	return (NO_ERROR);
 }

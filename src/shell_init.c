@@ -15,7 +15,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <readline/readline.h>
-#include <readline/history.h>
 
 size_t	env_count(char **p)
 {
@@ -98,5 +97,4 @@ void	shell_destroy(t_shell *sh)
 	}
 	if (sh->prompt)
 		free(sh->prompt);
-	rl_clear_history();
 }
