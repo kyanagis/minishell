@@ -32,7 +32,74 @@ SRC_DIRS    := src src/lexer src/parser src/parser/parse_builders \
                src/utils \
                src/utils/free
 
-SRCS        := $(foreach d,$(SRC_DIRS),$(wildcard $(d)/*.c))
+SRCS        := \
+               src/main.c \
+               src/main_utils.c \
+               src/prompt.c \
+               src/shell_init.c \
+               src/signals.c \
+               src/built_in/cd.c \
+               src/built_in/echo.c \
+               src/built_in/env.c \
+               src/built_in/env_utils.c \
+               src/built_in/exec_builtin.c \
+               src/built_in/exit.c \
+               src/built_in/export.c \
+               src/built_in/export_util.c \
+               src/built_in/pwd.c \
+               src/built_in/unset.c \
+               src/executor/exec_builtin_check.c \
+               src/executor/exec_child.c \
+               src/executor/exec_cleanup.c \
+               src/executor/exec_cmd.c \
+               src/executor/exec_env.c \
+               src/executor/exec_env_init.c \
+               src/executor/exec_error.c \
+               src/executor/exec_fd_utils.c \
+               src/executor/exec_heredoc.c \
+               src/executor/exec_heredoc_chunks.c \
+               src/executor/exec_heredoc_chunks_process.c \
+               src/executor/exec_heredoc_chunks_utils.c \
+               src/executor/exec_heredoc_tempfile.c \
+               src/executor/exec_heredoc_write.c \
+               src/executor/exec_path.c \
+               src/executor/exec_pipeline.c \
+               src/executor/exec_pipeline_runner.c \
+               src/executor/exec_redir.c \
+               src/executor/exec_single.c \
+               src/executor/exec_wait.c \
+               src/executor/executor.c \
+               src/expand/expand_buffer.c \
+               src/expand/expand_cleanup.c \
+               src/expand/expand_env.c \
+               src/expand/expand_word.c \
+               src/expand/expander.c \
+               src/lexer/finalize.c \
+               src/lexer/grow.c \
+               src/lexer/handle_gen.c \
+               src/lexer/handle_quote.c \
+               src/lexer/lexer.c \
+               src/lexer/lexer_cleanup.c \
+               src/lexer/push.c \
+               src/lexer/scan.c \
+               src/lexer/utils.c \
+               src/parser/parse_builders/command_builder.c \
+               src/parser/parse_builders/pipeline_builder.c \
+               src/parser/parse_core/parse_cleanup.c \
+               src/parser/parse_core/parse_context.c \
+               src/parser/parse_core/parse_finalize.c \
+               src/parser/parse_core/parse_utils.c \
+               src/parser/parse_core/parser.c \
+               src/parser/parse_core/pipeline_parser.c \
+               src/parser/parse_syntax/redir_syntax_scan.c \
+               src/parser/parse_tokens/token_dispatcher.c \
+               src/parser/parse_tokens/token_pipe_handler.c \
+               src/parser/parse_tokens/token_redir_handler.c \
+               src/parser/parse_tokens/token_word_handler.c \
+               src/utils/env_utils.c \
+               src/utils/lex_utils.c \
+               src/utils/free/free_destroy.c \
+               src/utils/free/free_table.c
 OBJS        := $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRCS))
 DEPS        := $(OBJS:.o=.d)
 
@@ -69,8 +136,6 @@ else                                    # Linux
 endif
 
 CPPFLAGS += $(RL_INC)
-
-.PHONY: all clean fclean re bonus norm print run
 
 all: $(NAME)
 
@@ -115,5 +180,7 @@ fclean: clean
 	$(RM) $(NAME)
 
 re: fclean all
+
+.PHONY: all clean fclean re bonus norm print run
 
 -include $(DEPS)
