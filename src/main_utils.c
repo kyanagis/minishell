@@ -6,11 +6,11 @@
 /*   By: kyanagis <kyanagis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/30 00:00:00 by kyanagis          #+#    #+#             */
-/*   Updated: 2025/12/30 00:00:00 by kyanagis         ###   ########.fr       */
+/*   Updated: 2026/02/16 23:08:49 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "main_utils.h"
+#include "minishell.h"
 #include "parser.h"
 #include "expander.h"
 #include "executor.h"
@@ -20,10 +20,10 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-void	parse_and_execute(t_shell *sh, t_free_table *table, t_lexout *tokens)
+void parse_and_execute(t_shell *sh, t_free_table *table, t_lexout *tokens)
 {
-	t_pipeline	*pl;
-	bool		ok;
+	t_pipeline *pl;
+	bool ok;
 
 	pl = NULL;
 	ok = parse_tokens(sh, tokens, &pl, table);
@@ -38,7 +38,7 @@ void	parse_and_execute(t_shell *sh, t_free_table *table, t_lexout *tokens)
 		execute_commands(sh, pl);
 }
 
-bool	is_eof(char *line)
+bool is_eof(char *line)
 {
 	if (line)
 		return (false);
@@ -46,7 +46,7 @@ bool	is_eof(char *line)
 	return (true);
 }
 
-bool	should_skip_line(t_shell *sh, char *line)
+bool should_skip_line(t_shell *sh, char *line)
 {
 	if (g_sig == SIGINT)
 	{

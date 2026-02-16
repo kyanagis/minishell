@@ -6,18 +6,16 @@
 /*   By: kyanagis <kyanagis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 19:59:43 by kyanagis          #+#    #+#             */
-/*   Updated: 2025/12/27 11:30:54 by kyanagis         ###   ########.fr       */
+/*   Updated: 2026/02/16 23:15:21 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "lexer.h"
-#include <stdlib.h>
 
-static unsigned char	*mem_dup_uc(const unsigned char *s, size_t n)
+static unsigned char *mem_dup_uc(const unsigned char *s, size_t n)
 {
-	unsigned char	*p;
-	size_t			i;
+	unsigned char *p;
+	size_t i;
 
 	p = (unsigned char *)ft_xmalloc(n);
 	i = 0;
@@ -29,9 +27,9 @@ static unsigned char	*mem_dup_uc(const unsigned char *s, size_t n)
 	return (p);
 }
 
-static t_lexout	*alloc_output(t_lexer *lx)
+static t_lexout *alloc_output(t_lexer *lx)
 {
-	t_lexout	*out;
+	t_lexout *out;
 
 	out = (t_lexout *)ft_xmalloc(sizeof(*out));
 	out->count = lx->args_len;
@@ -43,10 +41,10 @@ static t_lexout	*alloc_output(t_lexer *lx)
 	return (out);
 }
 
-static void	fill_output(t_lexout *out, t_lexer *lx)
+static void fill_output(t_lexout *out, t_lexer *lx)
 {
-	size_t	i;
-	size_t	n;
+	size_t i;
+	size_t n;
 
 	i = 0;
 	while (i < out->count)
@@ -61,9 +59,9 @@ static void	fill_output(t_lexout *out, t_lexer *lx)
 	out->argv[out->count] = NULL;
 }
 
-t_lexout	*finalize_lexer(t_lexer *lx)
+t_lexout *finalize_lexer(t_lexer *lx)
 {
-	t_lexout	*out;
+	t_lexout *out;
 
 	if (lx->state != LEX_GEN)
 	{

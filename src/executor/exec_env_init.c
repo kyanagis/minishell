@@ -6,14 +6,14 @@
 /*   By: kyanagis <kyanagis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 00:00:00 by kyanagis          #+#    #+#             */
-/*   Updated: 2025/01/03 00:00:00 by kyanagis         ###   ########.fr       */
+/*   Updated: 2026/02/16 23:11:40 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env_utils.h"
+#include "minishell.h"
 #include "executor.h"
 
-bool	ensure_env_list(t_shell *sh)
+bool ensure_env_list(t_shell *sh)
 {
 	if (!sh)
 		return (false);

@@ -3,29 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skatsuya < skatsuya@student.42tokyo.jp>    +#+  +:+       +#+        */
+/*   By: kyanagis <kyanagis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 07:55:29 by skatsuya          #+#    #+#             */
-/*   Updated: 2026/01/11 02:07:19 by skatsuya         ###   ########.fr       */
+/*   Updated: 2026/02/16 23:17:04 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "built_in.h"
-#include "minishell.h"
-#include <errno.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
 
-void		update_oldpwd(t_shell *shell);
-static void	update_pwd(t_shell *shell);
-static char	*get_env(t_shell *shell, char *key);
-static int	print_cd_error(char *dest, int err_num);
+void update_oldpwd(t_shell *shell);
+static void update_pwd(t_shell *shell);
+static char *get_env(t_shell *shell, char *key);
+static int print_cd_error(char *dest, int err_num);
 
-int	ft_cd(t_shell *shell, char **argv)
+int ft_cd(t_shell *shell, char **argv)
 {
-	char	*dest;
+	char *dest;
 
 	if (argv[1] && argv[2])
 	{
@@ -49,10 +43,10 @@ int	ft_cd(t_shell *shell, char **argv)
 }
 
 // 現在のPWD環境変数の値を検索し、OLDPWDとして保存
-void	update_oldpwd(t_shell *shell)
+void update_oldpwd(t_shell *shell)
 {
-	t_env	*current;
-	char	*new_arg;
+	t_env *current;
+	char *new_arg;
 
 	current = shell->env_list;
 	while (current)
@@ -60,43 +54,43 @@ void	update_oldpwd(t_shell *shell)
 		if (ft_strcmp(current->key, "PWD") == 0)
 		{
 			if (!current->value)
-				return ;
+				return;
 			new_arg = ft_strjoin("OLDPWD=", current->value);
 			if (!new_arg)
-				return ;
+				return;
 			ft_export_one(shell, new_arg);
 			free(new_arg);
-			return ;
+			return;
 		}
 		current = current->next;
 	}
 }
 
-static void	update_pwd(t_shell *shell)
+static void update_pwd(t_shell *shell)
 {
-	char	*cwd;
-	char	*new_arg;
+	char *cwd;
+	char *new_arg;
 
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
 	{
 		perror("pwd");
-		return ;
+		return;
 	}
 	new_arg = ft_strjoin("PWD=", cwd);
 	if (!new_arg)
 	{
 		free(cwd);
-		return ;
+		return;
 	}
 	ft_export_one(shell, new_arg);
 	free(new_arg);
 	free(cwd);
 }
 
-static char	*get_env(t_shell *shell, char *key)
+static char *get_env(t_shell *shell, char *key)
 {
-	t_env	*current;
+	t_env *current;
 
 	current = shell->env_list;
 	while (current)
@@ -108,7 +102,7 @@ static char	*get_env(t_shell *shell, char *key)
 	return (NULL);
 }
 
-static int	print_cd_error(char *dest, int err_num)
+static int print_cd_error(char *dest, int err_num)
 {
 	ft_putstr_fd("minishell: cd: ", STDERR_FILENO);
 	ft_putstr_fd(dest, STDERR_FILENO);

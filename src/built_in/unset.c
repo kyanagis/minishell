@@ -3,22 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skatsuya <skatsuya@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kyanagis <kyanagis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 22:34:09 by skatsuya          #+#    #+#             */
-/*   Updated: 2025/12/12 18:21:45 by skatsuya         ###   ########.fr       */
+/*   Updated: 2026/02/16 23:18:21 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "built_in.h"
-#include "minishell.h"
-#include <stdlib.h>
 
-static void	ft_unset_one(t_shell *shell, char *key);
+static void ft_unset_one(t_shell *shell, char *key);
 
-int	ft_unset(t_shell *shell, char **argv)
+int ft_unset(t_shell *shell, char **argv)
 {
-	size_t	i;
+	size_t i;
 
 	if (!argv[1])
 		return (NO_ERROR);
@@ -31,10 +29,10 @@ int	ft_unset(t_shell *shell, char **argv)
 	return (NO_ERROR);
 }
 
-static void	ft_unset_one(t_shell *shell, char *key)
+static void ft_unset_one(t_shell *shell, char *key)
 {
-	t_env	*current;
-	t_env	*prev;
+	t_env *current;
+	t_env *prev;
 
 	current = shell->env_list;
 	prev = NULL;
@@ -49,7 +47,7 @@ static void	ft_unset_one(t_shell *shell, char *key)
 			free(current->key);
 			free(current->value);
 			free(current);
-			return ;
+			return;
 		}
 		prev = current;
 		current = current->next;

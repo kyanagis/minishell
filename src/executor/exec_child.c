@@ -6,19 +6,19 @@
 /*   By: kyanagis <kyanagis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/27 10:19:08 by kyanagis          #+#    #+#             */
-/*   Updated: 2025/12/27 11:17:14 by kyanagis         ###   ########.fr       */
+/*   Updated: 2026/02/16 23:11:30 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <stdlib.h>
 #include "built_in.h"
-#include "env_utils.h"
+#include "minishell.h"
 #include "executor.h"
 #include "free_table.h"
 #include "sig.h"
 
-static void	close_child_fds(int prev_read, int pipefd[2], t_fd_target *tgt)
+static void close_child_fds(int prev_read, int pipefd[2], t_fd_target *tgt)
 {
 	if (prev_read >= 0 && prev_read != tgt->in_fd)
 		close(prev_read);
@@ -32,7 +32,7 @@ static void	close_child_fds(int prev_read, int pipefd[2], t_fd_target *tgt)
 		close(tgt->out_fd);
 }
 
-static void	child_exit(t_shell *sh, int status)
+static void child_exit(t_shell *sh, int status)
 {
 	if (sh && sh->table)
 		ft_release(sh->table);
@@ -43,29 +43,29 @@ static void	child_exit(t_shell *sh, int status)
 	exit(status);
 }
 
-static void	child_fail(t_shell *sh, t_fd_target *tgt, int status)
+static void child_fail(t_shell *sh, t_fd_target *tgt, int status)
 {
 	close_fd_target(tgt);
 	child_exit(sh, status);
 }
 
-static void	init_child_ctx(t_child_ctx *ctx, int *prev_read, int **pipefd)
+static void init_child_ctx(t_child_ctx *ctx, int *prev_read, int **pipefd)
 {
 	*prev_read = -1;
 	*pipefd = NULL;
 	if (!ctx)
-		return ;
+		return;
 	free(ctx->pids);
 	*prev_read = ctx->prev_read;
 	*pipefd = ctx->pipefd;
 }
 
-void	execute_child(t_shell *sh, t_cmd *cmd, t_child_ctx *ctx)
+void execute_child(t_shell *sh, t_cmd *cmd, t_child_ctx *ctx)
 {
-	t_fd_target	tgt;
-	int			status;
-	int			prev_read;
-	int			*pipefd;
+	t_fd_target tgt;
+	int status;
+	int prev_read;
+	int *pipefd;
 
 	init_child_ctx(ctx, &prev_read, &pipefd);
 	set_default_signals();

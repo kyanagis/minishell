@@ -3,23 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skatsuya < skatsuya@student.42tokyo.jp>    +#+  +:+       +#+        */
+/*   By: kyanagis <kyanagis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 07:44:48 by skatsuya          #+#    #+#             */
-/*   Updated: 2026/01/20 20:11:00 by skatsuya         ###   ########.fr       */
+/*   Updated: 2026/02/16 23:17:28 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env_utils.h"
-#include "libft.h"
-#include <stdlib.h>
+#include "minishell.h"
 
-void	free_env_list(t_env **lst, void (*del)(void *))
+void free_env_list(t_env **lst, void (*del)(void *))
 {
-	t_env	*temp;
+	t_env *temp;
 
 	if (!lst || !del)
-		return ;
+		return;
 	while (*lst)
 	{
 		temp = (*lst)->next;
@@ -29,19 +27,19 @@ void	free_env_list(t_env **lst, void (*del)(void *))
 	*lst = NULL;
 }
 
-void	ft_envlst_delone(t_env *lst, void (*del)(void *))
+void ft_envlst_delone(t_env *lst, void (*del)(void *))
 {
 	if (!lst || !del)
-		return ;
+		return;
 	del(lst->key);
 	del(lst->value);
 	free(lst);
 }
 
-t_env	*env_new_node(char *str)
+t_env *env_new_node(char *str)
 {
-	t_env	*new;
-	char	*eq_pos;
+	t_env *new;
+	char *eq_pos;
 
 	new = malloc(sizeof(t_env));
 	if (!new)
@@ -61,16 +59,16 @@ t_env	*env_new_node(char *str)
 	return (new);
 }
 
-void	env_add_back(t_env **head, t_env *new_node)
+void env_add_back(t_env **head, t_env *new_node)
 {
-	t_env	*current;
+	t_env *current;
 
 	if (!head || !new_node)
-		return ;
+		return;
 	if (!*head)
 	{
 		*head = new_node;
-		return ;
+		return;
 	}
 	current = *head;
 	while (current->next)
@@ -78,11 +76,11 @@ void	env_add_back(t_env **head, t_env *new_node)
 	current->next = new_node;
 }
 
-t_env	*init_env_list(char **envp)
+t_env *init_env_list(char **envp)
 {
-	t_env	*head;
-	t_env	*new_node;
-	size_t	i;
+	t_env *head;
+	t_env *new_node;
+	size_t i;
 
 	head = NULL;
 	i = 0;

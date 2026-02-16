@@ -3,21 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skatsuya <skatsuya@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kyanagis <kyanagis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 03:33:54 by sakurako          #+#    #+#             */
-/*   Updated: 2025/12/12 09:07:55 by skatsuya         ###   ########.fr       */
+/*   Updated: 2026/02/16 23:17:15 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "built_in.h"
-#include <unistd.h>
 
-static int	is_n_str(const char *str);
+static int is_n_str(const char *str);
 
-int	ft_echo(t_shell *shell, char **argv)
+int ft_echo(t_shell *shell, char **argv)
 {
-	int	n_flag;
+	int n_flag;
 
 	(void)shell;
 	argv++;
@@ -39,7 +38,7 @@ int	ft_echo(t_shell *shell, char **argv)
 	return (NO_ERROR);
 }
 
-static int	is_n_str(const char *str)
+static int is_n_str(const char *str)
 {
 	if (ft_strncmp(str, "-n", 2) != 0)
 		return (FALSE);
