@@ -6,13 +6,11 @@
 /*   By: kyanagis <kyanagis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 04:03:56 by kyanagis          #+#    #+#             */
-/*   Updated: 2025/12/27 11:32:36 by kyanagis         ###   ########.fr       */
+/*   Updated: 2026/02/16 23:22:49 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "parser.h"
-#include <unistd.h>
 
 bool	parse_syntax_error(const char *unexpected)
 {

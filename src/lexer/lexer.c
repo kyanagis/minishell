@@ -6,13 +6,11 @@
 /*   By: kyanagis <kyanagis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 19:59:53 by kyanagis          #+#    #+#             */
-/*   Updated: 2025/12/27 11:32:04 by kyanagis         ###   ########.fr       */
+/*   Updated: 2026/02/16 23:15:08 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "lexer.h"
-#include <stdlib.h>
 
 static void	init_lexer(t_lexer *lx, size_t n)
 {

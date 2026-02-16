@@ -6,16 +6,13 @@
 /*   By: kyanagis <kyanagis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 00:00:00 by kyanagis          #+#    #+#             */
-/*   Updated: 2025/01/03 00:00:00 by kyanagis         ###   ########.fr       */
+/*   Updated: 2026/02/16 23:30:29 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <stdlib.h>
 #include <fcntl.h>
 #include "exec_heredoc_internal.h"
 #include "executor.h"
-#include "libft.h"
 
 static bool	read_urandom(unsigned char *buf, size_t len)
 {
@@ -51,7 +48,7 @@ static char	*build_temp_path(const unsigned char *bytes, size_t len)
 
 	prefix = ".heredoc_";
 	base = "0123456789abcdef";
-	hex = (char *)ft_calloc(len * 2 + 1, sizeof(char));
+	hex = (char *)ft_calloc(len * 2 + 1, sizeof (char));
 	if (!hex)
 		return (NULL);
 	i = 0;

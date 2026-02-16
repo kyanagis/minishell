@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skatsuya < skatsuya@student.42tokyo.jp>    +#+  +:+       +#+        */
+/*   By: kyanagis <kyanagis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 07:44:48 by skatsuya          #+#    #+#             */
-/*   Updated: 2026/01/20 20:11:00 by skatsuya         ###   ########.fr       */
+/*   Updated: 2026/02/16 23:17:28 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env_utils.h"
-#include "libft.h"
-#include <stdlib.h>
+#include "minishell.h"
 
 void	free_env_list(t_env **lst, void (*del)(void *))
 {
@@ -43,7 +41,7 @@ t_env	*env_new_node(char *str)
 	t_env	*new;
 	char	*eq_pos;
 
-	new = malloc(sizeof(t_env));
+	new = malloc(sizeof (t_env));
 	if (!new)
 		return (NULL);
 	eq_pos = ft_strchr(str, '=');

@@ -6,12 +6,11 @@
 /*   By: kyanagis <kyanagis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/27 11:20:10 by kyanagis          #+#    #+#             */
-/*   Updated: 2025/12/27 11:30:20 by kyanagis         ###   ########.fr       */
+/*   Updated: 2026/02/16 23:19:29 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "free_table.h"
-#include <stdlib.h>
 
 void	destroy_redir_list(t_redir *head)
 {

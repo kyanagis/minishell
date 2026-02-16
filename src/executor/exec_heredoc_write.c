@@ -6,11 +6,10 @@
 /*   By: kyanagis <kyanagis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 00:00:00 by kyanagis          #+#    #+#             */
-/*   Updated: 2025/01/03 00:00:00 by kyanagis         ###   ########.fr       */
+/*   Updated: 2026/02/16 23:30:20 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
 #include "exec_heredoc_internal.h"
 
 bool	write_chunks(int fd, t_hd_chunk *head)

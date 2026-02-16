@@ -6,19 +6,16 @@
 /*   By: kyanagis <kyanagis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 04:03:38 by kyanagis          #+#    #+#             */
-/*   Updated: 2025/12/27 11:32:59 by kyanagis         ###   ########.fr       */
+/*   Updated: 2026/02/16 23:27:27 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer.h"
-#include "libft.h"
 #include "parser.h"
-#include <stdlib.h>
 
 // マスク情報をキャッシュし、ヒアドキュメントが引用されたかを取得する。
 
 static bool	get_heredoc_quote_flag(t_work_context *ctx, const t_lexout *tokens,
-			size_t index)
+								size_t	index)
 {
 	unsigned char	*cache;
 	unsigned char	*mask;
@@ -58,12 +55,12 @@ static void	ensure_argument_capacity(t_work_command *builder)
 	new_cap = 4;
 	if (builder->cap != 0)
 		new_cap = builder->cap * 2;
-	argv = ft_xcalloc(new_cap + 1, sizeof(char *));
-	idx = ft_xcalloc(new_cap, sizeof(size_t));
+	argv = ft_xcalloc(new_cap + 1, sizeof (char *));
+	idx = ft_xcalloc(new_cap, sizeof (size_t));
 	if (builder->argv && builder->argc != 0)
 	{
-		ft_memcpy(argv, builder->argv, sizeof(char *) * builder->argc);
-		ft_memcpy(idx, builder->tok_idx_argv, sizeof(size_t) * builder->argc);
+		ft_memcpy(argv, builder->argv, sizeof (char *) * builder->argc);
+		ft_memcpy(idx, builder->tok_idx_argv, sizeof (size_t) * builder->argc);
 	}
 	free(builder->argv);
 	free(builder->tok_idx_argv);
@@ -76,14 +73,14 @@ static bool	ensure_builder_ready(t_work_context *ctx, t_work_state *state)
 {
 	if (ctx->current_builder)
 		return (true);
-	ctx->current_builder = ft_xcalloc(1, sizeof(t_work_command));
+	ctx->current_builder = ft_xcalloc(1, sizeof (t_work_command));
 	if (!ctx->current_builder)
 		state->ok = false;
 	return (ctx->current_builder != NULL);
 }
 
 static bool	append_redirection_token(t_work_context *ctx, t_work_state *state,
-			const char *word, const t_lexout *tokens)
+									const char	*word, const t_lexout *tokens)
 {
 	t_redir			*redir;
 	t_work_command	*builder;
@@ -95,7 +92,7 @@ static bool	append_redirection_token(t_work_context *ctx, t_work_state *state,
 	if (!ensure_builder_ready(ctx, state))
 		return (false);
 	builder = ctx->current_builder;
-	redir = ft_xcalloc(1, sizeof(t_redir));
+	redir = ft_xcalloc(1, sizeof (t_redir));
 	redir->kind = ctx->pending_redir_kind;
 	redir->arg = ft_xstrdup(word);
 	redir->tok_idx = state->index;
@@ -112,7 +109,7 @@ static bool	append_redirection_token(t_work_context *ctx, t_work_state *state,
 // 受け取った単語トークンを引数/リダイレクトとしてコマンドに積む。
 
 bool	handle_word_token(t_work_context *ctx, t_work_state *state,
-			const t_lexout *tokens)
+					const t_lexout	*tokens)
 {
 	const char		*word;
 	t_work_command	*builder;

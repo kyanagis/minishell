@@ -6,13 +6,11 @@
 /*   By: kyanagis <kyanagis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 04:04:19 by kyanagis          #+#    #+#             */
-/*   Updated: 2025/12/29 13:21:25 by kyanagis         ###   ########.fr       */
+/*   Updated: 2026/02/16 23:28:36 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expander.h"
-#include "libft.h"
-#include <stdlib.h>
 
 static bool	append_last_status(t_expand_work_buf *buf, t_shell *sh)
 {
@@ -45,7 +43,7 @@ static size_t	read_var_len(const char *src)
 }
 
 static bool	append_variable(t_expand_work_buf *buf, t_shell *sh,
-		const char *src, size_t len)
+							const char	*src, size_t len)
 {
 	const char	*value;
 
@@ -56,10 +54,10 @@ static bool	append_variable(t_expand_work_buf *buf, t_shell *sh,
 }
 
 bool	handle_dollar(t_expand_work_buf *buf, t_shell *sh,
-		const t_expand_input *input, size_t *idx)
+				const t_expand_input	*input, size_t *idx)
 {
-	size_t			var_len;
-	const char		*src;
+	size_t		var_len;
+	const char	*src;
 
 	src = input->src;
 	if (*idx + 1 >= input->len)

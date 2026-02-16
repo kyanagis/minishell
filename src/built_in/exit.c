@@ -3,17 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skatsuya < skatsuya@student.42tokyo.jp>    +#+  +:+       +#+        */
+/*   By: kyanagis <kyanagis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 06:06:13 by sakurako          #+#    #+#             */
-/*   Updated: 2026/01/20 19:53:50 by skatsuya         ###   ########.fr       */
+/*   Updated: 2026/02/16 23:17:49 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "built_in.h"
-#include <unistd.h>
-#include "minishell.h"
-#include <limits.h>
 
 static int	exit_error_numaric(char *str);
 static bool	read_sign(const char *str, size_t *idx, int *sign);
@@ -97,7 +94,7 @@ static bool	read_sign(const char *str, size_t *idx, int *sign)
 }
 
 static bool	read_number(const char *str, size_t *idx,
-				unsigned long long limit, unsigned long long *acc)
+		unsigned long long limit, unsigned long long *acc)
 {
 	int	digit;
 

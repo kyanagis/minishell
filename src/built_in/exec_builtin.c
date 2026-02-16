@@ -12,36 +12,35 @@
 
 #include "built_in.h"
 
-static const t_builtin	g_builtins[] = {
-	{"cd", ft_cd},
-	{"echo", ft_echo},
-	{"pwd", ft_pwd},
-	{"export", ft_export},
-	{"unset", ft_unset},
-	{"env", ft_env},
-	{"exit", ft_exit},
-	{NULL, NULL}
-};
-
-const t_builtin	*get_builtins(void)
+t_builtin_fn	get_builtin_func(const char *name)
 {
-	return (g_builtins);
+	if (!name)
+		return (NULL);
+	if (ft_strcmp(name, "cd") == 0)
+		return (ft_cd);
+	if (ft_strcmp(name, "echo") == 0)
+		return (ft_echo);
+	if (ft_strcmp(name, "pwd") == 0)
+		return (ft_pwd);
+	if (ft_strcmp(name, "export") == 0)
+		return (ft_export);
+	if (ft_strcmp(name, "unset") == 0)
+		return (ft_unset);
+	if (ft_strcmp(name, "env") == 0)
+		return (ft_env);
+	if (ft_strcmp(name, "exit") == 0)
+		return (ft_exit);
+	return (NULL);
 }
 
 int	exec_builtin(t_shell *shell, char **argv)
 {
-	const t_builtin	*builtins;
-	int				i;
+	t_builtin_fn	func;
 
 	if (!argv || !argv[0])
 		return (NOT_BUILTIN);
-	builtins = get_builtins();
-	i = 0;
-	while (builtins[i].cmd)
-	{
-		if (ft_strcmp(argv[0], builtins[i].cmd) == 0)
-			return (builtins[i].func(shell, argv));
-		i++;
-	}
-	return (NOT_BUILTIN);
+	func = get_builtin_func(argv[0]);
+	if (!func)
+		return (NOT_BUILTIN);
+	return (func(shell, argv));
 }

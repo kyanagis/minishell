@@ -6,13 +6,11 @@
 /*   By: kyanagis <kyanagis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 19:59:43 by kyanagis          #+#    #+#             */
-/*   Updated: 2025/12/27 11:30:54 by kyanagis         ###   ########.fr       */
+/*   Updated: 2026/02/16 23:15:21 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "lexer.h"
-#include <stdlib.h>
 
 static unsigned char	*mem_dup_uc(const unsigned char *s, size_t n)
 {
@@ -33,13 +31,13 @@ static t_lexout	*alloc_output(t_lexer *lx)
 {
 	t_lexout	*out;
 
-	out = (t_lexout *)ft_xmalloc(sizeof(*out));
+	out = (t_lexout *)ft_xmalloc(sizeof (*out));
 	out->count = lx->args_len;
-	out->argv = (char **)ft_xmalloc(sizeof(char *) * (out->count + 1));
+	out->argv = (char **)ft_xmalloc(sizeof (char *) * (out->count + 1));
 	out->qmask = (unsigned char **)
-		ft_xmalloc(sizeof(unsigned char *) * out->count);
-	out->len = (size_t *)ft_xmalloc(sizeof(size_t) * out->count);
-	out->kind = (t_tok_kind *)ft_xmalloc(sizeof(t_tok_kind) * out->count);
+		ft_xmalloc(sizeof (unsigned char *) * out->count);
+	out->len = (size_t *)ft_xmalloc(sizeof (size_t) * out->count);
+	out->kind = (t_tok_kind *)ft_xmalloc(sizeof (t_tok_kind) * out->count);
 	return (out);
 }
 

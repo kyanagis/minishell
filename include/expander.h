@@ -6,7 +6,7 @@
 /*   By: kyanagis <kyanagis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/11 00:00:00 by kyanagis          #+#    #+#             */
-/*   Updated: 2026/02/11 00:00:00 by kyanagis         ###   ########.fr       */
+/*   Updated: 2026/02/16 23:13:23 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 # define EXPANDER_H
 
 # include "minishell.h"
-
-typedef struct s_free_table	t_free_table;
 
 typedef struct s_expand_work_buf
 {

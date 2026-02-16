@@ -6,14 +6,11 @@
 /*   By: kyanagis <kyanagis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/27 10:19:08 by kyanagis          #+#    #+#             */
-/*   Updated: 2025/12/27 11:17:14 by kyanagis         ###   ########.fr       */
+/*   Updated: 2026/02/16 23:31:30 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <stdlib.h>
 #include "built_in.h"
-#include "env_utils.h"
 #include "executor.h"
 #include "free_table.h"
 #include "sig.h"

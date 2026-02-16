@@ -6,13 +6,11 @@
 /*   By: kyanagis <kyanagis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 04:04:05 by kyanagis          #+#    #+#             */
-/*   Updated: 2025/12/27 11:32:23 by kyanagis         ###   ########.fr       */
+/*   Updated: 2026/02/16 23:22:31 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "parser.h"
-#include <stdlib.h>
 
 // パイプライン配列がいっぱいなら倍増させる。
 
@@ -28,9 +26,9 @@ static void	ensure_command_capacity(t_work_pipeline *builder)
 		new_capacity = 2;
 	else
 		new_capacity *= 2;
-	next = ft_xcalloc(new_capacity, sizeof(t_cmd *));
+	next = ft_xcalloc(new_capacity, sizeof (t_cmd *));
 	if (builder->arr && builder->len)
-		ft_memcpy(next, builder->arr, sizeof(t_cmd *) * builder->len);
+		ft_memcpy(next, builder->arr, sizeof (t_cmd *) * builder->len);
 	free(builder->arr);
 	builder->arr = next;
 	builder->cap = new_capacity;
@@ -61,10 +59,10 @@ t_pipeline	*work_pipeline_build(t_work_pipeline *builder)
 
 	if (!builder || builder->len == 0)
 		return (NULL);
-	pipeline = ft_xcalloc(1, sizeof(t_pipeline));
-	commands = ft_xcalloc(builder->len, sizeof(t_cmd *));
+	pipeline = ft_xcalloc(1, sizeof (t_pipeline));
+	commands = ft_xcalloc(builder->len, sizeof (t_cmd *));
 	if (builder->arr && builder->len)
-		ft_memcpy(commands, builder->arr, sizeof(t_cmd *) * builder->len);
+		ft_memcpy(commands, builder->arr, sizeof (t_cmd *) * builder->len);
 	pipeline->ncmds = builder->len;
 	pipeline->cmds = commands;
 	reset_builder_storage(builder);

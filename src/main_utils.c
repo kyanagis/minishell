@@ -6,19 +6,16 @@
 /*   By: kyanagis <kyanagis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/30 00:00:00 by kyanagis          #+#    #+#             */
-/*   Updated: 2025/12/30 00:00:00 by kyanagis         ###   ########.fr       */
+/*   Updated: 2026/02/16 23:20:35 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "main_utils.h"
+#include "minishell.h"
 #include "parser.h"
 #include "expander.h"
 #include "executor.h"
 #include "free_table.h"
 #include "sig.h"
-#include "libft.h"
-#include <stdlib.h>
-#include <unistd.h>
 
 void	parse_and_execute(t_shell *sh, t_free_table *table, t_lexout *tokens)
 {

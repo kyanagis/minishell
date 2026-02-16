@@ -6,21 +6,15 @@
 /*   By: kyanagis <kyanagis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/27 00:00:00 by kyanagis          #+#    #+#             */
-/*   Updated: 2025/12/30 15:23:07 by kyanagis         ###   ########.fr       */
+/*   Updated: 2026/02/16 23:26:51 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env_utils.h"
-#include "executor.h"
-#include "expander.h"
 #include "free_table.h"
 #include "lexer.h"
-#include "main_utils.h"
-#include "minishell.h"
 #include "parser.h"
 #include "sig.h"
-#include <stdio.h>
-#include <stdlib.h>
+#include "minishell.h"
 #include <readline/history.h>
 #include <readline/readline.h>
 

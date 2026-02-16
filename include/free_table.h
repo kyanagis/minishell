@@ -6,7 +6,7 @@
 /*   By: kyanagis <kyanagis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/27 11:00:00 by kyanagis          #+#    #+#             */
-/*   Updated: 2025/12/27 13:00:19 by kyanagis         ###   ########.fr       */
+/*   Updated: 2026/02/16 23:14:19 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 # define FREE_TABLE_H
 
 # include "minishell.h"
-
-typedef struct s_work_context	t_work_context;
+# include "parser.h"
 
 typedef struct s_free_table
 {

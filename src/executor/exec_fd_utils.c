@@ -6,11 +6,10 @@
 /*   By: kyanagis <kyanagis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/27 10:19:20 by kyanagis          #+#    #+#             */
-/*   Updated: 2025/12/27 10:35:04 by kyanagis         ###   ########.fr       */
+/*   Updated: 2026/02/16 23:30:56 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
 #include "executor.h"
 
 void	init_fd_target(t_fd_target *tgt, int in_fd, int out_fd)

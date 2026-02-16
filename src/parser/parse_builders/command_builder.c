@@ -3,14 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   command_builder.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyanagis <kyanagis@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kyanagis <kyanagis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 04:04:08 by kyanagis          #+#    #+#             */
-/*   Updated: 2026/02/12 18:47:28 by kyanagis         ###   ########.fr       */
+/*   Updated: 2026/02/16 23:22:26 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "parser.h"
 
 bool	work_command_is_empty(t_work_command *builder)
@@ -28,7 +27,7 @@ t_cmd	*work_command_extract(t_work_command *builder)
 
 	if (!builder)
 		return (NULL);
-	cmd = ft_xcalloc(1, sizeof(t_cmd));
+	cmd = ft_xcalloc(1, sizeof (t_cmd));
 	cmd->argv = builder->argv;
 	cmd->argc = builder->argc;
 	cmd->tok_idx_argv = builder->tok_idx_argv;

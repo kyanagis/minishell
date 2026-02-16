@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skatsuya < skatsuya@student.42tokyo.jp>    +#+  +:+       +#+        */
+/*   By: kyanagis <kyanagis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 06:05:55 by skatsuya          #+#    #+#             */
-/*   Updated: 2026/01/20 20:10:20 by skatsuya         ###   ########.fr       */
+/*   Updated: 2026/02/16 23:18:10 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "built_in.h"
-#include "env_utils.h"
-#include <unistd.h>
 
 static void	print_one_line(t_env *node);
 static int	print_export_env(t_shell *shell);
@@ -61,5 +59,5 @@ static void	print_one_line(t_env *node)
 		ft_putstr_fd(node->value, STDOUT_FILENO);
 		ft_putstr_fd("\"", STDOUT_FILENO);
 	}
-	write(STDOUT_FILENO, "\n", 1);
+	ft_putstr_fd("\n", STDOUT_FILENO);
 }

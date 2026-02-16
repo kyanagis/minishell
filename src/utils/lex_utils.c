@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "lexer.h"
-#include <stdlib.h>
 
 void	free_lexout(t_lexout *lx)
 {

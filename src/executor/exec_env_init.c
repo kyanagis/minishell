@@ -6,24 +6,20 @@
 /*   By: kyanagis <kyanagis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 00:00:00 by kyanagis          #+#    #+#             */
-/*   Updated: 2025/01/03 00:00:00 by kyanagis         ###   ########.fr       */
+/*   Updated: 2026/02/16 23:31:17 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env_utils.h"
 #include "executor.h"
 
 bool	ensure_env_list(t_shell *sh)
 {
-	static bool	initialized = false;
-
 	if (!sh)
 		return (false);
-	if (initialized)
+	if (sh->env_list)
 		return (true);
 	sh->env_list = init_env_list(sh->envp);
 	if (!sh->env_list)
 		return (false);
-	initialized = true;
 	return (true);
 }

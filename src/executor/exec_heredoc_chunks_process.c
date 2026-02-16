@@ -6,14 +6,11 @@
 /*   By: kyanagis <kyanagis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/11 00:00:00 by kyanagis          #+#    #+#             */
-/*   Updated: 2026/02/11 00:00:00 by kyanagis         ###   ########.fr       */
+/*   Updated: 2026/02/16 23:30:49 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec_heredoc_internal.h"
-#include "libft.h"
-#include <stdlib.h>
-#include <unistd.h>
 
 static bool	handle_null_line(t_shell *sh, t_redir *redir)
 {
@@ -31,7 +28,7 @@ static bool	handle_null_line(t_shell *sh, t_redir *redir)
 }
 
 static int	process_heredoc_line(t_shell *sh, t_redir *redir,
-			t_chunk_state *chunk_state, char *input_line)
+								t_chunk_state	*chunk_state, char *input_line)
 {
 	if (ft_strchr(input_line, '\n'))
 		*ft_strchr(input_line, '\n') = '\0';
@@ -47,7 +44,7 @@ static int	process_heredoc_line(t_shell *sh, t_redir *redir,
 }
 
 int	handle_heredoc_line(t_shell *sh, t_redir *redir,
-			t_chunk_state *chunk_state, char *input_line)
+						t_chunk_state	*chunk_state, char *input_line)
 {
 	if (!input_line)
 	{

@@ -6,13 +6,11 @@
 /*   By: kyanagis <kyanagis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 20:00:03 by kyanagis          #+#    #+#             */
-/*   Updated: 2025/12/27 11:32:14 by kyanagis         ###   ########.fr       */
+/*   Updated: 2026/02/16 23:16:02 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
-#include <stdlib.h>
-#include <unistd.h>
 
 int	is_dq_escapable(char c)
 {

@@ -3,17 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   export_util.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skatsuya < skatsuya@student.42tokyo.jp>    +#+  +:+       +#+        */
+/*   By: kyanagis <kyanagis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 04:43:14 by skatsuya          #+#    #+#             */
-/*   Updated: 2026/01/20 20:09:37 by skatsuya         ###   ########.fr       */
+/*   Updated: 2026/02/16 23:18:03 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "built_in.h"
-#include "env_utils.h"
-#include "minishell.h"
-#include <stdlib.h>
 
 void	ft_export_one(t_shell *shell, char *arg)
 {
@@ -46,7 +43,7 @@ bool	append_env_copy(t_env **copy_head, t_env *env_node)
 {
 	t_env	*copy;
 
-	copy = malloc(sizeof(t_env));
+	copy = malloc(sizeof (t_env));
 	if (!copy)
 		return (false);
 	copy->key = NULL;

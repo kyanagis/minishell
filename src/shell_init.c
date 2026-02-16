@@ -6,16 +6,11 @@
 /*   By: kyanagis <kyanagis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/30 00:00:00 by kyanagis          #+#    #+#             */
-/*   Updated: 2025/12/30 00:00:00 by kyanagis         ###   ########.fr       */
+/*   Updated: 2026/02/16 23:24:03 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "minishell.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <readline/readline.h>
-#include <readline/history.h>
 
 size_t	env_count(char **p)
 {
@@ -46,7 +41,7 @@ char	**env_dup(char **src)
 	char	**s;
 
 	n = env_count(src);
-	dst = (char **)ft_xmalloc(sizeof(char *) * (n + 1));
+	dst = (char **)ft_xmalloc(sizeof (char *) * (n + 1));
 	d = dst;
 	s = src;
 	while (s && *s)
@@ -98,5 +93,4 @@ void	shell_destroy(t_shell *sh)
 	}
 	if (sh->prompt)
 		free(sh->prompt);
-	rl_clear_history();
 }
