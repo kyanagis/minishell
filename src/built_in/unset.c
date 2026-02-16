@@ -12,11 +12,11 @@
 
 #include "built_in.h"
 
-static void ft_unset_one(t_shell *shell, char *key);
+static void	ft_unset_one(t_shell *shell, char *key);
 
-int ft_unset(t_shell *shell, char **argv)
+int	ft_unset(t_shell *shell, char **argv)
 {
-	size_t i;
+	size_t	i;
 
 	if (!argv[1])
 		return (NO_ERROR);
@@ -29,10 +29,10 @@ int ft_unset(t_shell *shell, char **argv)
 	return (NO_ERROR);
 }
 
-static void ft_unset_one(t_shell *shell, char *key)
+static void	ft_unset_one(t_shell *shell, char *key)
 {
-	t_env *current;
-	t_env *prev;
+	t_env	*current;
+	t_env	*prev;
 
 	current = shell->env_list;
 	prev = NULL;
@@ -47,7 +47,7 @@ static void ft_unset_one(t_shell *shell, char *key)
 			free(current->key);
 			free(current->value);
 			free(current);
-			return;
+			return ;
 		}
 		prev = current;
 		current = current->next;

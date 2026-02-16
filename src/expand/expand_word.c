@@ -6,13 +6,12 @@
 /*   By: kyanagis <kyanagis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 04:04:17 by kyanagis          #+#    #+#             */
-/*   Updated: 2025/12/29 13:21:28 by kyanagis         ###   ########.fr       */
+/*   Updated: 2026/02/16 23:28:32 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expander.h"
 #include "lexer.h"
-#include "libft.h"
 
 static unsigned char	read_mask(const unsigned char *mask, size_t idx)
 {
@@ -46,10 +45,10 @@ static bool	duplicate_literal(const char *src, char **out)
 }
 
 static bool	expand_word_loop(t_expand_work_buf *buf, t_shell *sh,
-		const t_expand_input *input)
+							const t_expand_input	*input)
 {
-	size_t			idx;
-	const char		*src;
+	size_t		idx;
+	const char	*src;
 
 	src = input->src;
 	idx = 0;

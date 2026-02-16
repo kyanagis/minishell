@@ -6,13 +6,11 @@
 /*   By: kyanagis <kyanagis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 04:04:21 by kyanagis          #+#    #+#             */
-/*   Updated: 2025/12/29 13:21:18 by kyanagis         ###   ########.fr       */
+/*   Updated: 2026/02/16 23:28:41 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expander.h"
-#include "libft.h"
-#include <stdlib.h>
 
 void	init_work_buf(t_expand_work_buf *buf)
 {

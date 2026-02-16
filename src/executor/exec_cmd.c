@@ -6,12 +6,10 @@
 /*   By: kyanagis <kyanagis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/27 10:19:11 by kyanagis          #+#    #+#             */
-/*   Updated: 2025/12/27 10:34:55 by kyanagis         ###   ########.fr       */
+/*   Updated: 2026/02/16 23:31:21 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <stdlib.h>
 #include "executor.h"
 #include "error_messages.h"
 

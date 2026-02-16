@@ -6,26 +6,22 @@
 /*   By: kyanagis <kyanagis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/27 00:00:00 by kyanagis          #+#    #+#             */
-/*   Updated: 2026/02/16 23:10:46 by kyanagis         ###   ########.fr       */
+/*   Updated: 2026/02/16 23:26:51 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "executor.h"
-#include "expander.h"
 #include "free_table.h"
 #include "lexer.h"
-#include "minishell.h"
 #include "parser.h"
 #include "sig.h"
-#include <stdio.h>
-#include <stdlib.h>
+#include "minishell.h"
 #include <readline/history.h>
 #include <readline/readline.h>
 
-static void process_line(t_shell *sh, char *line)
+static void	process_line(t_shell *sh, char *line)
 {
-	t_lexout *tokens;
-	t_free_table table;
+	t_lexout		*tokens;
+	t_free_table	table;
 
 	init_free_table(&table);
 	sh->table = &table;
@@ -45,9 +41,9 @@ static void process_line(t_shell *sh, char *line)
 	sh->table = NULL;
 }
 
-static void run_shell(t_shell *sh)
+static void	run_shell(t_shell *sh)
 {
-	char *line;
+	char	*line;
 
 	init_signals();
 	while (1)
@@ -56,7 +52,7 @@ static void run_shell(t_shell *sh)
 		line = readline(sh->prompt);
 		if (is_eof(line))
 		{
-			break;
+			break ;
 		}
 		if (!should_skip_line(sh, line))
 		{
@@ -65,14 +61,14 @@ static void run_shell(t_shell *sh)
 		}
 		if (sh->should_exit)
 		{
-			break;
+			break ;
 		}
 	}
 }
 
-int main(int argc, char **argv, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
-	t_shell sh;
+	t_shell	sh;
 
 	(void)argc;
 	(void)argv;

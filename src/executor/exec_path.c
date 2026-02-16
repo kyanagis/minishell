@@ -6,15 +6,12 @@
 /*   By: kyanagis <kyanagis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/27 10:19:26 by kyanagis          #+#    #+#             */
-/*   Updated: 2025/12/27 10:35:11 by kyanagis         ###   ########.fr       */
+/*   Updated: 2026/02/16 23:30:07 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executor.h"
-#include "libft.h"
-#include <stdlib.h>
 #include <sys/stat.h>
-#include <unistd.h>
 
 static int	check_command_path(const char *path)
 {

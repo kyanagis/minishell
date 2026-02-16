@@ -6,7 +6,7 @@
 /*   By: kyanagis <kyanagis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 03:13:27 by sakurako          #+#    #+#             */
-/*   Updated: 2025/12/27 11:33:50 by kyanagis         ###   ########.fr       */
+/*   Updated: 2026/02/16 23:25:27 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,15 @@
 
 # include <signal.h>
 # include <sys/types.h>
+# include <stdio.h>
+# include <sys/wait.h>
+# include "libft.h"
+# include <unistd.h>
+# include <stdio.h>
+# include <sys/wait.h>
+# include <readline/history.h>
+# include <readline/readline.h>
+# include <stdlib.h>
 
 extern volatile sig_atomic_t	g_sig;
 

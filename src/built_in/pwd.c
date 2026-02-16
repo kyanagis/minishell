@@ -12,9 +12,9 @@
 
 #include "built_in.h"
 
-int ft_pwd(t_shell *shell, char **argv)
+int	ft_pwd(t_shell *shell, char **argv)
 {
-	char *cwd;
+	char	*cwd;
 
 	(void)shell;
 	(void)argv;

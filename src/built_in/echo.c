@@ -12,11 +12,11 @@
 
 #include "built_in.h"
 
-static int is_n_str(const char *str);
+static int	is_n_str(const char *str);
 
-int ft_echo(t_shell *shell, char **argv)
+int	ft_echo(t_shell *shell, char **argv)
 {
-	int n_flag;
+	int	n_flag;
 
 	(void)shell;
 	argv++;
@@ -38,7 +38,7 @@ int ft_echo(t_shell *shell, char **argv)
 	return (NO_ERROR);
 }
 
-static int is_n_str(const char *str)
+static int	is_n_str(const char *str)
 {
 	if (ft_strncmp(str, "-n", 2) != 0)
 		return (FALSE);

@@ -12,12 +12,12 @@
 
 #include "minishell.h"
 
-void free_env_list(t_env **lst, void (*del)(void *))
+void	free_env_list(t_env **lst, void (*del)(void *))
 {
-	t_env *temp;
+	t_env	*temp;
 
 	if (!lst || !del)
-		return;
+		return ;
 	while (*lst)
 	{
 		temp = (*lst)->next;
@@ -27,21 +27,21 @@ void free_env_list(t_env **lst, void (*del)(void *))
 	*lst = NULL;
 }
 
-void ft_envlst_delone(t_env *lst, void (*del)(void *))
+void	ft_envlst_delone(t_env *lst, void (*del)(void *))
 {
 	if (!lst || !del)
-		return;
+		return ;
 	del(lst->key);
 	del(lst->value);
 	free(lst);
 }
 
-t_env *env_new_node(char *str)
+t_env	*env_new_node(char *str)
 {
-	t_env *new;
-	char *eq_pos;
+	t_env	*new;
+	char	*eq_pos;
 
-	new = malloc(sizeof(t_env));
+	new = malloc(sizeof (t_env));
 	if (!new)
 		return (NULL);
 	eq_pos = ft_strchr(str, '=');
@@ -59,16 +59,16 @@ t_env *env_new_node(char *str)
 	return (new);
 }
 
-void env_add_back(t_env **head, t_env *new_node)
+void	env_add_back(t_env **head, t_env *new_node)
 {
-	t_env *current;
+	t_env	*current;
 
 	if (!head || !new_node)
-		return;
+		return ;
 	if (!*head)
 	{
 		*head = new_node;
-		return;
+		return ;
 	}
 	current = *head;
 	while (current->next)
@@ -76,11 +76,11 @@ void env_add_back(t_env **head, t_env *new_node)
 	current->next = new_node;
 }
 
-t_env *init_env_list(char **envp)
+t_env	*init_env_list(char **envp)
 {
-	t_env *head;
-	t_env *new_node;
-	size_t i;
+	t_env	*head;
+	t_env	*new_node;
+	size_t	i;
 
 	head = NULL;
 	i = 0;

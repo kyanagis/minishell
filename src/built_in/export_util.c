@@ -12,14 +12,14 @@
 
 #include "built_in.h"
 
-void ft_export_one(t_shell *shell, char *arg)
+void	ft_export_one(t_shell *shell, char *arg)
 {
-	t_env *new_node;
-	t_env *current;
+	t_env	*new_node;
+	t_env	*current;
 
 	new_node = env_new_node(arg);
 	if (!new_node)
-		return;
+		return ;
 	current = shell->env_list;
 	while (current)
 	{
@@ -32,18 +32,18 @@ void ft_export_one(t_shell *shell, char *arg)
 				new_node->value = NULL;
 			}
 			ft_envlst_delone(new_node, free);
-			return;
+			return ;
 		}
 		current = current->next;
 	}
 	env_add_back(&shell->env_list, new_node);
 }
 
-bool append_env_copy(t_env **copy_head, t_env *env_node)
+bool	append_env_copy(t_env **copy_head, t_env *env_node)
 {
-	t_env *copy;
+	t_env	*copy;
 
-	copy = malloc(sizeof(t_env));
+	copy = malloc(sizeof (t_env));
 	if (!copy)
 		return (false);
 	copy->key = NULL;
@@ -62,9 +62,9 @@ bool append_env_copy(t_env **copy_head, t_env *env_node)
 	return (true);
 }
 
-t_env *copy_env_list(t_env *env_list)
+t_env	*copy_env_list(t_env *env_list)
 {
-	t_env *copy_head;
+	t_env	*copy_head;
 
 	copy_head = NULL;
 	while (env_list)
@@ -79,13 +79,13 @@ t_env *copy_env_list(t_env *env_list)
 	return (copy_head);
 }
 
-void sort_env_list(t_env *head)
+void	sort_env_list(t_env *head)
 {
-	t_env *current;
-	int swapped;
+	t_env	*current;
+	int		swapped;
 
 	if (!head)
-		return;
+		return ;
 	swapped = 1;
 	while (swapped)
 	{
@@ -103,9 +103,9 @@ void sort_env_list(t_env *head)
 	}
 }
 
-void swap_node(t_env *node_a, t_env *node_b)
+void	swap_node(t_env *node_a, t_env *node_b)
 {
-	char *temp;
+	char	*temp;
 
 	temp = node_a->key;
 	node_a->key = node_b->key;

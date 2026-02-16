@@ -6,13 +6,11 @@
 /*   By: kyanagis <kyanagis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/27 10:19:15 by kyanagis          #+#    #+#             */
-/*   Updated: 2025/12/27 10:34:59 by kyanagis         ###   ########.fr       */
+/*   Updated: 2026/02/16 23:31:08 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executor.h"
-#include "libft.h"
-#include <stdlib.h>
 
 static size_t	env_list_len(t_env *env)
 {
@@ -86,7 +84,7 @@ bool	sync_envp(t_shell *sh)
 	if (!sh || !sh->env_list)
 		return (true);
 	count = env_list_len(sh->env_list);
-	envp = (char **)ft_calloc(count + 1, sizeof(char *));
+	envp = (char **)ft_calloc(count + 1, sizeof (char *));
 	if (!envp)
 		return (false);
 	if (!fill_env_entries(envp, sh->env_list, &idx))

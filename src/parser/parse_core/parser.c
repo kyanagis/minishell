@@ -3,14 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyanagis <kyanagis@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kyanagis <kyanagis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 04:03:53 by kyanagis          #+#    #+#             */
-/*   Updated: 2026/02/12 18:49:38 by kyanagis         ###   ########.fr       */
+/*   Updated: 2026/02/16 23:22:54 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "parser.h"
 
 static bool	word_syntax_scan(t_lexout *lx, size_t i)
@@ -69,7 +68,7 @@ static bool	syntax_scan(t_lexout *tokens)
 }
 
 bool	parse_tokens(t_shell *sh, t_lexout *tokens, t_pipeline **pl,
-		t_free_table *table)
+				t_free_table	*table)
 {
 	if (!syntax_scan(tokens))
 	{

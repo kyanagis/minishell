@@ -6,16 +6,12 @@
 /*   By: kyanagis <kyanagis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/27 10:19:41 by kyanagis          #+#    #+#             */
-/*   Updated: 2025/12/27 10:35:21 by kyanagis         ###   ########.fr       */
+/*   Updated: 2026/02/16 23:28:59 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executor.h"
-#include "libft.h"
 #include "sig.h"
-#include <signal.h>
-#include <sys/wait.h>
-#include <unistd.h>
 
 int	status_from_wait(int status)
 {

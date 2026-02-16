@@ -12,9 +12,9 @@
 
 #include "built_in.h"
 
-int ft_env(t_shell *shell, char **argv)
+int	ft_env(t_shell *shell, char **argv)
 {
-	t_env *current;
+	t_env	*current;
 
 	(void)argv;
 	current = shell->env_list;

@@ -12,15 +12,15 @@
 
 #include "built_in.h"
 
-static int exit_error_numaric(char *str);
-static bool read_sign(const char *str, size_t *idx, int *sign);
-static bool read_number(const char *str, size_t *idx,
-						unsigned long long limit, unsigned long long *acc);
-static bool parse_exit_status(const char *str, unsigned char *out);
+static int	exit_error_numaric(char *str);
+static bool	read_sign(const char *str, size_t *idx, int *sign);
+static bool	read_number(const char *str, size_t *idx,
+				unsigned long long limit, unsigned long long *acc);
+static bool	parse_exit_status(const char *str, unsigned char *out);
 
-int ft_exit(t_shell *shell, char **argv)
+int	ft_exit(t_shell *shell, char **argv)
 {
-	unsigned char exit_status;
+	unsigned char	exit_status;
 
 	if (!shell || !argv)
 		return (ERROR);
@@ -44,7 +44,7 @@ int ft_exit(t_shell *shell, char **argv)
 	return ((unsigned char)exit_status);
 }
 
-static int exit_error_numaric(char *str)
+static int	exit_error_numaric(char *str)
 {
 	ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
 	ft_putstr_fd(str, STDERR_FILENO);
@@ -52,12 +52,12 @@ static int exit_error_numaric(char *str)
 	return (EXIT_NUMERIC_STATUS);
 }
 
-static bool parse_exit_status(const char *str, unsigned char *out)
+static bool	parse_exit_status(const char *str, unsigned char *out)
 {
-	unsigned long long acc;
-	unsigned long long limit;
-	size_t i;
-	int sign;
+	unsigned long long	acc;
+	unsigned long long	limit;
+	size_t				i;
+	int					sign;
 
 	if (!str || !out)
 		return (false);
@@ -77,7 +77,7 @@ static bool parse_exit_status(const char *str, unsigned char *out)
 	return (true);
 }
 
-static bool read_sign(const char *str, size_t *idx, int *sign)
+static bool	read_sign(const char *str, size_t *idx, int *sign)
 {
 	*sign = 1;
 	while (str[*idx] && ft_isspace(str[*idx]))
@@ -93,10 +93,10 @@ static bool read_sign(const char *str, size_t *idx, int *sign)
 	return (true);
 }
 
-static bool read_number(const char *str, size_t *idx,
-						unsigned long long limit, unsigned long long *acc)
+static bool	read_number(const char *str, size_t *idx,
+		unsigned long long limit, unsigned long long *acc)
 {
-	int digit;
+	int	digit;
 
 	*acc = 0;
 	while (ft_isdigit(str[*idx]))

@@ -6,11 +6,10 @@
 /*   By: kyanagis <kyanagis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 00:00:00 by kyanagis          #+#    #+#             */
-/*   Updated: 2025/01/03 00:00:00 by kyanagis         ###   ########.fr       */
+/*   Updated: 2026/02/16 23:29:48 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
 #include "executor.h"
 
 static bool	open_pipe_if_needed(int pipe_fd[2], bool needed)
@@ -49,7 +48,7 @@ static pid_t	spawn_child(t_shell *sh, t_cmd *cmd, t_child_ctx *ctx)
 }
 
 static void	cleanup_failed_pipeline(pid_t *pids, size_t launched,
-			int *prev_read_fd, int pipe_fd[2])
+									int	*prev_read_fd, int pipe_fd[2])
 {
 	if (prev_read_fd && *prev_read_fd >= 0)
 	{

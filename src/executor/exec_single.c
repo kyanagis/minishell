@@ -6,11 +6,10 @@
 /*   By: kyanagis <kyanagis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/27 10:19:35 by kyanagis          #+#    #+#             */
-/*   Updated: 2025/12/27 10:35:19 by kyanagis         ###   ########.fr       */
+/*   Updated: 2026/02/16 23:29:09 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
 #include "built_in.h"
 #include "executor.h"
 

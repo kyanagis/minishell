@@ -6,13 +6,11 @@
 /*   By: kyanagis <kyanagis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/11 00:00:00 by kyanagis          #+#    #+#             */
-/*   Updated: 2026/02/11 00:00:00 by kyanagis         ###   ########.fr       */
+/*   Updated: 2026/02/16 23:30:42 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
 #include "exec_heredoc_internal.h"
-#include "libft.h"
 #include "expander.h"
 
 void	free_chunks(t_hd_chunk *head)
@@ -34,7 +32,7 @@ static char	*join_line_with_newline(char *line, size_t *out_len)
 	char	*res;
 
 	line_len = ft_strlen(line);
-	res = (char *)ft_calloc(line_len + 2, sizeof(char));
+	res = (char *)ft_calloc(line_len + 2, sizeof (char));
 	if (!res)
 	{
 		free(line);
@@ -65,7 +63,7 @@ static char	*expand_heredoc_line(t_shell *sh, char *line, bool quoted)
 	if (quoted)
 		return (line);
 	line_len = ft_strlen(line);
-	quote_mask = (unsigned char *)ft_calloc(line_len, sizeof(unsigned char));
+	quote_mask = (unsigned char *)ft_calloc(line_len, sizeof (unsigned char));
 	if (!quote_mask)
 		return (cleanup_expand(line, NULL, NULL));
 	input.src = line;
@@ -77,7 +75,7 @@ static char	*expand_heredoc_line(t_shell *sh, char *line, bool quoted)
 }
 
 bool	append_expanded_line(t_shell *sh, bool quoted,
-			t_chunk_state *chunk_state, char *line)
+						t_chunk_state	*chunk_state, char *line)
 {
 	char		*line_with_newline;
 	size_t		line_len;
@@ -89,7 +87,7 @@ bool	append_expanded_line(t_shell *sh, bool quoted,
 	line_with_newline = join_line_with_newline(line_with_newline, &line_len);
 	if (!line_with_newline)
 		return (false);
-	chunk = (t_hd_chunk *)ft_calloc(1, sizeof(t_hd_chunk));
+	chunk = (t_hd_chunk *)ft_calloc(1, sizeof (t_hd_chunk));
 	if (!chunk)
 	{
 		free(line_with_newline);

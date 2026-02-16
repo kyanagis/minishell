@@ -6,12 +6,11 @@
 /*   By: kyanagis <kyanagis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 04:04:15 by kyanagis          #+#    #+#             */
-/*   Updated: 2025/12/29 13:21:31 by kyanagis         ###   ########.fr       */
+/*   Updated: 2026/02/16 23:28:26 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expander.h"
-#include <stdlib.h>
 #include "free_table.h"
 
 static bool	token_index_valid(const t_lexout *lexer, size_t idx)
@@ -82,7 +81,7 @@ static bool	expand_cmd(t_shell *sh, const t_lexout *lexer, t_cmd *cmd)
 }
 
 bool	expand_pipeline(t_shell *sh, const t_lexout *lexer,
-		t_pipeline *pipeline, t_free_table *table)
+					t_pipeline	*pipeline, t_free_table *table)
 {
 	size_t	idx;
 

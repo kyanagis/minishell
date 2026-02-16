@@ -6,13 +6,12 @@
 /*   By: kyanagis <kyanagis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 04:04:03 by kyanagis          #+#    #+#             */
-/*   Updated: 2025/12/27 11:32:27 by kyanagis         ###   ########.fr       */
+/*   Updated: 2026/02/16 23:22:40 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 #include "free_table.h"
-#include <stdlib.h>
 
 static void	free_command_args(char **argv, size_t argc)
 {

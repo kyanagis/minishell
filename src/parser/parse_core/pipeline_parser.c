@@ -6,16 +6,15 @@
 /*   By: kyanagis <kyanagis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 04:03:51 by kyanagis          #+#    #+#             */
-/*   Updated: 2025/12/29 07:48:46 by kyanagis         ###   ########.fr       */
+/*   Updated: 2026/02/16 23:22:59 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
-#include <stdlib.h>
 #include "free_table.h"
 
 static bool	parse_tokens_loop(const t_lexout *tokens, t_work_context *ctx,
-			t_work_state *state)
+							t_work_state	*state)
 {
 	while (state->ok && state->index < tokens->count)
 		dispatch_parse_token(state, ctx, tokens);
@@ -25,7 +24,7 @@ static bool	parse_tokens_loop(const t_lexout *tokens, t_work_context *ctx,
 // : トークン列を検証しながらパイプライン構築処理をまとめて呼び出す。
 
 bool	build_pipeline_from_tokens(const t_lexout *tokens, t_pipeline **out,
-			t_free_table *table)
+								t_free_table	*table)
 {
 	t_work_context	ctx;
 	t_work_state	state;
