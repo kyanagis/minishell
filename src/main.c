@@ -32,10 +32,7 @@ static void	process_line(t_shell *sh, char *line)
 	{
 		ft_set_tokens(&table, tokens);
 		if (tokens->count > 0)
-		{
-			add_history(line);
 			parse_and_execute(sh, &table, tokens);
-		}
 	}
 	ft_release(&table);
 	sh->table = NULL;
@@ -56,6 +53,7 @@ static void	run_shell(t_shell *sh)
 		}
 		if (!should_skip_line(sh, line))
 		{
+			add_history(line);
 			process_line(sh, line);
 			free(line);
 		}
@@ -80,6 +78,7 @@ int	main(int argc, char **argv, char **envp)
 	}
 	run_shell(&sh);
 	free_env_list(&sh.env_list, free);
+	clear_history();
 	shell_destroy(&sh);
 	return (sh.last_status);
 }
