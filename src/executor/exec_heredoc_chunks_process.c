@@ -12,6 +12,22 @@
 
 #include "exec_heredoc_internal.h"
 
+static void	strip_ctrl_backslash(char *input_line)
+{
+	char	*src;
+	char	*dst;
+
+	src = input_line;
+	dst = input_line;
+	while (*src)
+	{
+		if (*src != '\034')
+			*dst++ = *src;
+		src++;
+	}
+	*dst = '\0';
+}
+
 static bool	handle_null_line(t_shell *sh, t_redir *redir)
 {
 	if (g_sig == SIGINT)
@@ -52,6 +68,7 @@ int	handle_heredoc_line(t_shell *sh, t_redir *redir,
 			return (0);
 		return (-1);
 	}
+	strip_ctrl_backslash(input_line);
 	if (g_sig == SIGINT || ft_strchr(input_line, 3))
 	{
 		free(input_line);
