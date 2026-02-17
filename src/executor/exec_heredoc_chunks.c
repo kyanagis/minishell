@@ -25,8 +25,18 @@ static void	heredoc_sigint(int sig)
 		return ;
 }
 
+static void	heredoc_sigquit(int sig)
+{
+	ssize_t	w;
+
+	(void)sig;
+	w = write(STDOUT_FILENO, "\b \b", 3);
+	if (w < 0)
+		return ;
+}
+
 static void	setup_heredoc_signals(struct sigaction *old_int,
-		struct sigaction *old_quit)
+				struct sigaction *old_quit)
 {
 	struct sigaction	sa_int;
 	struct sigaction	sa_quit;
@@ -36,8 +46,8 @@ static void	setup_heredoc_signals(struct sigaction *old_int,
 	sa_int.sa_flags = 0;
 	sigemptyset(&sa_int.sa_mask);
 	sigaction(SIGINT, &sa_int, old_int);
-	sa_quit.sa_handler = SIG_IGN;
-	sa_quit.sa_flags = 0;
+	sa_quit.sa_handler = heredoc_sigquit;
+	sa_quit.sa_flags = SA_RESTART;
 	sigemptyset(&sa_quit.sa_mask);
 	sigaction(SIGQUIT, &sa_quit, old_quit);
 }
