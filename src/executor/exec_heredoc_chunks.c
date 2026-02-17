@@ -12,6 +12,7 @@
 
 #include "exec_heredoc_internal.h"
 #include "executor.h"
+#include <termios.h>
 
 static void	heredoc_sigint(int sig)
 {
@@ -41,8 +42,31 @@ static void	setup_heredoc_signals(struct sigaction *old_int,
 	sigaction(SIGQUIT, &sa_quit, old_quit);
 }
 
+static void	set_heredoc_echoctl(bool restore)
+{
+	static struct termios	saved;
+	static bool				saved_valid;
+	struct termios			current;
+
+	if (!isatty(STDIN_FILENO))
+		return ;
+	if (!restore)
+	{
+		if (tcgetattr(STDIN_FILENO, &saved) == -1)
+			return ;
+		saved_valid = true;
+		current = saved;
+		current.c_lflag &= ~(ECHOCTL);
+		tcsetattr(STDIN_FILENO, TCSANOW, &current);
+		return ;
+	}
+	if (saved_valid)
+		tcsetattr(STDIN_FILENO, TCSANOW, &saved);
+	saved_valid = false;
+}
+
 bool	collect_chunks(t_shell *sh, t_redir *redir,
-					t_hd_chunk	**head, size_t *total_len)
+						t_hd_chunk	**head, size_t *total_len)
 {
 	char				*input_line;
 	t_chunk_state		chunk_state;
@@ -54,6 +78,7 @@ bool	collect_chunks(t_shell *sh, t_redir *redir,
 	chunk_state.tail = head;
 	chunk_state.total_len = total_len;
 	setup_heredoc_signals(&old_int, &old_quit);
+	set_heredoc_echoctl(false);
 	while (1)
 	{
 		ft_putstr_fd(HEREDOC_PROMPT, STDOUT_FILENO);
@@ -62,6 +87,7 @@ bool	collect_chunks(t_shell *sh, t_redir *redir,
 		if (status <= 0)
 			break ;
 	}
+	set_heredoc_echoctl(true);
 	sigaction(SIGINT, &old_int, NULL);
 	sigaction(SIGQUIT, &old_quit, NULL);
 	return (status == 0);
