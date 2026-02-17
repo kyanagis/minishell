@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_heredoc_chunks.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyanagis <kyanagis@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kyanagis <kyanagis@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/11 00:00:00 by kyanagis          #+#    #+#             */
-/*   Updated: 2026/02/16 23:30:34 by kyanagis         ###   ########.fr       */
+/*   Updated: 2026/02/17 22:15:50 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,13 @@ static void	heredoc_sigquit(int sig)
 	ssize_t	w;
 
 	(void)sig;
-	w = write(STDOUT_FILENO, "\b \b", 3);
+	w = write(STDOUT_FILENO, " \b", 2);
 	if (w < 0)
 		return ;
 }
 
 static void	setup_heredoc_signals(struct sigaction *old_int,
-				struct sigaction *old_quit)
+		struct sigaction *old_quit)
 {
 	struct sigaction	sa_int;
 	struct sigaction	sa_quit;
@@ -75,8 +75,8 @@ static void	set_heredoc_echoctl(bool restore)
 	saved_valid = false;
 }
 
-bool	collect_chunks(t_shell *sh, t_redir *redir,
-						t_hd_chunk	**head, size_t *total_len)
+bool	collect_chunks(t_shell *sh, t_redir *redir, t_hd_chunk **head,
+		size_t *total_len)
 {
 	char				*input_line;
 	t_chunk_state		chunk_state;
