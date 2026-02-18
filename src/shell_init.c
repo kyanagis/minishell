@@ -67,6 +67,7 @@ void	shell_init(t_shell *sh, char **envp)
 	sh->last_status = 0;
 	sh->should_exit = false;
 	sh->prompt = NULL;
+	sh->current_line = NULL;
 	sh->table = NULL;
 	if (!sh->envp)
 	{

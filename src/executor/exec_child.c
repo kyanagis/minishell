@@ -31,6 +31,12 @@ static void	close_child_fds(int prev_read, int pipefd[2], t_fd_target *tgt)
 
 static void	child_exit(t_shell *sh, int status)
 {
+	get_next_line(-1);
+	if (sh && sh->current_line)
+	{
+		free(sh->current_line);
+		sh->current_line = NULL;
+	}
 	if (sh && sh->table)
 		ft_release(sh->table);
 	if (sh)

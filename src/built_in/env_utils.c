@@ -45,18 +45,22 @@ t_env	*env_new_node(char *str)
 	if (!new)
 		return (NULL);
 	eq_pos = ft_strchr(str, '=');
+	new->key = ft_strdup(str);
+	new->value = NULL;
 	if (eq_pos)
 	{
+		free(new->key);
 		new->key = ft_substr(str, 0, eq_pos - str);
-		new->value = ft_strdup(eq_pos + 1);
-	}
-	else
-	{
-		new->key = ft_strdup(str);
-		new->value = NULL;
+		if (new->key)
+			new->value = ft_strdup(eq_pos + 1);
 	}
 	new->next = NULL;
-	return (new);
+	if (new->key && (!eq_pos || new->value))
+		return (new);
+	free(new->key);
+	free(new->value);
+	free(new);
+	return (NULL);
 }
 
 void	env_add_back(t_env **head, t_env *new_node)

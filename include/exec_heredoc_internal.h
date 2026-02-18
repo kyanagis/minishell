@@ -34,6 +34,7 @@ bool	collect_chunks(t_shell *sh, t_redir *redir, t_hd_chunk **head,
 			size_t *total_len);
 int		handle_heredoc_line(t_shell *sh, t_redir *redir,
 			t_chunk_state *chunk_state, char *input_line);
+char	*read_heredoc_input(void);
 void	free_chunks(t_hd_chunk *head);
 bool	append_expanded_line(t_shell *sh, bool quoted,
 			t_chunk_state *chunk_state, char *line);

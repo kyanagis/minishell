@@ -18,6 +18,31 @@
 #include <readline/history.h>
 #include <readline/readline.h>
 
+static bool	is_interactive_mode(void)
+{
+	if (!isatty(STDIN_FILENO))
+		return (false);
+	if (!isatty(STDOUT_FILENO))
+		return (false);
+	return (true);
+}
+
+static char	*read_shell_line(t_shell *sh, bool interactive)
+{
+	char	*line;
+
+	if (interactive)
+		return (readline(sh->prompt));
+	if (write(STDOUT_FILENO, sh->prompt, ft_strlen(sh->prompt)) < 0)
+		return (NULL);
+	line = read_non_tty_line_fd(STDIN_FILENO);
+	if (!line)
+		return (NULL);
+	write(STDOUT_FILENO, line, ft_strlen(line));
+	write(STDOUT_FILENO, "\n", 1);
+	return (line);
+}
+
 static void	process_line(t_shell *sh, char *line)
 {
 	t_lexout		*tokens;
@@ -41,35 +66,37 @@ static void	process_line(t_shell *sh, char *line)
 static void	run_shell(t_shell *sh)
 {
 	char	*line;
+	bool	interactive;
 
 	init_signals();
+	interactive = is_interactive_mode();
 	while (1)
 	{
 		update_prompt(sh);
-		line = readline(sh->prompt);
+		line = read_shell_line(sh, interactive);
 		if (is_eof(line))
-		{
 			break ;
-		}
 		if (!should_skip_line(sh, line))
 		{
-			add_history(line);
+			if (interactive)
+				add_history(line);
+			sh->current_line = line;
 			process_line(sh, line);
-			free(line);
+			free(sh->current_line);
 		}
 		if (sh->should_exit)
-		{
 			break ;
-		}
 	}
 }
 
 int	main(int argc, char **argv, char **envp)
 {
 	t_shell	sh;
+	bool	interactive;
 
 	(void)argc;
 	(void)argv;
+	interactive = is_interactive_mode();
 	shell_init(&sh, envp);
 	if (sh.should_exit)
 	{
@@ -78,7 +105,8 @@ int	main(int argc, char **argv, char **envp)
 	}
 	run_shell(&sh);
 	free_env_list(&sh.env_list, free);
-	rl_clear_history();
+	if (interactive)
+		rl_clear_history();
 	shell_destroy(&sh);
 	return (sh.last_status);
 }

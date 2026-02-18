@@ -86,6 +86,7 @@ typedef struct s_shell
 	int				last_status;
 	char			**envp;
 	char			*prompt;
+	char			*current_line;
 	t_env			*env_list;
 	bool			should_exit;
 	t_free_table	*table;
@@ -97,6 +98,7 @@ void		shell_destroy(t_shell *sh);
 void		free_env(char **env);
 const char	*get_envp_value_len(t_shell *sh, const char *key, size_t len);
 const char	*get_envp_value(t_shell *sh, const char *key);
+char		*read_non_tty_line_fd(int fd);
 
 void		parse_and_execute(t_shell *sh, t_free_table *table,
 				t_lexout *tokens);

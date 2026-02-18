@@ -12,6 +12,22 @@
 
 #include "exec_heredoc_internal.h"
 
+char	*read_heredoc_input(void)
+{
+	char	*line;
+
+	if (isatty(STDIN_FILENO))
+		return (readline("> "));
+	if (write(STDOUT_FILENO, "> ", 2) < 0)
+		return (NULL);
+	line = read_non_tty_line_fd(STDIN_FILENO);
+	if (!line)
+		return (NULL);
+	write(STDOUT_FILENO, line, ft_strlen(line));
+	write(STDOUT_FILENO, "\n", 1);
+	return (line);
+}
+
 static bool	handle_null_line(t_shell *sh, t_redir *redir)
 {
 	if (g_sig == SIGINT)
