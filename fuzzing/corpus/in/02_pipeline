@@ -1,0 +1,2 @@
+echo alpha beta gamma | wc -w
+exit

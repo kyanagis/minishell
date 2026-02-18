@@ -1,0 +1,3 @@
+echo "hello $USER"
+echo 'single quoted'
+exit

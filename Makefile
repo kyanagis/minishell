@@ -6,9 +6,16 @@ BASE_CFLAGS := -Wall -Wextra -Werror
 DEBUG       ?= 0
 SAN         ?= 0
 AFL         ?= 0
+AFL_CC      ?= afl-gcc
+AFL_FALLBACKS := afl-cc afl-clang-fast
+AFL_RESOLVED := $(firstword $(foreach c,$(AFL_CC) $(AFL_FALLBACKS),\
+	$(if $(shell command -v $(c) 2>/dev/null),$(c))))
 
 ifneq (,$(findstring 1,$(AFL)))
-  CC := afl-gcc
+  ifeq ($(AFL_RESOLVED),)
+    $(error No AFL compiler found. Install AFL++ or set AFL_CC to an available wrapper)
+  endif
+  CC := $(AFL_RESOLVED)
 endif
 
 ifeq ($(DEBUG),1)
@@ -108,6 +115,12 @@ CPPFLAGS    := $(addprefix -I,$(INC_DIRS)) -MMD -MP
 
 LIBFT_DIR   := libft
 LIBFT_A     := $(LIBFT_DIR)/libft.a
+FUZZ_DIR    := fuzzing
+FUZZ_IN     := $(FUZZ_DIR)/corpus/in
+FUZZ_OUT    := $(FUZZ_DIR)/corpus/out
+FUZZ_MIN    := $(FUZZ_DIR)/corpus/min
+FUZZ_DICT   := $(FUZZ_DIR)/minishell.dict
+FUZZ_SCRIPTS := $(FUZZ_DIR)/scripts
 
 ifeq ($(PARSE),1)
   CPPFLAGS += -DPARSE
@@ -165,11 +178,31 @@ print:
 	@echo "INC_DIRS = $(INC_DIRS)"
 	@echo "RL_INC   = $(RL_INC)"
 	@echo "RL_LIB   = $(RL_LIB)"
+	@echo "AFL      = $(AFL)"
+	@echo "AFL_CC   = $(AFL_CC)"
+	@echo "AFL_RESOLVED = $(AFL_RESOLVED)"
 	@echo "CFLAGS   = $(CFLAGS)"
 	@echo "LDFLAGS  = $(LDFLAGS)"
 
 run: $(NAME)
 	./$(NAME)
+
+fuzz-build:
+	$(MAKE) re AFL=1 AFL_CC="$(AFL_CC)"
+
+fuzz-seeds:
+	$(FUZZ_SCRIPTS)/prepare_seeds.sh $(FUZZ_IN)
+
+fuzz-dict:
+	$(FUZZ_SCRIPTS)/gen_dictionary.sh $(FUZZ_DICT)
+
+fuzz-min:
+	$(FUZZ_SCRIPTS)/minimize_seeds.sh $(FUZZ_IN) $(FUZZ_MIN)
+
+fuzz-setup: fuzz-seeds fuzz-dict
+
+fuzz: fuzz-build fuzz-setup
+	AFL_CC="$(AFL_CC)" $(FUZZ_SCRIPTS)/run_afl.sh $(FUZZ_IN) $(FUZZ_OUT) $(FUZZ_DICT)
 
 clean:
 	$(MAKE) -C $(LIBFT_DIR) clean
@@ -181,6 +214,7 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re bonus norm print run
+.PHONY: all clean fclean re bonus norm print run \
+	fuzz-build fuzz-seeds fuzz-dict fuzz-min fuzz-setup fuzz
 
 -include $(DEPS)

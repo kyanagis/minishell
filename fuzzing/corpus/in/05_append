@@ -1,0 +1,4 @@
+echo one > /tmp/minish_fuzz_append
+echo two >> /tmp/minish_fuzz_append
+cat /tmp/minish_fuzz_append
+exit

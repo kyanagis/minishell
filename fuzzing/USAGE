@@ -1,0 +1,30 @@
+Minishell fuzzing quickstart (AFL++)
+
+1) Build with AFL instrumentation
+   make fuzz-build AFL_CC=afl-gcc
+
+2) Prepare corpus seeds and dictionary
+   make fuzz-setup
+
+3) (Optional) Minimize seeds against current binary
+   make fuzz-min
+
+4) Run fuzzing
+   make fuzz AFL_CC=afl-gcc
+
+Directory layout
+- fuzzing/corpus/in: initial curated seed corpus
+- fuzzing/corpus/min: minimized corpus (afl-cmin output)
+- fuzzing/corpus/out: afl-fuzz output
+- fuzzing/minishell.dict: AFL dictionary for shell tokens/builtins
+
+Scripts
+- fuzzing/scripts/prepare_seeds.sh [out_dir]
+- fuzzing/scripts/gen_dictionary.sh [out_file]
+- fuzzing/scripts/minimize_seeds.sh [in_dir] [out_dir]
+- fuzzing/scripts/run_afl.sh [in_dir] [out_dir] [dict_file]
+
+Tips
+- Use one terminal per fuzzer instance and share the same out directory.
+- For long runs, start with -m none if the target is memory heavy.
+- Keep seed files small and diverse; prefer syntax coverage over size.

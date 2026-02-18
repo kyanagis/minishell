@@ -1,0 +1,3 @@
+echo out > /tmp/minish_fuzz_out
+cat /tmp/minish_fuzz_out
+exit

@@ -1,0 +1,5 @@
+export FUZZ_KEY=VALUE
+echo $FUZZ_KEY
+unset FUZZ_KEY
+echo $FUZZ_KEY
+exit
