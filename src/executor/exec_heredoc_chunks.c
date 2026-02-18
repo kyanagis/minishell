@@ -14,27 +14,16 @@
 #include "executor.h"
 #include <termios.h>
 
-static t_hd_sigctx	*heredoc_sigctx(t_hd_sigctx *ctx, bool set)
-{
-	static t_hd_sigctx	*saved;
-
-	if (set)
-		saved = ctx;
-	return (saved);
-}
-
 static void	heredoc_sigint(int sig)
 {
-	t_hd_sigctx	*ctx;
 	ssize_t		w;
 
 	(void)sig;
 	g_sig = SIGINT;
-	ctx = heredoc_sigctx(NULL, false);
+	rl_done = 1;
 	w = write(STDOUT_FILENO, "\n", 1);
-	if (w < 0 || !ctx || !ctx->ready)
+	if (w < 0)
 		return ;
-	siglongjmp(ctx->jmp, 1);
 }
 
 static void	set_heredoc_echoctl(bool restore)
@@ -50,7 +39,8 @@ static void	set_heredoc_echoctl(bool restore)
 		if (tcgetattr(STDIN_FILENO, &saved) == -1)
 			return ;
 		saved_valid = true;
-		current = saved;
+		if (tcgetattr(STDIN_FILENO, &current) == -1)
+			return ;
 		current.c_lflag &= ~(ECHOCTL);
 		tcsetattr(STDIN_FILENO, TCSANOW, &current);
 		return ;
@@ -88,7 +78,6 @@ static void	switch_heredoc_signals(struct sigaction old[2], bool restore)
 bool	collect_chunks(t_shell *sh, t_redir *redir,
 								t_hd_chunk	**head, size_t *total_len)
 {
-	t_hd_sigctx			ctx;
 	t_chunk_state		chunk_state;
 	struct sigaction	old[2];
 	int					status;
@@ -97,17 +86,10 @@ bool	collect_chunks(t_shell *sh, t_redir *redir,
 	chunk_state.tail = head;
 	chunk_state.total_len = total_len;
 	switch_heredoc_signals(old, false);
-	heredoc_sigctx(&ctx, true);
-	ctx.ready = 1;
-	if (sigsetjmp(ctx.jmp, 1) != 0)
-		status = -1;
-	else
-	{
-		status = 1;
-		while (status > 0)
-			status = handle_heredoc_line(sh, redir, &chunk_state,
-					readline(HEREDOC_PROMPT));
-	}
+	status = 1;
+	while (status > 0)
+		status = handle_heredoc_line(sh, redir, &chunk_state,
+				readline(HEREDOC_PROMPT));
 	if (status == -1 && g_sig == SIGINT)
 		sh->last_status = 130;
 	switch_heredoc_signals(old, true);

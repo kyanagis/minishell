@@ -78,7 +78,7 @@ int	main(int argc, char **argv, char **envp)
 	}
 	run_shell(&sh);
 	free_env_list(&sh.env_list, free);
-	clear_history();
+	rl_clear_history();
 	shell_destroy(&sh);
 	return (sh.last_status);
 }
