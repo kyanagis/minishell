@@ -6,27 +6,11 @@
 /*   By: kyanagis <kyanagis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/11 00:00:00 by kyanagis          #+#    #+#             */
-/*   Updated: 2026/02/16 23:30:49 by kyanagis         ###   ########.fr       */
+/*   Updated: 2026/02/18 12:48:50 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec_heredoc_internal.h"
-
-static void	strip_ctrl_backslash(char *input_line)
-{
-	char	*src;
-	char	*dst;
-
-	src = input_line;
-	dst = input_line;
-	while (*src)
-	{
-		if (*src != '\034')
-			*dst++ = *src;
-		src++;
-	}
-	*dst = '\0';
-}
 
 static bool	handle_null_line(t_shell *sh, t_redir *redir)
 {
@@ -44,10 +28,8 @@ static bool	handle_null_line(t_shell *sh, t_redir *redir)
 }
 
 static int	process_heredoc_line(t_shell *sh, t_redir *redir,
-								t_chunk_state	*chunk_state, char *input_line)
+						t_chunk_state *chunk_state, char *input_line)
 {
-	if (ft_strchr(input_line, '\n'))
-		*ft_strchr(input_line, '\n') = '\0';
 	if (ft_strcmp(input_line, redir->arg) == 0)
 	{
 		free(input_line);
@@ -60,7 +42,7 @@ static int	process_heredoc_line(t_shell *sh, t_redir *redir,
 }
 
 int	handle_heredoc_line(t_shell *sh, t_redir *redir,
-						t_chunk_state	*chunk_state, char *input_line)
+					t_chunk_state *chunk_state, char *input_line)
 {
 	if (!input_line)
 	{
@@ -68,8 +50,7 @@ int	handle_heredoc_line(t_shell *sh, t_redir *redir,
 			return (0);
 		return (-1);
 	}
-	strip_ctrl_backslash(input_line);
-	if (g_sig == SIGINT || ft_strchr(input_line, 3))
+	if (g_sig == SIGINT)
 	{
 		free(input_line);
 		sh->last_status = 130;

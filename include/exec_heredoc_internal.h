@@ -15,6 +15,7 @@
 
 # include "minishell.h"
 # include "sig.h"
+# include <setjmp.h>
 
 typedef struct s_hd_chunk
 {
@@ -29,6 +30,12 @@ typedef struct s_chunk_state
 	t_hd_chunk	**tail;
 	size_t		*total_len;
 }	t_chunk_state;
+
+typedef struct s_hd_sigctx
+{
+	sigjmp_buf				jmp;
+	volatile sig_atomic_t	ready;
+}	t_hd_sigctx;
 
 bool	collect_chunks(t_shell *sh, t_redir *redir, t_hd_chunk **head,
 			size_t *total_len);
