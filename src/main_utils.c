@@ -17,6 +17,53 @@
 #include "free_table.h"
 #include "sig.h"
 
+static bool	grow_non_tty_line(char **line, size_t *cap, size_t len)
+{
+	char	*new_line;
+
+	if (len + 1 < *cap)
+		return (true);
+	new_line = (char *)malloc(*cap * 2);
+	if (!new_line)
+	{
+		free(*line);
+		*line = NULL;
+		return (false);
+	}
+	ft_memcpy(new_line, *line, len);
+	free(*line);
+	*line = new_line;
+	*cap *= 2;
+	return (true);
+}
+
+char	*read_non_tty_line_fd(int fd)
+{
+	char	*line;
+	size_t	len;
+	size_t	cap;
+	ssize_t	rd;
+
+	cap = 64;
+	len = 0;
+	line = (char *)malloc(cap);
+	if (!line)
+		return (NULL);
+	while (1)
+	{
+		if (!grow_non_tty_line(&line, &cap, len + 2))
+			return (NULL);
+		rd = read(fd, line + len, 1);
+		if (rd <= 0 || line[len] == '\n')
+			break ;
+		len++;
+	}
+	if (rd <= 0 && len == 0)
+		return (free(line), NULL);
+	line[len] = '\0';
+	return (line);
+}
+
 void	parse_and_execute(t_shell *sh, t_free_table *table, t_lexout *tokens)
 {
 	t_pipeline	*pl;
