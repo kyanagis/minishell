@@ -6,7 +6,7 @@
 /*   By: skatsuya < skatsuya@student.42tokyo.jp>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 05:17:19 by sakurako          #+#    #+#             */
-/*   Updated: 2026/02/18 18:53:24 by skatsuya         ###   ########.fr       */
+/*   Updated: 2026/02/21 02:06:48 by skatsuya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # define NO_ERROR 0
 # define NOT_BUILTIN -1
 # define EXIT_NUMERIC_STATUS 2
+# define COMMAND_NOT_FOUND 127
 
 /* message */
 # define MSG_EXIT_TOO_MANY_ARGS "minishell: exit: too many arguments\n"
