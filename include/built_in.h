@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyanagis <kyanagis@student.42.fr>          +#+  +:+       +#+        */
+/*   By: skatsuya < skatsuya@student.42tokyo.jp>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 05:17:19 by sakurako          #+#    #+#             */
-/*   Updated: 2026/02/16 23:17:55 by kyanagis         ###   ########.fr       */
+/*   Updated: 2026/02/18 18:53:24 by skatsuya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # define ERROR 1
 # define NO_ERROR 0
 # define NOT_BUILTIN -1
-# define EXIT_NUMERIC_STATUS 255
+# define EXIT_NUMERIC_STATUS 2
 
 /* message */
 # define MSG_EXIT_TOO_MANY_ARGS "minishell: exit: too many arguments\n"
