@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyanagis <kyanagis@student.42.fr>          +#+  +:+       +#+        */
+/*   By: skatsuya < skatsuya@student.42tokyo.jp>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 06:06:13 by sakurako          #+#    #+#             */
-/*   Updated: 2026/02/16 23:17:49 by kyanagis         ###   ########.fr       */
+/*   Updated: 2026/02/21 00:46:53 by skatsuya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "built_in.h"
 
-static int	exit_error_numaric(char *str);
+static int	exit_error_numeric(char *str);
 static bool	read_sign(const char *str, size_t *idx, int *sign);
 static bool	read_number(const char *str, size_t *idx,
 				unsigned long long limit, unsigned long long *acc);
@@ -33,7 +33,7 @@ int	ft_exit(t_shell *shell, char **argv)
 	if (!parse_exit_status(argv[1], &exit_status))
 	{
 		shell->should_exit = true;
-		return (exit_error_numaric(argv[1]));
+		return (exit_error_numeric(argv[1]));
 	}
 	if (argv[2])
 	{
@@ -44,7 +44,7 @@ int	ft_exit(t_shell *shell, char **argv)
 	return ((unsigned char)exit_status);
 }
 
-static int	exit_error_numaric(char *str)
+static int	exit_error_numeric(char *str)
 {
 	ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
 	ft_putstr_fd(str, STDERR_FILENO);
@@ -69,6 +69,8 @@ static bool	parse_exit_status(const char *str, unsigned char *out)
 		limit += 1;
 	if (!read_number(str, &i, limit, &acc))
 		return (false);
+	while (str[i] && ft_isspace(str[i]))
+		i++;
 	if (str[i] != '\0')
 		return (false);
 	if (sign < 0)
