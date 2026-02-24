@@ -6,7 +6,7 @@
 /*   By: kyanagis <kyanagis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/11 00:00:00 by kyanagis          #+#    #+#             */
-/*   Updated: 2026/02/16 23:30:34 by kyanagis         ###   ########.fr       */
+/*   Updated: 2026/02/24 23:43:33 by kyanagis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void	restore_saved_stdin(int *saved_fd)
 
 static void	heredoc_sigint(int sig)
 {
-	ssize_t		w;
+	ssize_t	w;
 
 	(void)sig;
 	g_sig = SIGINT;
@@ -50,7 +50,7 @@ static void	set_heredoc_echoctl(bool restore)
 		saved_valid = true;
 		if (tcgetattr(STDIN_FILENO, &current) == -1)
 			return ;
-		current.c_lflag &= ~(ECHOCTL);
+		current.c_lflag |= (ECHOCTL);
 		tcsetattr(STDIN_FILENO, TCSANOW, &current);
 		return ;
 	}
@@ -88,7 +88,7 @@ static void	switch_heredoc_signals(struct sigaction old[2], bool restore)
 }
 
 bool	collect_chunks(t_shell *sh, t_redir *redir,
-								t_hd_chunk	**head, size_t *total_len)
+				t_hd_chunk **head, size_t *total_len)
 {
 	t_chunk_state		chunk_state;
 	struct sigaction	old[2];
